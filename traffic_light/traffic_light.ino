@@ -55,7 +55,7 @@ class TrafficLightControl {
     void loop_callback();
 
   private:
-    int read_interval() const;
+    int32_t read_multiplier() const;
     bool button_pressed() const;
     void change_state();
 
@@ -71,7 +71,6 @@ class TrafficLightControl {
 
     int current_msecs{0};
     size_t current_state{0};
-    int time_multiplier{500};
 };
 
 int TrafficLightControl::durations[] = {
@@ -101,17 +100,17 @@ TrafficLightColorSet TrafficLightControl::states_handlers[] = {
   };
 
 void TrafficLightControl::change_state() {
-  Serial.println(current_state);
+  // Serial.println(current_state);
 
   current_state = current_state + 1;
 
   if (current_state >= sizeof(durations)/sizeof(int)) {
-    Serial.println("Reseting state");
+    // Serial.println("Reseting state");
     current_state = 0;
   }
 
   // Serial.print("Current state: ");
-  Serial.println(current_state);
+  // Serial.println(current_state);
   (*states_handlers[current_state])();
 }
 
@@ -119,8 +118,7 @@ void TrafficLightControl::loop_callback() {
   constexpr int INTERVAL{100};
   current_msecs += INTERVAL;
 
-  if (current_msecs > durations[current_state] * time_multiplier) {
-    Serial.println(current_msecs);
+  if (current_msecs > durations[current_state] * read_multiplier()) {
     change_state();
     current_msecs = 0;
   }
@@ -133,8 +131,12 @@ void TrafficLightControl::loop_callback() {
   delay(INTERVAL);
 }
 
-int TrafficLightControl::read_interval() const {
-  return analogRead((DELAY_PIN * 1000) / 1024);
+int32_t TrafficLightControl::read_multiplier() const {
+  const int32_t pin_value{analogRead(DELAY_PIN)};
+  // Serial.println(pin_value);
+  const int32_t multiplier{(pin_value * 2000) / 1024 + 200};
+  // Serial.println(multiplier);
+  return multiplier;
 }
 
 bool TrafficLightControl::button_pressed() const {

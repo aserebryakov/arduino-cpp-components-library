@@ -34,11 +34,14 @@ classDiagram
         + readPinStatus() bool
     }
 
-    class RotaryEncoderPinImpl
+    class RotaryEncoderPinImpl {
+        + ctor(number, pin_mode)
+    }
+
     class RotaryEncoderPinMock
 
     class RotaryEncoder {
-        + ctor(dt_pin, clk_pin, sw_pin, pins_mode)
+        + ctor(dt_pin, clk_pin, sw_pin)
         + setTurnClockwiseHandler()
         + setTurnCounterClockwiseHandler()
         + setPushButtonHandler()
@@ -57,4 +60,36 @@ classDiagram
     RotaryEncoderPin <|-- RotaryEncoderPinMock
 
     RotaryEncoder *-- RotaryEncoderPin
+```
+
+### Mouse Emulator Scheduling Example
+
+```mermaid
+sequenceDiagram
+    participant Scheduler
+    participant Controller
+    participant RotaryEncoder
+    participant MouseEmulator
+
+    loop every 10 ms
+        Controller ->> RotaryEncoder : readStatus()
+        activate RotaryEncoder
+        note over RotaryEncoder : call handlers
+        RotaryEncoder -->> Controller : 
+        deactivate RotaryEncoder
+
+        Controller ->> MouseEmulator : readStatus()
+        activate MouseEmulator
+
+        alt START
+            MouseEmulator -->> Controller : 
+            Controller ->> Scheduler : addTask(mouse_callback)
+            Scheduler -->> Controller : 
+        else STOP
+            MouseEmulator -->> Controller : 
+            Controller ->> Scheduler : removeTask(mouse_callback)
+            Scheduler -->> Controller : 
+        end
+        deactivate MouseEmulator
+    end
 ```

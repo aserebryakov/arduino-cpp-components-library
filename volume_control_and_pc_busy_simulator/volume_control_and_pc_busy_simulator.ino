@@ -17,7 +17,7 @@ public:
 
   PIN_CHANGE read_changed() {
     const bool current{digitalRead(pin_number) == LOW};
-    Serial.println(current);
+    // Serial.println(current);
 
     if (current == state) {
       return PIN_CHANGE::NO_CHANGE;
@@ -51,9 +51,7 @@ RotaryPin B{OUT_B};
 RotaryPin Switch{SWITCH};
 
 void loop() {                                    
-  const auto a_direction{A.read_changed()};
-
-  if (a_direction == PIN_CHANGE::LOW_HIGH) {
+  if (A.read_changed() == PIN_CHANGE::LOW_HIGH) {
     B.read_changed();
     if (B.get_state()) {
       Consumer.write(MEDIA_VOL_UP);
@@ -62,5 +60,11 @@ void loop() {
     }
   }
 
-  delay(10);
+  if (Switch.read_changed() == PIN_CHANGE::LOW_HIGH)
+  {
+    Serial.println("Mute");
+    Consumer.write(MEDIA_VOL_MUTE);
+  }
+
+  delay(20);
 }

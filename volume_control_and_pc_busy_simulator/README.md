@@ -98,3 +98,28 @@ sequenceDiagram
         note over Controller : delay(10ms)
     end
 ```
+
+### Scheduler
+
+```mermaid
+sequenceDiagram
+    participant Controller
+    participant Scheduler
+
+    Controller ->> Scheduler : addPeriodicTask(callback, period)
+
+    Scheduler -->> Controller : task id
+    note over Scheduler : store callback
+    note over Scheduler : store period as time to next call
+
+    Controller ->> Scheduler : tick(interval)
+    note over Scheduler : substract value from task
+
+    alt expired
+        note over Scheduler : call callback and reset period
+    else
+        note over Scheduler : do nothing
+    end
+
+    Scheduler -->> Controller : 
+```

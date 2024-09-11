@@ -71,7 +71,7 @@ sequenceDiagram
     participant RotaryEncoder
     participant MouseEmulator
 
-    loop every 10 ms
+    loop
         Controller ->> RotaryEncoder : readStatus()
         activate RotaryEncoder
         note over RotaryEncoder : call handlers
@@ -87,11 +87,11 @@ sequenceDiagram
             Scheduler -->> Controller : 
         else STOP
             MouseEmulator -->> Controller : 
-            Controller ->> Scheduler : removeTask(mouse_callback)
-            Scheduler -->> Controller :
             deactivate MouseEmulator
+            Controller ->> Scheduler : removeTask(mouse_callback)
+            Scheduler -->> Controller : 
         end
-
+        
         Controller ->> Scheduler : tick(10ms)
         Scheduler -->> Controller : 
         

@@ -28,17 +28,33 @@ classDiagram
         NO_CHANGE
     }
 
+    class RotaryEncoderPin {
+        <<interface>>
+        + readPinChange() PIN_CHANGE
+        + readPinStatus() bool
+    }
+
+    class RotaryEncoderPinImpl
+    class RotaryEncoderPinMock
+
     class RotaryEncoder {
         + ctor(dt_pin, clk_pin, sw_pin, pins_mode)
         + setTurnClockwiseHandler()
         + setTurnCounterClockwiseHandler()
         + setPushButtonHandler()
-        + readRotation()
-        + readSwChange() : PIN_CHANGE
+        + readStatus()
         - onClockwise
         - onCounterClockwise
         - onPushButton
+        - dt_pin : RotaryEncoderPin
+        - clk_pin : RotaryEncoderPin
+        - sw_pin : RotaryEncoderPin
     }
 
-    PIN_CHANGE --> RotaryEncoder
+    PIN_CHANGE --> RotaryEncoderPin
+
+    RotaryEncoderPin <|-- RotaryEncoderPinImpl
+    RotaryEncoderPin <|-- RotaryEncoderPinMock
+
+    RotaryEncoder *-- RotaryEncoderPin
 ```

@@ -88,8 +88,13 @@ sequenceDiagram
         else STOP
             MouseEmulator -->> Controller : 
             Controller ->> Scheduler : removeTask(mouse_callback)
-            Scheduler -->> Controller : 
+            Scheduler -->> Controller :
+            deactivate MouseEmulator
         end
-        deactivate MouseEmulator
+
+        Controller ->> Scheduler : tick(10ms)
+        Scheduler -->> Controller : 
+        
+        note over Controller : delay(10ms)
     end
 ```

@@ -1,4 +1,5 @@
 #include "HID-Project.h"
+#include "Scheduler.h"
 
 const int OUT_A = 2;
 const int OUT_B = 3;

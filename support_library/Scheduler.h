@@ -1,7 +1,7 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#include <cstdint>
+#include <stdint.h>
 #include "SchedulerTask.h"
 
 using SchedulerTaskId = uint8_t;
@@ -13,7 +13,6 @@ public:
 
 private:
     uint8_t nextTaskSlot{0};
-
 };
 
 #endif //SCHEDULER_H

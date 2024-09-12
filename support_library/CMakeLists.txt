@@ -12,25 +12,13 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
-
 add_library(support_library
     Scheduler.cpp
     Scheduler.h
-        SchedulerTask.cpp
-        SchedulerTask.h
+    SchedulerTask.cpp
+    SchedulerTask.h
+    RotaryEncoder.cpp
+    RotaryEncoder.h
 )
 
-add_executable(
-        support_library_test
-        SchedulerTest.cpp
-)
-
-target_link_libraries(
-        support_library_test
-        support_library
-        GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(support_library_test)
+add_subdirectory(test)

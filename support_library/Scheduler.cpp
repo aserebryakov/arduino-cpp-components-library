@@ -22,12 +22,23 @@
 
 #include "Scheduler.h"
 
+
 SchedulerTaskId Scheduler::addPeriodicTask(SchedulerTask&& task, const SchedulerTaskPeriod period) {
     periodic_tasks[next_task_slot] = PeriodicTask{task, period};
     const auto taskId{next_task_slot};
+
     next_task_slot++;
     total_tasks++;
+
     return taskId;
+}
+
+bool Scheduler::removeTask(const SchedulerTaskId id) {
+    next_task_slot = id;
+    total_tasks--;
+    periodic_tasks[id].cancel();
+
+    return true;
 }
 
 void Scheduler::tick(const IntervalMs interval_ms) {
@@ -49,6 +60,12 @@ void Scheduler::PeriodicTask::tick(const IntervalMs interval_ms) {
 
     task();
     reset();
+}
+
+void Scheduler::PeriodicTask::cancel() {
+    period = 0;
+    interval_till_next_call = 0;
+    task = SchedulerTask{};
 }
 
 void Scheduler::PeriodicTask::reset() {

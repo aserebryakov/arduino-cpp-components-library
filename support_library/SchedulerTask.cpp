@@ -26,5 +26,9 @@ SchedulerTask::SchedulerTask(const SchedulerCallback& callback, void* context) :
 }
 
 void SchedulerTask::operator()() {
+    if (callback == nullptr) {
+        return;
+    }
+
     callback(context);
 }

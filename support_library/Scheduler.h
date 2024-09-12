@@ -12,6 +12,7 @@ using IntervalMs = int32_t;
 class Scheduler {
 public:
     [[nodiscard]] SchedulerTaskId addPeriodicTask(SchedulerTask&& task, const SchedulerTaskPeriod period);
+    bool removeTask(const SchedulerTaskId id);
 
     void tick(const IntervalMs interval_ms);
 
@@ -21,6 +22,7 @@ private:
         PeriodicTask() = default;
         PeriodicTask(const SchedulerTask& task, const SchedulerTaskPeriod period);
         void tick(const IntervalMs interval_ms);
+        void cancel();
 
     private:
         void reset();

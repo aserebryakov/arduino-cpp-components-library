@@ -17,6 +17,8 @@ enable_testing()
 add_library(support_library
     Scheduler.cpp
     Scheduler.h
+        SchedulerTask.cpp
+        SchedulerTask.h
 )
 
 add_executable(

@@ -23,6 +23,7 @@ private:
         PeriodicTask(const SchedulerTask& task, const SchedulerTaskPeriod period);
         void tick(const IntervalMs interval_ms);
         void cancel();
+        bool isActive() const;
 
     private:
         void reset();
@@ -30,6 +31,7 @@ private:
         SchedulerTask task{};
         SchedulerTaskPeriod period{0};
         IntervalMs interval_till_next_call{0};
+        bool active{false};
     };
 
     uint8_t next_task_slot{0};

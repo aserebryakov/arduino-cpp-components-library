@@ -42,13 +42,13 @@ bool Scheduler::removeTask(const SchedulerTaskId id) {
 }
 
 void Scheduler::tick(const IntervalMs interval_ms) {
-    for (SchedulerTaskId task_id = 0; task_id < total_tasks; task_id++) {
-        periodic_tasks[task_id].tick(interval_ms);
+    for (auto& task : periodic_tasks) {
+        task.tick(interval_ms);
     }
 }
 
 Scheduler::PeriodicTask::PeriodicTask(const SchedulerTask& task, const SchedulerTaskPeriod period) : task{task},
-    period{period}, interval_till_next_call{period} {
+    period{period}, interval_till_next_call{period}, active{true} {
 }
 
 void Scheduler::PeriodicTask::tick(const IntervalMs interval_ms) {
@@ -66,6 +66,11 @@ void Scheduler::PeriodicTask::cancel() {
     period = 0;
     interval_till_next_call = 0;
     task = SchedulerTask{};
+    active = false;
+}
+
+bool Scheduler::PeriodicTask::isActive() const {
+    return active;
 }
 
 void Scheduler::PeriodicTask::reset() {

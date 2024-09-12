@@ -25,10 +25,26 @@ TEST(SchedulerTest, Construction) {
 
 
 TEST(SchedulerTest, AddPeriodicTaskTest) {
-    Scheduler scheduler{};
     TestTask task{};
-    SchedulerTask{TestTask::callback, &task};
 
+    Scheduler scheduler{};
     EXPECT_EQ(0, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task}, 100));
     EXPECT_EQ(1, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task}, 100));
+}
+
+TEST(SchedulerTest, TickTest) {
+    TestTask task1{};
+    TestTask task2{};
+
+    Scheduler scheduler{};
+    EXPECT_EQ(0, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task1}, 100));
+    EXPECT_EQ(1, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task2}, 120));
+
+    scheduler.tick(110);
+    EXPECT_EQ(task1.calls, 1);
+    EXPECT_EQ(task2.calls, 0);
+
+    scheduler.tick(20);
+    EXPECT_EQ(task1.calls, 1);
+    EXPECT_EQ(task2.calls, 1);
 }

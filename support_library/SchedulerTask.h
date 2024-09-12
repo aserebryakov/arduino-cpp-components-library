@@ -27,12 +27,14 @@ using SchedulerCallback = auto(*)(void*) -> void;
 
 class SchedulerTask {
 public:
+    SchedulerTask() = default;
     SchedulerTask(const SchedulerCallback& callback, void* context);
+
     void operator()();
 
 private:
-    SchedulerCallback callback;
-    void *context;
+    SchedulerCallback callback{nullptr};
+    void *context{nullptr};
 };
 
 #endif //SCHEDULERTASK_H

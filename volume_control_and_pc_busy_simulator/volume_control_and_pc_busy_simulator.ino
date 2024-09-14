@@ -1,72 +1,71 @@
 #include "HID-Project.h"
 #include "Scheduler.h"
 #include "RotaryEncoder.h"
+#include "RotaryEncoderPinImpl.h"
 
-const int OUT_A = 2;
-const int OUT_B = 3;
-const int SWITCH = 4;
-
-enum class PIN_CHANGE {
-  LOW_HIGH,
-  HIGH_LOW,
-  NO_CHANGE
-};
-
-
-class RotaryPin {
-public:
-  RotaryPin(const int pin_number) : pin_number{pin_number} {}; 
-
-  PIN_CHANGE read_changed() {
-    const bool current{digitalRead(pin_number) == LOW};
-    // Serial.println(current);
-
-    if (current == state) {
-      return PIN_CHANGE::NO_CHANGE;
-    }
-
-    state = current;
-    return state ? PIN_CHANGE::LOW_HIGH : PIN_CHANGE::HIGH_LOW;
-  }
-
-  bool get_state() const {
-    return state;
-  }
-
-private:
-  int pin_number;
-  bool state{false};
-};
+const int DT_PIN = 2;
+const int CLK_PIN = 3;
+const int SW_PIN = 4;
 
 void setup() {
-  pinMode(OUT_A, INPUT_PULLUP);
-  pinMode(OUT_B, INPUT_PULLUP);
-  pinMode(SWITCH, INPUT_PULLUP);
+  pinMode(DT_PIN, INPUT_PULLUP);
+  pinMode(CLK_PIN, INPUT_PULLUP);
+  pinMode(SW_PIN, INPUT_PULLUP);
 
   Consumer.begin();
   Serial.begin(9600);
   Serial.println(42);
 }
 
-RotaryPin A{OUT_A};
-RotaryPin B{OUT_B};
-RotaryPin Switch{SWITCH};
-
-void loop() {                                    
-  if (A.read_changed() == PIN_CHANGE::LOW_HIGH) {
-    B.read_changed();
-    if (B.get_state()) {
-      Consumer.write(MEDIA_VOL_UP);
-    } else {
-      Consumer.write(MEDIA_VOL_DOWN);
-    }
+class Controller {
+public:
+  Controller() {
+    encoder.setTurnClockwiseCallback({Controller::onTurnClockwise, nullptr});
+    encoder.setTurnCounterClockwiseCallback({Controller::onTurnCounterClockwise, nullptr});
+    encoder.setPushButtonCallback({Controller::onPushButton, nullptr});
   }
 
-  if (Switch.read_changed() == PIN_CHANGE::LOW_HIGH)
-  {
-    Serial.println("Mute");
+  static void onTurnClockwise(void*) {
+    Consumer.write(MEDIA_VOL_UP);
+  }
+
+  static void onTurnCounterClockwise(void*) {
+    Consumer.write(MEDIA_VOL_DOWN);
+  }
+
+  static void onPushButton(void*) {
     Consumer.write(MEDIA_VOL_MUTE);
   }
+
+  void loop() {
+    encoder.readStatus();
+  }
+
+private:
+  RotaryEncoderPinImpl DT{DT_PIN};
+  RotaryEncoderPinImpl CLK{CLK_PIN};
+  RotaryEncoderPinImpl SW{SW_PIN};
+  RotaryEncoder encoder{DT, CLK, SW};
+};
+
+Controller controller{};
+
+void loop() {
+  controller.loop();                                 
+  // if (A.read_changed() == PIN_CHANGE::LOW_HIGH) {
+  //   B.read_changed();
+  //   if (B.get_state()) {
+  //     Consumer.write(MEDIA_VOL_UP);
+  //   } else {
+  //     Consumer.write(MEDIA_VOL_DOWN);
+  //   }
+  // }
+
+  // if (Switch.read_changed() == PIN_CHANGE::LOW_HIGH)
+  // {
+  //   Serial.println("Mute");
+  //   Consumer.write(MEDIA_VOL_MUTE);
+  // }
 
   delay(20);
 }

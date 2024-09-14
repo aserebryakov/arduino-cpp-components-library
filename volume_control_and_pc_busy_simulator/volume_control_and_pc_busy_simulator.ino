@@ -51,20 +51,6 @@ private:
 Controller controller{};
 
 void loop() {
-  controller.loop();                                 
-  // if (A.read_changed() == PIN_CHANGE::LOW_HIGH) {
-  //   B.read_changed();
-  //   if (B.get_state()) {
-  //     Consumer.write(MEDIA_VOL_UP);
-  //   } else {
-  //     Consumer.write(MEDIA_VOL_DOWN);
-  //   }
-  // }
-
-  // if (Switch.read_changed() == PIN_CHANGE::LOW_HIGH)
-  // {
-  //   Serial.println("Mute");
-  //   Consumer.write(MEDIA_VOL_MUTE);
-  // }
+  controller.loop();
   delay(10);
 }

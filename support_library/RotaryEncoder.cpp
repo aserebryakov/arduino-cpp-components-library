@@ -31,11 +31,25 @@ void RotaryEncoder::readStatus() {
         return;
     }
 
-    if (clk_pin.readPinStatus() == false) {
+    if (clk_pin.readPinStatus()) {
+        on_turn_counterclockwise();
+    } else {
         on_turn_clockwise();
+    }
+
+    if (sw_pin.readPinChange() == PIN_CHANGE::LOW_HIGH) {
+        on_push_button();
     }
 }
 
 void RotaryEncoder::setTurnClockwiseCallback(Callback&& callback) {
     on_turn_clockwise = callback;
+}
+
+void RotaryEncoder::setTurnCounterClockwiseCallback(Callback&& callback) {
+    on_turn_counterclockwise = callback;
+}
+
+void RotaryEncoder::setPushButtonCallback(Callback&& callback) {
+    on_push_button = callback;
 }

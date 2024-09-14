@@ -33,11 +33,14 @@ public:
     MOCK_METHOD(bool, readPinStatus, (), (override));
 };
 
-TEST(RotaryEncoderTest, Constuction) {
+class RotaryEncoderTest : public ::testing::Test {
+protected:
     MockPin dt_pin{};
     MockPin clk_pin{};
     MockPin sw_pin{};
+};
 
+TEST_F(RotaryEncoderTest, Constuction) {
     RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
 }
 
@@ -50,19 +53,40 @@ public:
     int calls_count{0};
 };
 
-TEST(RotaryEncoderTest, OnTurnClockwiseTest) {
-    MockPin dt_pin{};
-    MockPin clk_pin{};
-    MockPin sw_pin{};
-
+TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
     EXPECT_CALL(dt_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
     EXPECT_CALL(clk_pin, readPinStatus()).Times(1).WillOnce(Return(false));
 
     RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
 
-    TestCallback on_turn_clockwise{};
-    encoder.setTurnClockwiseCallback({TestCallback::callback, &on_turn_clockwise});
+    TestCallback callback{};
+    encoder.setTurnClockwiseCallback({TestCallback::callback, &callback});
     encoder.readStatus();
 
-    EXPECT_EQ(1, on_turn_clockwise.calls_count);
+    EXPECT_EQ(1, callback.calls_count);
+}
+
+TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
+    EXPECT_CALL(dt_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
+    EXPECT_CALL(clk_pin, readPinStatus()).Times(1).WillOnce(Return(true));
+
+    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+
+    TestCallback callback{};
+    encoder.setTurnCounterClockwiseCallback({TestCallback::callback, &callback});
+    encoder.readStatus();
+
+    EXPECT_EQ(1, callback.calls_count);
+}
+
+TEST_F(RotaryEncoderTest, OnPushButtonTest) {
+    EXPECT_CALL(sw_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
+
+    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+
+    TestCallback callback{};
+    encoder.setPushButtonCallback({TestCallback::callback, &callback});
+    encoder.readStatus();
+
+    EXPECT_EQ(1, callback.calls_count);
 }

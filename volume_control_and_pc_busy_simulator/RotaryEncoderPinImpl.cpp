@@ -47,8 +47,5 @@ void RotaryEncoderPinImpl::readPin() {
 
 bool RotaryEncoderPinImpl::readPinStatus() {
   readPin();
-
-  Serial.println(current_state);
-
   return current_state;
 }

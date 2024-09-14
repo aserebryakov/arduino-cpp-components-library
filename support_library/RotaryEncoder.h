@@ -42,6 +42,7 @@ public:
 class RotaryEncoder {
 public:
     RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
+    void readRotation();
     void readStatus();
 
     void setTurnClockwiseCallback(Callback&& callback);

@@ -42,10 +42,10 @@ public:
   }
 
 private:
-  RotaryEncoderPinImpl DT{DT_PIN};
-  RotaryEncoderPinImpl CLK{CLK_PIN};
-  RotaryEncoderPinImpl SW{SW_PIN};
-  RotaryEncoder encoder{DT, CLK, SW};
+  RotaryEncoderPinImpl dt{DT_PIN};
+  RotaryEncoderPinImpl clk{CLK_PIN};
+  RotaryEncoderPinImpl sw{SW_PIN};
+  RotaryEncoder encoder{dt, clk, sw};
 };
 
 Controller controller{};
@@ -66,6 +66,5 @@ void loop() {
   //   Serial.println("Mute");
   //   Consumer.write(MEDIA_VOL_MUTE);
   // }
-
-  delay(20);
+  delay(10);
 }

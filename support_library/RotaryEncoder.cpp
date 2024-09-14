@@ -26,7 +26,7 @@ RotaryEncoder::RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin
                              RotaryEncoderPin& sw_pin) : dt_pin{dt_pin}, clk_pin{clk_pin}, sw_pin{sw_pin} {
 }
 
-void RotaryEncoder::readStatus() {
+void RotaryEncoder::readRotation() {
     if (dt_pin.readPinChange() != PIN_CHANGE::LOW_HIGH) {
         return;
     }
@@ -36,6 +36,10 @@ void RotaryEncoder::readStatus() {
     } else {
         on_turn_clockwise();
     }
+}
+
+void RotaryEncoder::readStatus() {
+    readRotation();
 
     if (sw_pin.readPinChange() == PIN_CHANGE::LOW_HIGH) {
         on_push_button();

@@ -23,8 +23,28 @@
 #ifndef ROTARYENCODER_H
 #define ROTARYENCODER_H
 
-class RotaryEncoder {
+enum class PIN_CHANGE {
+    LOW_HIGH,
+    HIGH_LOW,
+    NONE
+};
 
+class RotaryEncoderPin {
+public:
+    virtual ~RotaryEncoderPin() = default;
+    virtual PIN_CHANGE readPinChange() = 0;
+    virtual bool readPinStatus() = 0;
+};
+
+
+class RotaryEncoder {
+public:
+    RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
+
+private:
+    RotaryEncoderPin& dt_pin;
+    RotaryEncoderPin& clk_pin;
+    RotaryEncoderPin& sw_pin;
 };
 
 #endif //ROTARYENCODER_H

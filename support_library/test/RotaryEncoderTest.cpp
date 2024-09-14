@@ -22,3 +22,17 @@
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
+#include "../RotaryEncoder.h"
+
+class MockPin : public RotaryEncoderPin {
+    MOCK_METHOD(PIN_CHANGE, readPinChange, (), (override));
+    MOCK_METHOD(bool, readPinStatus, (), (override));
+};
+
+TEST(RotaryEncoderTest, constuction) {
+    MockPin dt_pin{};
+    MockPin clk_pin{};
+    MockPin sw_pin{};
+    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+}

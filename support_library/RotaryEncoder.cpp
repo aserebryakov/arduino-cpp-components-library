@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -22,3 +21,7 @@
 // SOFTWARE.
 
 #include "RotaryEncoder.h"
+
+RotaryEncoder::RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin,
+                             RotaryEncoderPin& sw_pin) : dt_pin{dt_pin}, clk_pin{clk_pin}, sw_pin{sw_pin} {
+}

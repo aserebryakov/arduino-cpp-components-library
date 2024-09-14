@@ -15,8 +15,8 @@ FetchContent_MakeAvailable(googletest)
 add_library(support_library
     Scheduler.cpp
     Scheduler.h
-    SchedulerTask.cpp
-    SchedulerTask.h
+        Callback.cpp
+        Callback.h
     RotaryEncoder.cpp
     RotaryEncoder.h
 )

@@ -23,7 +23,7 @@
 #include "Scheduler.h"
 
 
-SchedulerTaskId Scheduler::addPeriodicTask(SchedulerTask&& task, const SchedulerTaskPeriod period) {
+SchedulerTaskId Scheduler::addPeriodicTask(Callback&& task, const SchedulerTaskPeriod period) {
     periodic_tasks[next_task_slot] = PeriodicTask{task, period};
     const auto taskId{next_task_slot};
 
@@ -47,7 +47,7 @@ void Scheduler::tick(const IntervalMs interval_ms) {
     }
 }
 
-Scheduler::PeriodicTask::PeriodicTask(const SchedulerTask& task, const SchedulerTaskPeriod period) : task{task},
+Scheduler::PeriodicTask::PeriodicTask(const Callback& callback, const SchedulerTaskPeriod period) : callback{callback},
     period{period}, interval_till_next_call{period}, active{true} {
 }
 
@@ -58,14 +58,14 @@ void Scheduler::PeriodicTask::tick(const IntervalMs interval_ms) {
         return;
     }
 
-    task();
+    callback();
     reset();
 }
 
 void Scheduler::PeriodicTask::cancel() {
     period = 0;
     interval_till_next_call = 0;
-    task = SchedulerTask{};
+    callback = Callback{};
     active = false;
 }
 

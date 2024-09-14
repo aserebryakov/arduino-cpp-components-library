@@ -20,15 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "SchedulerTask.h"
+#ifndef SCHEDULERTASK_H
+#define SCHEDULERTASK_H
 
-SchedulerTask::SchedulerTask(const SchedulerCallback& callback, void* context) : callback{callback}, context{context} {
-}
+using SchedulerCallback = auto(*)(void*) -> void;
 
-void SchedulerTask::operator()() {
-    if (callback == nullptr) {
-        return;
-    }
+class Callback {
+public:
+    Callback() = default;
+    Callback(const SchedulerCallback& callback, void* context);
 
-    callback(context);
-}
+    void operator()();
+
+private:
+    SchedulerCallback callback{nullptr};
+    void *context{nullptr};
+};
+
+#endif //SCHEDULERTASK_H

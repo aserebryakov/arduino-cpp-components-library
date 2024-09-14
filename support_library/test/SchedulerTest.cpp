@@ -23,7 +23,7 @@
 #include <gtest/gtest.h>
 
 #include "../Scheduler.h"
-#include "../SchedulerTask.h"
+#include "../Callback.h"
 
 class TestTask {
 public:
@@ -36,13 +36,13 @@ public:
 
 TEST(TaskTest, Callback) {
     TestTask task{};
-    SchedulerTask scheduler_task{TestTask::callback, &task};
+    Callback scheduler_task{TestTask::callback, &task};
     scheduler_task();
     ASSERT_EQ(task.calls, 1);
 }
 
 TEST(TaskTest, DefaultConstructionTest) {
-    SchedulerTask scheduler_task{};
+    Callback scheduler_task{};
     EXPECT_NO_THROW(scheduler_task());
 }
 
@@ -55,8 +55,8 @@ TEST(SchedulerTest, AddPeriodicTaskTest) {
     TestTask task{};
 
     Scheduler scheduler{};
-    EXPECT_EQ(0, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task}, 100));
-    EXPECT_EQ(1, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task}, 100));
+    EXPECT_EQ(0, scheduler.addPeriodicTask(Callback{TestTask::callback, &task}, 100));
+    EXPECT_EQ(1, scheduler.addPeriodicTask(Callback{TestTask::callback, &task}, 100));
 }
 
 TEST(SchedulerTest, TickTest) {
@@ -64,8 +64,8 @@ TEST(SchedulerTest, TickTest) {
     TestTask task2{};
 
     Scheduler scheduler{};
-    EXPECT_EQ(0, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task1}, 100));
-    EXPECT_EQ(1, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task2}, 120));
+    EXPECT_EQ(0, scheduler.addPeriodicTask(Callback{TestTask::callback, &task1}, 100));
+    EXPECT_EQ(1, scheduler.addPeriodicTask(Callback{TestTask::callback, &task2}, 120));
 
     scheduler.tick(110);
     EXPECT_EQ(task1.calls, 1);
@@ -82,9 +82,9 @@ TEST(SchedulerTest, RemoveTaskTest) {
     TestTask task3{};
 
     Scheduler scheduler{};
-    EXPECT_EQ(0, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task1}, 100));
-    EXPECT_EQ(1, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task2}, 120));
-    EXPECT_EQ(2, scheduler.addPeriodicTask(SchedulerTask{TestTask::callback, &task3}, 130));
+    EXPECT_EQ(0, scheduler.addPeriodicTask(Callback{TestTask::callback, &task1}, 100));
+    EXPECT_EQ(1, scheduler.addPeriodicTask(Callback{TestTask::callback, &task2}, 120));
+    EXPECT_EQ(2, scheduler.addPeriodicTask(Callback{TestTask::callback, &task3}, 130));
 
     scheduler.tick(110);
     EXPECT_EQ(task1.calls, 1);

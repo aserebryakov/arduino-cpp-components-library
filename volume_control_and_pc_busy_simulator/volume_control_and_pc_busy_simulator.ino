@@ -1,5 +1,6 @@
 #include "HID-Project.h"
 #include "Scheduler.h"
+#include "RotaryEncoder.h"
 
 const int OUT_A = 2;
 const int OUT_B = 3;

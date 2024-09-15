@@ -22,8 +22,9 @@
 
 #include "RotaryEncoder.h"
 
-RotaryEncoder::RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin,
-                             RotaryEncoderPin& sw_pin) : dt_pin{dt_pin}, clk_pin{clk_pin}, sw_pin{sw_pin} {
+RotaryEncoder::RotaryEncoder(const int dt_pin, const int clk_pin,
+                             const int sw_pin, HwApi& hw_api) : dt_pin{dt_pin, hw_api}, clk_pin{clk_pin, hw_api},
+                                                                sw_pin{sw_pin, hw_api} {
 }
 
 void RotaryEncoder::readStatus() {

@@ -25,10 +25,11 @@
 
 #include "Callback.h"
 #include "RotaryEncoderPin.h"
+#include "HwApi.h"
 
 class RotaryEncoder {
 public:
-    RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
+    RotaryEncoder(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hwapi);
     void readRotation();
     void readStatus();
 
@@ -37,9 +38,9 @@ public:
     void setPushButtonCallback(Callback&& callback);
 
 private:
-    RotaryEncoderPin& dt_pin;
-    RotaryEncoderPin& clk_pin;
-    RotaryEncoderPin& sw_pin;
+    RotaryEncoderPin dt_pin;
+    RotaryEncoderPin clk_pin;
+    RotaryEncoderPin sw_pin;
     Callback on_turn_clockwise{};
     Callback on_turn_counterclockwise{};
     Callback on_push_button{};

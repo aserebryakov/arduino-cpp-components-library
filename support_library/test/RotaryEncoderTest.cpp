@@ -41,7 +41,7 @@ protected:
 };
 
 TEST_F(RotaryEncoderTest, Constuction) {
-    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+    RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 }
 
 class TestCallback {
@@ -58,7 +58,7 @@ TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
     EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_LOW));
 
-    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+    RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 
     TestCallback callback{};
     encoder.setTurnClockwiseCallback({TestCallback::callback, &callback});
@@ -72,7 +72,8 @@ TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
     EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
 
-    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+    RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
+
 
     TestCallback callback{};
     encoder.setTurnCounterClockwiseCallback({TestCallback::callback, &callback});
@@ -85,7 +86,7 @@ TEST_F(RotaryEncoderTest, OnPushButtonTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
     EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
 
-    RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
+    RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 
     TestCallback callback{};
     encoder.setPushButtonCallback({TestCallback::callback, &callback});

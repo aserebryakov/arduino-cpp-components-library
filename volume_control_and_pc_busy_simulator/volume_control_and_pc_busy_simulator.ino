@@ -2,6 +2,7 @@
 #include "Scheduler.h"
 #include "RotaryEncoder.h"
 #include "HwApiImpl.h"
+#include "DigitalPin.h"
 
 const int DT_PIN = 2;
 const int CLK_PIN = 3;
@@ -44,9 +45,10 @@ public:
   void move() {
     Mouse.move(x_increment, y_increment);
     moves_made++;
-    if (moves_made % 30 == 0) {
+    if (moves_made % 60 == 0) {
       x_increment = -x_increment;
       y_increment = -y_increment;
+      Mouse.click();
     }
   }
 
@@ -55,8 +57,8 @@ private:
   bool enabled{false};
   SchedulerTaskId task_id{0};
   int moves_made{0};
-  int x_increment{10};
-  int y_increment{10};
+  int x_increment{3};
+  int y_increment{3};
 };
 
 class KeyboardControl {
@@ -85,12 +87,13 @@ public:
 
   void loop() {
     encoder.readStatus();
+    mouse_switch.readPin();
 
-    if (hw_api.digitalRead(MOUSE_ON_PIN) == HwApi::PIN_LOW) {
+    if (mouse_switch.getPinChange() == PIN_CHANGE::LOW_HIGH) {
       mouse.onSwitch();
     }
 
-    Serial.println(hw_api.digitalRead(MOUSE_ON_PIN));
+    // Serial.println(hw_api.digitalRead(MOUSE_ON_PIN));
     delay(10);
     scheduler.tick(10);
   }
@@ -100,6 +103,7 @@ private:
   HwApiImpl hw_api{};
   MouseControl mouse{scheduler};
   RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api};
+  DigitalPin mouse_switch{MOUSE_ON_PIN, hw_api};
 };
 
 Controller controller{};

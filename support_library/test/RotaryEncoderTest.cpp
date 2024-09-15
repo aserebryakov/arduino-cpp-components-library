@@ -35,9 +35,9 @@ constexpr auto SW_PIN{3};
 class RotaryEncoderTest : public Test {
 protected:
     NiceMock<HwApiMock> hw_api_mock{};
-    RotaryEncoderPin dt_pin{DT_PIN, hw_api_mock};
-    RotaryEncoderPin clk_pin{CLK_PIN, hw_api_mock};
-    RotaryEncoderPin sw_pin{SW_PIN, hw_api_mock};
+    DigitalPin dt_pin{DT_PIN, hw_api_mock};
+    DigitalPin clk_pin{CLK_PIN, hw_api_mock};
+    DigitalPin sw_pin{SW_PIN, hw_api_mock};
 };
 
 TEST_F(RotaryEncoderTest, Constuction) {

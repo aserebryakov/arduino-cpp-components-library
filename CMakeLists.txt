@@ -7,7 +7,7 @@ add_subdirectory(support_library)
 
 add_library(arduino_fun
         library.cpp
-        support_library/RotaryEncoderPin.cpp
-        support_library/RotaryEncoderPin.h)
+        support_library/DigitalPin.cpp
+        support_library/DigitalPin.h)
 
 target_link_libraries(arduino_fun support_library)

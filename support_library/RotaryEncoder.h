@@ -24,7 +24,7 @@
 #define ROTARYENCODER_H
 
 #include "Callback.h"
-#include "RotaryEncoderPin.h"
+#include "DigitalPin.h"
 #include "HwApi.h"
 
 class RotaryEncoder {
@@ -38,9 +38,9 @@ public:
     void setPushButtonCallback(Callback&& callback);
 
 private:
-    RotaryEncoderPin dt_pin;
-    RotaryEncoderPin clk_pin;
-    RotaryEncoderPin sw_pin;
+    DigitalPin dt_pin;
+    DigitalPin clk_pin;
+    DigitalPin sw_pin;
     Callback on_turn_clockwise{};
     Callback on_turn_counterclockwise{};
     Callback on_push_button{};

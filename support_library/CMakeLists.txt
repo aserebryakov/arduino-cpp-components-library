@@ -19,8 +19,8 @@ add_library(support_library
         Callback.h
         RotaryEncoder.cpp
         RotaryEncoder.h
-        RotaryEncoderPin.cpp
-        RotaryEncoderPin.h
+        DigitalPin.cpp
+        DigitalPin.h
         HwApi.cpp
         HwApi.h
         HwApiImpl.h

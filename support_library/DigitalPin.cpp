@@ -20,30 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODERPINIMPL_H
-#define ROTARYENCODERPINIMPL_H
+#include "DigitalPin.h"
 
-#include "HwApi.h"
+DigitalPin::DigitalPin(const int pin_number, HwApi& hw_api) : pin_number{pin_number}, hw_api{hw_api} {
+}
 
-enum class PIN_CHANGE {
-  LOW_HIGH,
-  HIGH_LOW,
-  NONE
-};
+PIN_CHANGE DigitalPin::getPinChange() const {
+  if (previous_state == current_state) {
+    return PIN_CHANGE::NONE;
+  }
 
-class RotaryEncoderPin {
-public:
-  RotaryEncoderPin(const int pin_number, HwApi& hwapi);
-  ~RotaryEncoderPin() = default;
-  void readPin();
-  PIN_CHANGE getPinChange() const;
-  bool getPinStatus() const;
+  if (previous_state == true && current_state == false) {
+    return PIN_CHANGE::HIGH_LOW;
+  }
 
-private:
-  int pin_number;
-  HwApi& hw_api;
-  bool current_state{false};
-  bool previous_state{false};
-};
+  return PIN_CHANGE::LOW_HIGH;
+}
 
-#endif //ROTARYENCODERPINIMPL_H
+void DigitalPin::readPin() {
+  previous_state = current_state;
+  current_state = hw_api.digitalRead(pin_number) == HwApi::PIN_HIGH;
+}
+
+bool DigitalPin::getPinStatus() const {
+  return current_state;
+}

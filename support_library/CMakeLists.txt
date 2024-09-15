@@ -19,8 +19,11 @@ add_library(support_library
         Callback.h
         RotaryEncoder.cpp
         RotaryEncoder.h
+        RotaryEncoderPin.cpp
+        RotaryEncoderPin.h
         HwApi.cpp
         HwApi.h
+        HwApiImpl.h
 )
 
 add_subdirectory(test)

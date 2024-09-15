@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,29 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODER_H
-#define ROTARYENCODER_H
+#ifndef HWAPIIMPL_H
+#define HWAPIIMPL_H
 
-#include "Callback.h"
-#include "RotaryEncoderPin.h"
+#include "HwApi.h"
 
-class RotaryEncoder {
+class HwApiImpl : public HwApi {
 public:
-    RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
-    void readRotation();
-    void readStatus();
+    virtual ~HwApiImpl() override = default;
 
-    void setTurnClockwiseCallback(Callback&& callback);
-    void setTurnCounterClockwiseCallback(Callback&& callback);
-    void setPushButtonCallback(Callback&& callback);
-
-private:
-    RotaryEncoderPin& dt_pin;
-    RotaryEncoderPin& clk_pin;
-    RotaryEncoderPin& sw_pin;
-    Callback on_turn_clockwise{};
-    Callback on_turn_counterclockwise{};
-    Callback on_push_button{};
+    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const final;
+    virtual int digitalRead(const uint8_t pin) const final;
 };
 
-#endif //ROTARYENCODER_H
+
+
+#endif //HWAPIIMPL_H

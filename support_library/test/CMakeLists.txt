@@ -6,6 +6,8 @@ add_executable(
         support_library_test
         SchedulerTest.cpp
         RotaryEncoderTest.cpp
+        HwApiMock.cpp
+        HwApiMock.h
 )
 
 include(GoogleTest)

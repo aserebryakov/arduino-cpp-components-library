@@ -20,29 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODER_H
-#define ROTARYENCODER_H
-
-#include "Callback.h"
 #include "RotaryEncoderPin.h"
 
-class RotaryEncoder {
-public:
-    RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
-    void readRotation();
-    void readStatus();
+RotaryEncoderPin::RotaryEncoderPin(const int pin_number, HwApi& hw_api) : pin_number{pin_number}, hw_api{hw_api} {
+}
 
-    void setTurnClockwiseCallback(Callback&& callback);
-    void setTurnCounterClockwiseCallback(Callback&& callback);
-    void setPushButtonCallback(Callback&& callback);
+PIN_CHANGE RotaryEncoderPin::readPinChange() {
+  readPin();
 
-private:
-    RotaryEncoderPin& dt_pin;
-    RotaryEncoderPin& clk_pin;
-    RotaryEncoderPin& sw_pin;
-    Callback on_turn_clockwise{};
-    Callback on_turn_counterclockwise{};
-    Callback on_push_button{};
-};
+  if (previous_state == current_state) {
+    return PIN_CHANGE::NONE;
+  }
 
-#endif //ROTARYENCODER_H
+  if (previous_state == true && current_state == false) {
+    return PIN_CHANGE::HIGH_LOW;
+  }
+
+  return PIN_CHANGE::LOW_HIGH;
+}
+
+void RotaryEncoderPin::readPin() {
+  previous_state = current_state;
+  current_state = hw_api.digitalRead(pin_number) == HwApi::PIN_HIGH;
+}
+
+bool RotaryEncoderPin::readPinStatus() {
+  readPin();
+  return current_state;
+}

@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,24 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODERPINIMPL_H
-#define ROTARYENCODERPINIMPL_H
+#include "HwApiImpl.h"
 
-#include "RotaryEncoder.h"
+#include "Arduino.h"
 
-class RotaryEncoderPinImpl : public RotaryEncoderPin {
-public:
-  RotaryEncoderPinImpl(const int pin_number);
-  virtual ~RotaryEncoderPinImpl() override = default;
-  virtual PIN_CHANGE readPinChange();
-  virtual bool readPinStatus();
+void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
+    ::digitalWrite(pin, val);
+}
 
-private:
-  void readPin();
-  
-  int pin_number;
-  bool current_state{false};
-  bool previous_state{false};
-};
-
-#endif //ROTARYENCODERPINIMPL_H
+int HwApiImpl::digitalRead(const uint8_t pin) const {
+    return ::digitalRead(pin);
+}

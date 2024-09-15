@@ -20,29 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODER_H
-#define ROTARYENCODER_H
+#ifndef ROTARYENCODERPINIMPL_H
+#define ROTARYENCODERPINIMPL_H
 
-#include "Callback.h"
-#include "RotaryEncoderPin.h"
+#include "HwApi.h"
 
-class RotaryEncoder {
-public:
-    RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin, RotaryEncoderPin& sw_pin);
-    void readRotation();
-    void readStatus();
-
-    void setTurnClockwiseCallback(Callback&& callback);
-    void setTurnCounterClockwiseCallback(Callback&& callback);
-    void setPushButtonCallback(Callback&& callback);
-
-private:
-    RotaryEncoderPin& dt_pin;
-    RotaryEncoderPin& clk_pin;
-    RotaryEncoderPin& sw_pin;
-    Callback on_turn_clockwise{};
-    Callback on_turn_counterclockwise{};
-    Callback on_push_button{};
+enum class PIN_CHANGE {
+  LOW_HIGH,
+  HIGH_LOW,
+  NONE
 };
 
-#endif //ROTARYENCODER_H
+class RotaryEncoderPin {
+public:
+  RotaryEncoderPin(const int pin_number, HwApi& hwapi);
+  ~RotaryEncoderPin() = default;
+  virtual PIN_CHANGE readPinChange();
+  virtual bool readPinStatus();
+
+private:
+  void readPin();
+  
+  int pin_number;
+  HwApi& hw_api;
+  bool current_state{false};
+  bool previous_state{false};
+};
+
+#endif //ROTARYENCODERPINIMPL_H

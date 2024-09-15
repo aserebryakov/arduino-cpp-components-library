@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,32 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "RotaryEncoderPinImpl.h"
-#include "Arduino.h"
+#ifndef HWAPIMOCK_H
+#define HWAPIMOCK_H
 
-RotaryEncoderPinImpl::RotaryEncoderPinImpl(const int pin_number) : pin_number{pin_number} {
+#include "../HwApi.h"
+#include <gmock/gmock.h>
+
+class HwApiMock : public HwApi {
+public:
+    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
+    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
 };
 
-PIN_CHANGE RotaryEncoderPinImpl::readPinChange() {
-  readPin();
 
-  if (previous_state == current_state) {
-    return PIN_CHANGE::NONE;
-  }
 
-  if (previous_state == true && current_state == false) {
-    return PIN_CHANGE::HIGH_LOW;
-  }
-
-  return PIN_CHANGE::LOW_HIGH;
-}
-
-void RotaryEncoderPinImpl::readPin() {
-  previous_state = current_state;
-  current_state = digitalRead(pin_number) == HIGH;
-}
-
-bool RotaryEncoderPinImpl::readPinStatus() {
-  readPin();
-  return current_state;
-}
+#endif //HWAPIMOCK_H

@@ -24,20 +24,20 @@
 #include <gmock/gmock.h>
 
 #include "../RotaryEncoder.h"
+#include "HwApiMock.h"
 
 using namespace ::testing;
 
-class MockPin : public RotaryEncoderPin {
-public:
-    MOCK_METHOD(PIN_CHANGE, readPinChange, (), (override));
-    MOCK_METHOD(bool, readPinStatus, (), (override));
-};
+constexpr auto DT_PIN{1};
+constexpr auto CLK_PIN{2};
+constexpr auto SW_PIN{3};
 
-class RotaryEncoderTest : public ::testing::Test {
+class RotaryEncoderTest : public Test {
 protected:
-    MockPin dt_pin{};
-    MockPin clk_pin{};
-    MockPin sw_pin{};
+    NiceMock<HwApiMock> hw_api_mock{};
+    RotaryEncoderPin dt_pin{DT_PIN, hw_api_mock};
+    RotaryEncoderPin clk_pin{CLK_PIN, hw_api_mock};
+    RotaryEncoderPin sw_pin{SW_PIN, hw_api_mock};
 };
 
 TEST_F(RotaryEncoderTest, Constuction) {
@@ -54,8 +54,9 @@ public:
 };
 
 TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
-    EXPECT_CALL(dt_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
-    EXPECT_CALL(clk_pin, readPinStatus()).Times(1).WillOnce(Return(false));
+    EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
+    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_LOW));
 
     RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
 
@@ -67,8 +68,9 @@ TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
 }
 
 TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
-    EXPECT_CALL(dt_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
-    EXPECT_CALL(clk_pin, readPinStatus()).Times(1).WillOnce(Return(true));
+    EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
+    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
 
     RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
 
@@ -80,7 +82,8 @@ TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
 }
 
 TEST_F(RotaryEncoderTest, OnPushButtonTest) {
-    EXPECT_CALL(sw_pin, readPinChange()).Times(1).WillOnce(Return(PIN_CHANGE::LOW_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
+    EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
 
     RotaryEncoder encoder{dt_pin, clk_pin, sw_pin};
 

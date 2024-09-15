@@ -7,7 +7,7 @@ add_subdirectory(support_library)
 
 add_library(arduino_fun
         library.cpp
-        volume_control_and_pc_busy_simulator/RotaryEncoderPinImpl.cpp
-        volume_control_and_pc_busy_simulator/RotaryEncoderPinImpl.h)
+        support_library/RotaryEncoderPin.cpp
+        support_library/RotaryEncoderPin.h)
 
 target_link_libraries(arduino_fun support_library)

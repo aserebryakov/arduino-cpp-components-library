@@ -28,14 +28,14 @@
 class HwApi {
 public:
     enum DIGITAL_PIN_LEVEL {
-        HIGH = 0x1,
-        LOW = 0x0
+        PIN_HIGH = 0x1,
+        PIN_LOW = 0x0
     };
 
     virtual ~HwApi() = default;
 
-    virtual void digitalWrite(uint8_t pin, uint8_t val) = 0;
-    virtual int digitalRead(uint8_t pin) = 0;
+    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const = 0;
+    virtual int digitalRead(const uint8_t pin) const = 0;
 };
 
 

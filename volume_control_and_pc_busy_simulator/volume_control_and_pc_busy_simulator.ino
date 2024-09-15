@@ -1,7 +1,8 @@
 #include "HID-Project.h"
 #include "Scheduler.h"
 #include "RotaryEncoder.h"
-#include "RotaryEncoderPinImpl.h"
+#include "RotaryEncoderPin.h"
+#include "HwApiImpl.h"
 
 const int DT_PIN = 2;
 const int CLK_PIN = 3;
@@ -42,9 +43,10 @@ public:
   }
 
 private:
-  RotaryEncoderPinImpl dt{DT_PIN};
-  RotaryEncoderPinImpl clk{CLK_PIN};
-  RotaryEncoderPinImpl sw{SW_PIN};
+  HwApiImpl hw_api{};
+  RotaryEncoderPin dt{DT_PIN, hw_api};
+  RotaryEncoderPin clk{CLK_PIN, hw_api};
+  RotaryEncoderPin sw{SW_PIN, hw_api};
   RotaryEncoder encoder{dt, clk, sw};
 };
 

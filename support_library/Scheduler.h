@@ -36,7 +36,7 @@ private:
 
     uint8_t next_task_slot{0};
     uint8_t total_tasks{0};
-    PeriodicTask periodic_tasks[256];
+    PeriodicTask periodic_tasks[32];
 };
 
 #endif //SCHEDULER_H

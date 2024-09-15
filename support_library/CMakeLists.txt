@@ -13,12 +13,14 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_library(support_library
-    Scheduler.cpp
-    Scheduler.h
+        Scheduler.cpp
+        Scheduler.h
         Callback.cpp
         Callback.h
-    RotaryEncoder.cpp
-    RotaryEncoder.h
+        RotaryEncoder.cpp
+        RotaryEncoder.h
+        HwApi.cpp
+        HwApi.h
 )
 
 add_subdirectory(test)

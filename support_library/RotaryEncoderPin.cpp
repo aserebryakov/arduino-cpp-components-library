@@ -25,9 +25,7 @@
 RotaryEncoderPin::RotaryEncoderPin(const int pin_number, HwApi& hw_api) : pin_number{pin_number}, hw_api{hw_api} {
 }
 
-PIN_CHANGE RotaryEncoderPin::readPinChange() {
-  readPin();
-
+PIN_CHANGE RotaryEncoderPin::getPinChange() const {
   if (previous_state == current_state) {
     return PIN_CHANGE::NONE;
   }
@@ -44,7 +42,6 @@ void RotaryEncoderPin::readPin() {
   current_state = hw_api.digitalRead(pin_number) == HwApi::PIN_HIGH;
 }
 
-bool RotaryEncoderPin::readPinStatus() {
-  readPin();
+bool RotaryEncoderPin::getPinStatus() const {
   return current_state;
 }

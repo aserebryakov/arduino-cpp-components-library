@@ -35,12 +35,11 @@ class RotaryEncoderPin {
 public:
   RotaryEncoderPin(const int pin_number, HwApi& hwapi);
   ~RotaryEncoderPin() = default;
-  virtual PIN_CHANGE readPinChange();
-  virtual bool readPinStatus();
+  void readPin();
+  PIN_CHANGE getPinChange() const;
+  bool getPinStatus() const;
 
 private:
-  void readPin();
-  
   int pin_number;
   HwApi& hw_api;
   bool current_state{false};

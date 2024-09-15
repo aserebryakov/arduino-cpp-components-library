@@ -29,17 +29,21 @@ RotaryEncoder::RotaryEncoder(RotaryEncoderPin& dt_pin, RotaryEncoderPin& clk_pin
 void RotaryEncoder::readStatus() {
     readRotation();
 
-    if (sw_pin.readPinChange() == PIN_CHANGE::LOW_HIGH) {
+    sw_pin.readPin();
+    if (sw_pin.getPinChange() == PIN_CHANGE::LOW_HIGH) {
         on_push_button();
     }
 }
 
 void RotaryEncoder::readRotation() {
-    if (dt_pin.readPinChange() != PIN_CHANGE::LOW_HIGH) {
+    dt_pin.readPin();
+    clk_pin.readPin();
+
+    if (dt_pin.getPinChange() != PIN_CHANGE::LOW_HIGH) {
         return;
     }
 
-    if (clk_pin.readPinStatus()) {
+    if (clk_pin.getPinStatus()) {
         on_turn_counterclockwise();
     } else {
         on_turn_clockwise();

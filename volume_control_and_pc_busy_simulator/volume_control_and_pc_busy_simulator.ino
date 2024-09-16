@@ -4,13 +4,13 @@
 #include "HwApiImpl.h"
 #include "DigitalPin.h"
 
-const int DT_PIN = 2;
-const int CLK_PIN = 3;
-const int SW_PIN = 4;
-const int MOUSE_SWITCH_PIN = 5;
-const int MOUSE_LED_PIN = 10;
-const int KEYBOARD_SWITCH_PIN = 6;
-const int KEYBOARD_LED_PIN = 9;
+const int DT_PIN = 7;
+const int CLK_PIN = 5;
+const int SW_PIN = 2;
+const int MOUSE_SWITCH_PIN = 20;
+const int MOUSE_LED_PIN = 21;
+const int KEYBOARD_SWITCH_PIN = 19;
+const int KEYBOARD_LED_PIN = 10;
 
 void setup() {
   pinMode(DT_PIN, INPUT_PULLUP);
@@ -38,7 +38,7 @@ public:
 
   void onSwitch() {
     if (!enabled) {
-      task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
+      // task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
       enabled = true;
       hw_api.digitalWrite(MOUSE_LED_PIN, 1);
       return;
@@ -80,7 +80,7 @@ public:
 
   void onSwitch() {
     if (!enabled) {
-      task_id = scheduler.addPeriodicTask({keyboardTask, this}, 300);
+      // task_id = scheduler.addPeriodicTask({keyboardTask, this}, 200);
       enabled = true;
       next_character = 0;
       hw_api.digitalWrite(KEYBOARD_LED_PIN, 1);
@@ -93,7 +93,7 @@ public:
   }
 
   void press_next_button() {
-    static char text[]{"All work and not play makes Jack a dull boy.\n"};
+    static char text[]{"All work and no play makes Jack a dull boy.\n"};
     Keyboard.write(text[next_character]);
     next_character++;
     next_character = next_character % sizeof(text);

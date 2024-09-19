@@ -38,7 +38,7 @@ public:
 
   void onSwitch() {
     if (!enabled) {
-      // task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
+      task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
       enabled = true;
       hw_api.digitalWrite(MOUSE_LED_PIN, 1);
       return;
@@ -62,7 +62,7 @@ public:
 private:
   Scheduler& scheduler;
   HwApi& hw_api;
-  bool enabled{false};
+  bool enabled{true}; // This is a stupid move for now just to make it not start immediately
   SchedulerTaskId task_id{0};
   int moves_made{0};
   int x_increment{3};
@@ -80,7 +80,7 @@ public:
 
   void onSwitch() {
     if (!enabled) {
-      // task_id = scheduler.addPeriodicTask({keyboardTask, this}, 200);
+      task_id = scheduler.addPeriodicTask({keyboardTask, this}, 200);
       enabled = true;
       next_character = 0;
       hw_api.digitalWrite(KEYBOARD_LED_PIN, 1);
@@ -102,7 +102,7 @@ public:
 private:
   Scheduler& scheduler;
   HwApi& hw_api;
-  bool enabled{false};
+  bool enabled{true}; // This is a stupid move for now just to make it not start immediately
   SchedulerTaskId task_id{0};
   uint8_t next_character{0};
 };

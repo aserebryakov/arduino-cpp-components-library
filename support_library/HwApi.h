@@ -27,7 +27,7 @@
 
 class HwApi {
 public:
-    enum DIGITAL_PIN_LEVEL {
+    enum DIGITAL_PIN_LEVEL : int {
         PIN_HIGH = 0x1,
         PIN_LOW = 0x0
     };

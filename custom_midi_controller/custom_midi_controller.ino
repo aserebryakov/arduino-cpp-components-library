@@ -8,6 +8,8 @@
 
 #include "MIDIUSB.h"
 
+constexpr int NOTE_PIN{A0};
+
 // First parameter is the event type (0x09 = note on, 0x08 = note off).
 // Second parameter is note-on/note-off, combined with the channel.
 // Channel can be anything between 0-15. Typically reported to the user as 1-16.
@@ -38,15 +40,31 @@ void controlChange(byte channel, byte control, byte value) {
   MidiUSB.sendMIDI(event);
 }
 
+uint8_t read_note() {
+  const int16_t pin_value{analogRead(NOTE_PIN)};
+  Serial.println(pin_value);
+  return pin_value/4;
+}
+
 void loop() {
-  Serial.println("Sending note on");
-  noteOn(0, 49, 64);   // Channel 0, middle C, normal velocity
-  MidiUSB.flush();
-  delay(500);
+  static auto previous_note{0};
+  auto current_note{read_note()};
+
+  if (previous_note == current_note) {
+    return;
+  }
+
   Serial.println("Sending note off");
-  noteOff(0, 49, 64);  // Channel 0, middle C, normal velocity
+  noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
   MidiUSB.flush();
-  delay(1500);
+  
+  Serial.println("Sending note on");
+  Serial.println(current_note);
+  noteOn(0, current_note, 64);   // Channel 0, middle C, normal velocity
+  MidiUSB.flush();
+  previous_note = current_note;
+
+  delay(10);
 
   // controlChange(0, 10, 65); // Set the value of controller 10 on channel 0 to 65
 }

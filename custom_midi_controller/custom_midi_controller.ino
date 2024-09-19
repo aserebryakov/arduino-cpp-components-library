@@ -7,8 +7,16 @@
  */ 
 
 #include "MIDIUSB.h"
+#include "DigitalPin.h"
+#include "HwApiImpl.h"
 
 constexpr int NOTE_PIN{A0};
+constexpr int BUTTON_PIN{2};
+constexpr int LEGATO_PIN{3};
+
+HwApiImpl hw_api{};
+DigitalPin buttonPin{BUTTON_PIN, hw_api};
+DigitalPin legatoButtonPin{LEGATO_PIN, hw_api};
 
 // First parameter is the event type (0x09 = note on, 0x08 = note off).
 // Second parameter is note-on/note-off, combined with the channel.
@@ -28,6 +36,8 @@ void noteOff(byte channel, byte pitch, byte velocity) {
 
 void setup() {
   Serial.begin(115200);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(LEGATO_PIN, INPUT_PULLUP);
 }
 
 // First parameter is the event type (0x0B = control change).
@@ -42,27 +52,64 @@ void controlChange(byte channel, byte control, byte value) {
 
 uint8_t read_note() {
   const int16_t pin_value{analogRead(NOTE_PIN)};
-  Serial.println(pin_value);
   return pin_value/4;
 }
 
 void loop() {
   static auto previous_note{0};
-  auto current_note{read_note()};
+  buttonPin.readPin();
+  legatoButtonPin.readPin();
 
-  if (previous_note == current_note) {
-    return;
+  if (buttonPin.getPinChange() == PIN_CHANGE::HIGH_LOW) {
+    Serial.println("Sending note off");
+    noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+    // MidiUSB.flush();
+
+    auto current_note{read_note()};
+    Serial.println("Sending note on");
+    noteOn(0, current_note, 64);   // Channel 0, middle C, normal velocity
+    // MidiUSB.flush();
+    previous_note = current_note;
   }
 
-  Serial.println("Sending note off");
-  noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+  if (buttonPin.getPinChange() == PIN_CHANGE::LOW_HIGH) {
+    Serial.println("Sending note off");
+    noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+    // MidiUSB.flush();
+  }
+
+  if (legatoButtonPin.getPinChange() == PIN_CHANGE::HIGH_LOW) {
+    Serial.println("Sending note off");
+    noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+    // MidiUSB.flush();
+
+    auto current_note{read_note()};
+    Serial.println("Sending note on");
+    noteOn(0, current_note, 64);   // Channel 0, middle C, normal velocity
+    // MidiUSB.flush();
+    previous_note = current_note;
+  }
+
+  if (!legatoButtonPin.getPinStatus()) {
+    auto current_note{read_note()};
+
+    if (current_note != previous_note) {
+      Serial.println("Sending note off");
+      noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+      // MidiUSB.flush();
+      Serial.println("Sending note on");
+      noteOn(0, current_note, 64);   // Channel 0, middle C, normal velocity
+      // MidiUSB.flush();
+      previous_note = current_note;
+    }
+  }
+
+  if (legatoButtonPin.getPinChange() == PIN_CHANGE::LOW_HIGH) {
+    Serial.println("Sending note off");
+    noteOff(0, previous_note, 64);  // Channel 0, middle C, normal velocity
+  }
+
   MidiUSB.flush();
-  
-  Serial.println("Sending note on");
-  Serial.println(current_note);
-  noteOn(0, current_note, 64);   // Channel 0, middle C, normal velocity
-  MidiUSB.flush();
-  previous_note = current_note;
 
   delay(10);
 

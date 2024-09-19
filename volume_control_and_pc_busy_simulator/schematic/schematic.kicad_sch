@@ -1351,6 +1351,66 @@
 		(color 0 0 0 0)
 		(uuid "c3d8054f-ec56-44c0-a7c1-32adb5f58b39")
 	)
+	(no_connect
+		(at 156.21 64.77)
+		(uuid "12289568-ecab-4fc8-89c7-5b234f516c29")
+	)
+	(no_connect
+		(at 125.73 77.47)
+		(uuid "3b8c05bd-287e-4961-9db8-45d69ab58460")
+	)
+	(no_connect
+		(at 125.73 85.09)
+		(uuid "5171cc26-3264-472e-9862-83985eace8e3")
+	)
+	(no_connect
+		(at 156.21 82.55)
+		(uuid "5411c68b-5b05-4636-9d5c-6da89f1eb63a")
+	)
+	(no_connect
+		(at 125.73 59.69)
+		(uuid "7e866280-e691-4061-b748-62c65587e18a")
+	)
+	(no_connect
+		(at 125.73 62.23)
+		(uuid "8b6a4182-5f6c-4cf9-90c2-56f7792440f3")
+	)
+	(no_connect
+		(at 156.21 74.93)
+		(uuid "9befe44c-6d4e-40e2-aa8f-1d2b68d5b7bc")
+	)
+	(no_connect
+		(at 125.73 82.55)
+		(uuid "a1d78ec4-35a9-4890-8ea8-3600839a9289")
+	)
+	(no_connect
+		(at 125.73 72.39)
+		(uuid "ba7ebcfa-b597-423d-b429-4fec0f3868aa")
+	)
+	(no_connect
+		(at 156.21 80.01)
+		(uuid "d18d24ac-670f-40b2-b425-714fd512ede1")
+	)
+	(no_connect
+		(at 125.73 57.15)
+		(uuid "d52d1852-4f46-43da-a67c-348de9d68eae")
+	)
+	(no_connect
+		(at 156.21 77.47)
+		(uuid "d6602e35-b948-4637-8a61-6ab09e5fed52")
+	)
+	(no_connect
+		(at 156.21 57.15)
+		(uuid "d97b4e51-659c-4890-ba54-8da778dc98f6")
+	)
+	(no_connect
+		(at 125.73 69.85)
+		(uuid "de254d64-b7ce-4afb-bf70-b6e85426dd67")
+	)
+	(no_connect
+		(at 156.21 62.23)
+		(uuid "e509bd5f-aa3d-4448-bd2e-92384d0ef9f3")
+	)
 	(wire
 		(pts
 			(xy 120.65 54.61) (xy 120.65 64.77)
@@ -1707,7 +1767,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_THT:LED_D5.0mm_Horizontal_O1.27mm_Z15.0mm"
+		(property "Footprint" "LED_THT:LED_D5.0mm"
 			(at 191.77 81.28 0)
 			(effects
 				(font
@@ -2258,7 +2318,7 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_THT:LED_D5.0mm_Horizontal_O1.27mm_Z15.0mm"
+		(property "Footprint" "LED_THT:LED_D5.0mm"
 			(at 191.77 58.42 0)
 			(effects
 				(font

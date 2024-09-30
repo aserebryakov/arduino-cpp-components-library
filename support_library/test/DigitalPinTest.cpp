@@ -20,58 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODERPINIMPL_H
-#define ROTARYENCODERPINIMPL_H
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
-#include "HwApi.h"
+#include "../DigitalPin.h"
 
-enum class PIN_CHANGE {
-  LOW_HIGH,
-  HIGH_LOW,
-  NONE
+using namespace ::testing;
+
+class DigitalPinTest : public Test {
+protected:
+    NiceMock<HwApiMock> hwApiMock{};
 };
 
-/**
- * Represents abstraction level for digital pin.
- */
-class DigitalPin {
-public:
-  /**
-   * Constructor.
-   *
-   * @param[in] pin_number Pin number
-   * @param[in] hwapi Hardware API implementation reference
-   */
-  DigitalPin(const int pin_number, HwApi& hwapi);
+TEST_F(DigitalPinTest, Construction) {
+    DigitalPin pin{0, hwApiMock};
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
+}
 
-  /**
-   * Reads the level of the pin.
-   *
-   * Updates internal states (pin change and current level).
-   *
-   * @return pin level.
-   */
-  HwApi::DIGITAL_PIN_LEVEL read();
+TEST_F(DigitalPinTest, ReadTest) {
+    EXPECT_CALL(hwApiMock, digitalRead(42)).Times(3)
+        .WillOnce(Return(HwApi::LEVEL_HIGH))
+        .WillOnce(Return(HwApi::LEVEL_HIGH))
+        .WillOnce(Return(HwApi::LEVEL_LOW));
 
-  /**
-   * Returns previously read pin level.
-   *
-   * @return pin level
-   */
-  HwApi::DIGITAL_PIN_LEVEL getLevel() const;
+    DigitalPin pin{42, hwApiMock};
+    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::LOW_HIGH);
 
-  /**
-   * Returns level change between last two reads.
-   *
-   * @return level change (low-high or high-low)
-   */
-  PIN_CHANGE getPinChange() const;
+    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
 
-private:
-  int pin_number;
-  HwApi& hw_api;
-  HwApi::DIGITAL_PIN_LEVEL current_level{HwApi::LEVEL_LOW};
-  HwApi::DIGITAL_PIN_LEVEL previous_level{HwApi::LEVEL_LOW};
-};
-
-#endif //ROTARYENCODERPINIMPL_H
+    EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::HIGH_LOW);
+}

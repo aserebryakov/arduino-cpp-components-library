@@ -26,22 +26,23 @@ DigitalPin::DigitalPin(const int pin_number, HwApi& hw_api) : pin_number{pin_num
 }
 
 PIN_CHANGE DigitalPin::getPinChange() const {
-  if (previous_state == current_state) {
+  if (previous_level == current_level) {
     return PIN_CHANGE::NONE;
   }
 
-  if (previous_state == true && current_state == false) {
+  if (previous_level == HwApi::LEVEL_HIGH && current_level == HwApi::LEVEL_LOW) {
     return PIN_CHANGE::HIGH_LOW;
   }
 
   return PIN_CHANGE::LOW_HIGH;
 }
 
-void DigitalPin::readPin() {
-  previous_state = current_state;
-  current_state = hw_api.digitalRead(pin_number) == HwApi::PIN_HIGH;
+HwApi::DIGITAL_PIN_LEVEL DigitalPin::read() {
+  previous_level = current_level;
+  current_level = hw_api.digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
+  return current_level;
 }
 
-bool DigitalPin::getPinStatus() const {
-  return current_state;
+HwApi::DIGITAL_PIN_LEVEL DigitalPin::getLevel() const {
+  return current_level;
 }

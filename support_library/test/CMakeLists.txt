@@ -8,6 +8,7 @@ add_executable(
         RotaryEncoderTest.cpp
         HwApiMock.cpp
         HwApiMock.h
+        DigitalPinTest.cpp
 )
 
 include(GoogleTest)

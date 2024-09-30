@@ -28,8 +28,8 @@
 class HwApi {
 public:
     enum DIGITAL_PIN_LEVEL : int {
-        PIN_HIGH = 0x1,
-        PIN_LOW = 0x0
+        LEVEL_HIGH = 0x1,
+        LEVEL_LOW = 0x0
     };
 
     virtual ~HwApi() = default;

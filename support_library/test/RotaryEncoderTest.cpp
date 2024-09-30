@@ -55,8 +55,8 @@ public:
 
 TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
-    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
-    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_LOW));
+    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::LEVEL_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::LEVEL_LOW));
 
     RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 
@@ -69,8 +69,8 @@ TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
 
 TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
-    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
-    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(DT_PIN)).Times(1).WillOnce(Return(HwApi::LEVEL_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(1).WillOnce(Return(HwApi::LEVEL_HIGH));
 
     RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 
@@ -84,7 +84,7 @@ TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
 
 TEST_F(RotaryEncoderTest, OnPushButtonTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(testing::_)).Times(AnyNumber());
-    EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(1).WillOnce(Return(HwApi::PIN_HIGH));
+    EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(1).WillOnce(Return(HwApi::LEVEL_HIGH));
 
     RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api_mock};
 

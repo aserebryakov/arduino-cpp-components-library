@@ -30,21 +30,21 @@ RotaryEncoder::RotaryEncoder(const int dt_pin, const int clk_pin,
 void RotaryEncoder::readStatus() {
     readRotation();
 
-    sw_pin.readPin();
+    sw_pin.read();
     if (sw_pin.getPinChange() == PIN_CHANGE::LOW_HIGH) {
         on_push_button();
     }
 }
 
 void RotaryEncoder::readRotation() {
-    dt_pin.readPin();
-    clk_pin.readPin();
+    dt_pin.read();
+    clk_pin.read();
 
     if (dt_pin.getPinChange() != PIN_CHANGE::LOW_HIGH) {
         return;
     }
 
-    if (clk_pin.getPinStatus()) {
+    if (clk_pin.getLevel()) {
         on_turn_counterclockwise();
     } else {
         on_turn_clockwise();

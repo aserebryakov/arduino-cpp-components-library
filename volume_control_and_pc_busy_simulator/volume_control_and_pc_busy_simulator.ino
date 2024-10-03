@@ -117,9 +117,11 @@ public:
 
   static void onTurnClockwise(void*) {
     Consumer.write(MEDIA_VOL_UP);
+    Consumer.write(MEDIA_VOL_UP);
   }
 
   static void onTurnCounterClockwise(void*) {
+    Consumer.write(MEDIA_VOL_DOWN);
     Consumer.write(MEDIA_VOL_DOWN);
   }
 

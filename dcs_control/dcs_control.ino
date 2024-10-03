@@ -14,22 +14,38 @@ RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api};
 
 void onTurnRight(void*) {
   Serial.println("Right");
+    Serial.println(digitalRead(SW_PIN));
+  Serial.println(digitalRead(DT_PIN));
+  Serial.println(digitalRead(CLK_PIN));
+
 }
 
 void onTurnLeft(void*) {
   Serial.println("Left");
+    Serial.println(digitalRead(SW_PIN));
+  Serial.println(digitalRead(DT_PIN));
+  Serial.println(digitalRead(CLK_PIN));
+
 }
 
 void onClick(void*) {
   Serial.println("Click");
+    Serial.println(digitalRead(SW_PIN));
+  Serial.println(digitalRead(DT_PIN));
+  Serial.println(digitalRead(CLK_PIN));
+
 }
 
 void setup() {
   pinMode(pinLed, OUTPUT);
   pinMode(pinButton, INPUT_PULLUP);
-  pinMode(DT_PIN, INPUT);
-  pinMode(CLK_PIN, INPUT);
-  pinMode(SW_PIN, INPUT);
+  // pinMode(DT_PIN, INPUT);
+  // pinMode(CLK_PIN, INPUT);
+  // pinMode(SW_PIN, INPUT);
+
+    pinMode(DT_PIN, INPUT_PULLUP);
+  pinMode(CLK_PIN, INPUT_PULLUP);
+  pinMode(SW_PIN, INPUT_PULLUP);
 
   // Sends a clean report to the host. This is important on any Arduino type.
   Gamepad.begin();
@@ -44,9 +60,9 @@ void loop() {
   encoder.readRotation();
   encoder.readStatus();
 
-  Serial.println(digitalRead(SW_PIN));
-  // Serial.println(digitalRead(4));
-  // Serial.println(digitalRead(5));
+  // Serial.println(digitalRead(SW_PIN));
+  // Serial.println(digitalRead(DT_PIN));
+  // Serial.println(digitalRead(CLK_PIN));
 
 
   if (!digitalRead(pinButton)) {

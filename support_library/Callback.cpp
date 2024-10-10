@@ -22,13 +22,13 @@
 
 #include "Callback.h"
 
-Callback::Callback(const SchedulerCallback& callback, void* context) : callback{callback}, context{context} {
+Callback::Callback(const CallbackFunction& callback, void* context) : callback_function{callback}, context{context} {
 }
 
 void Callback::operator()() {
-    if (callback == nullptr) {
+    if (callback_function == nullptr) {
         return;
     }
 
-    callback(context);
+    callback_function(context);
 }

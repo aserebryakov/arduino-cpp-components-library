@@ -23,17 +23,22 @@
 #ifndef SCHEDULERTASK_H
 #define SCHEDULERTASK_H
 
-using SchedulerCallback = auto(*)(void*) -> void;
+using CallbackFunction = auto(*)(void*) -> void;
 
+/**
+ * Implements the callback with a context.
+ *
+ * Very limited substitution to std::function<>.
+ */
 class Callback {
 public:
     Callback() = default;
-    Callback(const SchedulerCallback& callback, void* context);
+    Callback(const CallbackFunction& callback, void* context);
 
     void operator()();
 
 private:
-    SchedulerCallback callback{nullptr};
+    CallbackFunction callback_function{nullptr};
     void *context{nullptr};
 };
 

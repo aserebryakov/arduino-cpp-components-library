@@ -62,8 +62,8 @@ TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
 
     TestCallback callback{};
     encoder.setTurnClockwiseCallback({TestCallback::callback, &callback});
-    encoder.readStatus(); // To read level drop
-    encoder.readStatus();
+    encoder.readPins(); // To read level drop
+    encoder.readPins();
 
     EXPECT_EQ(1, callback.calls_count);
 }
@@ -77,8 +77,8 @@ TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
 
     TestCallback callback{};
     encoder.setTurnCounterClockwiseCallback({TestCallback::callback, &callback});
-    encoder.readStatus(); // To read level drop
-    encoder.readStatus();
+    encoder.readPins(); // To read level drop
+    encoder.readPins();
 
     EXPECT_EQ(1, callback.calls_count);
 }
@@ -91,8 +91,8 @@ TEST_F(RotaryEncoderTest, OnPushButtonTest) {
 
     TestCallback callback{};
     encoder.setPushButtonCallback({TestCallback::callback, &callback});
-    encoder.readStatus(); // To read level drop
-    encoder.readStatus();
+    encoder.readPins(); // To read level drop
+    encoder.readPins();
 
     EXPECT_EQ(1, callback.calls_count);
 }

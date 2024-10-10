@@ -27,17 +27,56 @@
 #include "DigitalPin.h"
 #include "HwApi.h"
 
+/**
+ * Implements rotary encoder functionality.
+ */
 class RotaryEncoder {
 public:
-    RotaryEncoder(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hwapi);
-    void readRotation();
-    void readStatus();
+   /**
+    * Constructor.
+    *
+    * @param dt_pin DT pin number
+    * @param clk_pin CLK pin number
+    * @param sw_pin SW pin number
+    * @param hwapi HwApi instance
+    */
+   RotaryEncoder(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hwapi);
 
+    /**
+     * Reads pins levels and calls callbacks.
+     */
+    void readPins();
+
+    /**
+     * Sets callback when encoder is rotated clockwise.
+     *
+     * Callback is called when DT pin changes from LOW to HIGH and CLK pin reads HIGH.
+     *
+     * @param callback
+     */
     void setTurnClockwiseCallback(Callback&& callback);
+
+    /**
+     * Sets callback when encoder is rotated counterclockwise.
+     *
+     * Callback is called when DT pin changes from LOW to HIGH and CLK pin reads LOW.
+     *
+     * @param callback
+     */
     void setTurnCounterClockwiseCallback(Callback&& callback);
+
+    /**
+     * Sets callback when switch is pushed.
+     *
+     * Callback is called when SW pin changes from HIGH to LOW.
+     *
+     * @param callback
+     */
     void setPushButtonCallback(Callback&& callback);
 
 private:
+    void readRotation();
+
     DigitalPin dt_pin;
     DigitalPin clk_pin;
     DigitalPin sw_pin;

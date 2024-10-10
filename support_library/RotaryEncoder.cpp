@@ -27,7 +27,7 @@ RotaryEncoder::RotaryEncoder(const int dt_pin, const int clk_pin,
                                                                 sw_pin{sw_pin, hw_api} {
 }
 
-void RotaryEncoder::readStatus() {
+void RotaryEncoder::readPins() {
     readRotation();
 
     sw_pin.read();

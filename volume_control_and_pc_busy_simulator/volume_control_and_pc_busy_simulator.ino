@@ -62,7 +62,7 @@ public:
 private:
   Scheduler& scheduler;
   HwApi& hw_api;
-  bool enabled{true}; // This is a stupid move for now just to make it not start immediately
+  bool enabled{false};
   SchedulerTaskId task_id{0};
   int moves_made{0};
   int x_increment{3};
@@ -102,7 +102,7 @@ public:
 private:
   Scheduler& scheduler;
   HwApi& hw_api;
-  bool enabled{true}; // This is a stupid move for now just to make it not start immediately
+  bool enabled{false};
   SchedulerTaskId task_id{0};
   uint8_t next_character{0};
 };
@@ -130,14 +130,14 @@ public:
   }
 
   void loop() {
-    encoder.readStatus();
+    encoder.readPins();
 
-    mouse_switch.readPin();
+    mouse_switch.read();
     if (mouse_switch.getPinChange() == PIN_CHANGE::LOW_HIGH) {
       mouse.onSwitch();
     }
 
-    keyboard_switch.readPin();
+    keyboard_switch.read();
     if (keyboard_switch.getPinChange() == PIN_CHANGE::LOW_HIGH) {
       keyboard.onSwitch();
     }

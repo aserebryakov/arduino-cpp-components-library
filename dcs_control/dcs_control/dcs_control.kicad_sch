@@ -1228,62 +1228,62 @@
 		)
 	)
 	(junction
-		(at 160.02 69.85)
+		(at 158.75 72.39)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "18c21899-b1a4-4036-8212-c9bdbb419350")
 	)
 	(junction
-		(at 160.02 38.1)
+		(at 83.82 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "35587fb5-7354-4ef8-bacb-be70f9d618e1")
+		(uuid "2ece2099-ff70-4b6b-a589-24577aad2efd")
 	)
 	(junction
-		(at 63.5 88.9)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4295781e-ced6-427b-ab18-399bb9fedddc")
-	)
-	(junction
-		(at 191.77 67.31)
+		(at 190.5 69.85)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5179643c-773a-4d3a-a74e-040adc3f1fe3")
 	)
 	(junction
-		(at 63.5 105.41)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5a136c45-3f99-406f-a7e8-502c5f411cb9")
-	)
-	(junction
-		(at 63.5 57.15)
+		(at 83.82 57.15)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "8074d9d1-414b-40ae-ba30-2c9aa88475e5")
 	)
 	(junction
-		(at 191.77 48.26)
+		(at 83.82 68.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "90ce2e31-2eac-4d66-92a0-14e0429ccd2e")
+	)
+	(junction
+		(at 190.5 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "938fcb9c-0a92-46a7-9a91-3f9eca3ca18b")
 	)
 	(junction
-		(at 63.5 71.12)
+		(at 83.82 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "944bf16b-dcd1-4c47-ae05-b190a6579c22")
+		(uuid "a50c5171-7d73-4cdb-9ba3-51ec0a892e4c")
 	)
 	(junction
-		(at 160.02 50.8)
+		(at 158.75 53.34)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b1fe7c0d-1d8c-45ec-b596-e625ad689dae")
 	)
+	(junction
+		(at 118.11 57.15)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f27d5846-b529-47de-9335-220af017f79c")
+	)
 	(wire
 		(pts
-			(xy 153.67 53.34) (xy 153.67 63.5)
+			(xy 153.67 55.88) (xy 153.67 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1293,7 +1293,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 73.66) (xy 148.59 73.66)
+			(xy 153.67 73.66) (xy 148.59 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1303,7 +1303,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 50.8) (xy 74.93 50.8)
+			(xy 83.82 50.8) (xy 91.44 50.8)
 		)
 		(stroke
 			(width 0)
@@ -1313,7 +1313,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 76.2) (xy 186.69 76.2)
+			(xy 153.67 78.74) (xy 185.42 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1323,7 +1323,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 88.9) (xy 63.5 105.41)
+			(xy 83.82 82.55) (xy 83.82 96.52)
 		)
 		(stroke
 			(width 0)
@@ -1333,7 +1333,7 @@
 	)
 	(wire
 		(pts
-			(xy 186.69 72.39) (xy 186.69 76.2)
+			(xy 185.42 74.93) (xy 185.42 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1343,7 +1343,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 107.95) (xy 105.41 73.66)
+			(xy 114.3 99.06) (xy 114.3 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1353,7 +1353,7 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 69.85) (xy 160.02 50.8)
+			(xy 158.75 72.39) (xy 158.75 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1363,7 +1363,7 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 50.8) (xy 166.37 50.8)
+			(xy 158.75 53.34) (xy 165.1 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1383,13 +1383,23 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 38.1) (xy 151.13 38.1)
+			(xy 158.75 48.26) (xy 151.13 48.26)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "1a9ebd07-7132-4233-98f0-ca5c1dc5419b")
+	)
+	(wire
+		(pts
+			(xy 83.82 68.58) (xy 83.82 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ca002cc-9857-45ff-ac85-0cca7ef0314b")
 	)
 	(wire
 		(pts
@@ -1403,7 +1413,17 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 66.04) (xy 118.11 66.04)
+			(xy 101.6 66.04) (xy 107.95 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e397656-9b23-46cc-82fd-b246368199e6")
+	)
+	(wire
+		(pts
+			(xy 110.49 66.04) (xy 118.11 66.04)
 		)
 		(stroke
 			(width 0)
@@ -1413,17 +1433,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 38.1) (xy 160.02 38.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "25e228ff-523c-406b-9fca-67791f87d409")
-	)
-	(wire
-		(pts
-			(xy 166.37 69.85) (xy 160.02 69.85)
+			(xy 165.1 72.39) (xy 158.75 72.39)
 		)
 		(stroke
 			(width 0)
@@ -1433,7 +1443,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 53.34) (xy 153.67 53.34)
+			(xy 165.1 55.88) (xy 153.67 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1443,17 +1453,17 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 71.12) (xy 63.5 88.9)
+			(xy 107.95 60.96) (xy 118.11 60.96)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2932c4cb-9be8-4e34-96a3-8895d8b7a2dc")
+		(uuid "28a78daa-3b2d-4360-ae91-a9c74d96a7da")
 	)
 	(wire
 		(pts
-			(xy 153.67 72.39) (xy 153.67 71.12)
+			(xy 154.94 74.93) (xy 154.94 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1463,7 +1473,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 72.39) (xy 186.69 72.39)
+			(xy 180.34 74.93) (xy 185.42 74.93)
 		)
 		(stroke
 			(width 0)
@@ -1473,7 +1483,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 121.92) (xy 63.5 121.92)
+			(xy 91.44 110.49) (xy 83.82 110.49)
 		)
 		(stroke
 			(width 0)
@@ -1483,7 +1493,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 71.12) (xy 73.66 71.12)
+			(xy 83.82 68.58) (xy 91.44 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1493,7 +1503,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 88.9) (xy 73.66 88.9)
+			(xy 83.82 82.55) (xy 91.44 82.55)
 		)
 		(stroke
 			(width 0)
@@ -1503,7 +1513,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 73.66) (xy 118.11 73.66)
+			(xy 114.3 73.66) (xy 118.11 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1513,7 +1523,7 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 53.34) (xy 185.42 57.15)
+			(xy 184.15 55.88) (xy 184.15 59.69)
 		)
 		(stroke
 			(width 0)
@@ -1523,7 +1533,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 85.09) (xy 191.77 67.31)
+			(xy 190.5 87.63) (xy 190.5 69.85)
 		)
 		(stroke
 			(width 0)
@@ -1533,7 +1543,17 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 90.17) (xy 181.61 101.6)
+			(xy 158.75 48.26) (xy 158.75 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "38066564-397e-4ebe-9ed2-688fcfdaadca")
+	)
+	(wire
+		(pts
+			(xy 185.42 92.71) (xy 185.42 97.79)
 		)
 		(stroke
 			(width 0)
@@ -1543,7 +1563,7 @@
 	)
 	(wire
 		(pts
-			(xy 153.67 71.12) (xy 148.59 71.12)
+			(xy 154.94 71.12) (xy 148.59 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1553,17 +1573,17 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 68.58) (xy 91.44 68.58)
+			(xy 149.86 53.34) (xy 148.59 53.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3ce4e6ce-d934-4113-9592-0b6ee6c8ae89")
+		(uuid "3f655100-527f-4c91-93c9-6f71f351ed0d")
 	)
 	(wire
 		(pts
-			(xy 152.4 76.2) (xy 152.4 73.66)
+			(xy 153.67 78.74) (xy 153.67 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1573,7 +1593,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 72.39) (xy 153.67 72.39)
+			(xy 165.1 74.93) (xy 154.94 74.93)
 		)
 		(stroke
 			(width 0)
@@ -1583,7 +1603,17 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 57.15) (xy 63.5 71.12)
+			(xy 185.42 92.71) (xy 180.34 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "473e5974-6576-421a-a266-505da583515f")
+	)
+	(wire
+		(pts
+			(xy 83.82 57.15) (xy 83.82 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1593,7 +1623,7 @@
 	)
 	(wire
 		(pts
-			(xy 185.42 57.15) (xy 154.94 57.15)
+			(xy 184.15 59.69) (xy 154.94 59.69)
 		)
 		(stroke
 			(width 0)
@@ -1603,7 +1633,27 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 87.63) (xy 160.02 69.85)
+			(xy 149.86 40.64) (xy 149.86 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f3a4b98-ac4c-4d7f-8e0a-1cd30ec6193b")
+	)
+	(wire
+		(pts
+			(xy 107.95 48.26) (xy 107.95 50.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4fc73aac-4007-465d-b296-f56aa79c52ae")
+	)
+	(wire
+		(pts
+			(xy 158.75 90.17) (xy 158.75 72.39)
 		)
 		(stroke
 			(width 0)
@@ -1613,7 +1663,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 73.66) (xy 95.25 73.66)
+			(xy 101.6 71.12) (xy 109.22 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1623,7 +1673,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 101.6) (xy 114.3 101.6)
+			(xy 185.42 97.79) (xy 116.84 97.79)
 		)
 		(stroke
 			(width 0)
@@ -1643,7 +1693,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 38.1) (xy 151.13 58.42)
+			(xy 151.13 48.26) (xy 151.13 58.42)
 		)
 		(stroke
 			(width 0)
@@ -1653,7 +1703,7 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 68.58) (xy 118.11 68.58)
+			(xy 111.76 68.58) (xy 118.11 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1673,7 +1723,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 50.8) (xy 118.11 50.8)
+			(xy 107.95 50.8) (xy 118.11 50.8)
 		)
 		(stroke
 			(width 0)
@@ -1683,7 +1733,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 67.31) (xy 191.77 48.26)
+			(xy 190.5 69.85) (xy 190.5 50.8)
 		)
 		(stroke
 			(width 0)
@@ -1693,7 +1743,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 90.17) (xy 149.86 90.17)
+			(xy 165.1 92.71) (xy 151.13 92.71)
 		)
 		(stroke
 			(width 0)
@@ -1703,17 +1753,7 @@
 	)
 	(wire
 		(pts
-			(xy 160.02 50.8) (xy 160.02 38.1)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "787c1e2b-9202-4d07-a2ae-dbbe0e0bb316")
-	)
-	(wire
-		(pts
-			(xy 83.82 102.87) (xy 102.87 102.87)
+			(xy 101.6 93.98) (xy 113.03 93.98)
 		)
 		(stroke
 			(width 0)
@@ -1723,7 +1763,27 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 68.58) (xy 148.59 68.58)
+			(xy 118.11 57.15) (xy 118.11 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7d7c3f88-ec98-435b-afd0-0ead4958bb3a")
+	)
+	(wire
+		(pts
+			(xy 107.95 60.96) (xy 107.95 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82b9ddc4-ba84-47ec-ba75-30244793335b")
+	)
+	(wire
+		(pts
+			(xy 154.94 68.58) (xy 148.59 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1733,17 +1793,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 60.96) (xy 118.11 60.96)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "854b900c-d55f-47eb-b195-67a8f5cf7c16")
-	)
-	(wire
-		(pts
-			(xy 63.5 57.15) (xy 118.11 57.15)
+			(xy 83.82 57.15) (xy 118.11 57.15)
 		)
 		(stroke
 			(width 0)
@@ -1753,7 +1803,7 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 91.44) (xy 99.06 68.58)
+			(xy 111.76 85.09) (xy 111.76 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1763,7 +1813,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 67.31) (xy 166.37 67.31)
+			(xy 154.94 69.85) (xy 165.1 69.85)
 		)
 		(stroke
 			(width 0)
@@ -1773,7 +1823,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 53.34) (xy 185.42 53.34)
+			(xy 180.34 55.88) (xy 184.15 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1783,7 +1833,7 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 71.12) (xy 118.11 71.12)
+			(xy 113.03 71.12) (xy 118.11 71.12)
 		)
 		(stroke
 			(width 0)
@@ -1793,17 +1843,17 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 68.58) (xy 91.44 60.96)
+			(xy 107.95 48.26) (xy 101.6 48.26)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "93d23b30-32de-4d82-9306-642104c9bd96")
+		(uuid "9675bed2-4732-4c95-8dab-6aaaf72c8d1b")
 	)
 	(wire
 		(pts
-			(xy 110.49 121.92) (xy 110.49 76.2)
+			(xy 115.57 110.49) (xy 115.57 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1813,7 +1863,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 73.66) (xy 95.25 63.5)
+			(xy 109.22 71.12) (xy 109.22 63.5)
 		)
 		(stroke
 			(width 0)
@@ -1823,7 +1873,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 86.36) (xy 96.52 66.04)
+			(xy 110.49 80.01) (xy 110.49 66.04)
 		)
 		(stroke
 			(width 0)
@@ -1833,7 +1883,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 107.95) (xy 105.41 107.95)
+			(xy 101.6 99.06) (xy 114.3 99.06)
 		)
 		(stroke
 			(width 0)
@@ -1843,7 +1893,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 50.8) (xy 63.5 57.15)
+			(xy 83.82 50.8) (xy 83.82 57.15)
 		)
 		(stroke
 			(width 0)
@@ -1853,7 +1903,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 48.26) (xy 191.77 38.1)
+			(xy 190.5 50.8) (xy 190.5 40.64)
 		)
 		(stroke
 			(width 0)
@@ -1863,7 +1913,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 67.31) (xy 191.77 67.31)
+			(xy 180.34 69.85) (xy 190.5 69.85)
 		)
 		(stroke
 			(width 0)
@@ -1873,7 +1923,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 91.44) (xy 99.06 91.44)
+			(xy 101.6 85.09) (xy 111.76 85.09)
 		)
 		(stroke
 			(width 0)
@@ -1893,7 +1943,7 @@
 	)
 	(wire
 		(pts
-			(xy 85.09 53.34) (xy 118.11 53.34)
+			(xy 101.6 53.34) (xy 118.11 53.34)
 		)
 		(stroke
 			(width 0)
@@ -1903,7 +1953,17 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 121.92) (xy 63.5 105.41)
+			(xy 149.86 40.64) (xy 190.5 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6aab0d0-5f4b-497e-93f4-378c98325a54")
+	)
+	(wire
+		(pts
+			(xy 83.82 96.52) (xy 83.82 110.49)
 		)
 		(stroke
 			(width 0)
@@ -1913,7 +1973,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 76.2) (xy 118.11 76.2)
+			(xy 115.57 76.2) (xy 118.11 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1923,7 +1983,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 67.31) (xy 152.4 68.58)
+			(xy 154.94 69.85) (xy 154.94 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1933,7 +1993,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 86.36) (xy 96.52 86.36)
+			(xy 101.6 80.01) (xy 110.49 80.01)
 		)
 		(stroke
 			(width 0)
@@ -1943,7 +2003,7 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 105.41) (xy 73.66 105.41)
+			(xy 83.82 96.52) (xy 91.44 96.52)
 		)
 		(stroke
 			(width 0)
@@ -1953,7 +2013,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 85.09) (xy 151.13 76.2)
+			(xy 152.4 87.63) (xy 152.4 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1963,17 +2023,7 @@
 	)
 	(wire
 		(pts
-			(xy 85.09 48.26) (xy 96.52 48.26)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c1561853-afce-467e-84e1-b9a7abdd08c9")
-	)
-	(wire
-		(pts
-			(xy 181.61 85.09) (xy 191.77 85.09)
+			(xy 180.34 87.63) (xy 190.5 87.63)
 		)
 		(stroke
 			(width 0)
@@ -1983,7 +2033,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 78.74) (xy 148.59 78.74)
+			(xy 151.13 78.74) (xy 148.59 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1993,7 +2043,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 76.2) (xy 148.59 76.2)
+			(xy 152.4 76.2) (xy 148.59 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2003,7 +2053,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 48.26) (xy 152.4 60.96)
+			(xy 152.4 50.8) (xy 152.4 60.96)
 		)
 		(stroke
 			(width 0)
@@ -2013,7 +2063,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 101.6) (xy 114.3 78.74)
+			(xy 116.84 97.79) (xy 116.84 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2023,7 +2073,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 121.92) (xy 110.49 121.92)
+			(xy 101.6 110.49) (xy 115.57 110.49)
 		)
 		(stroke
 			(width 0)
@@ -2033,17 +2083,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 48.26) (xy 96.52 50.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d904b2fa-eddf-4249-91ae-92a8c41f6704")
-	)
-	(wire
-		(pts
-			(xy 166.37 48.26) (xy 152.4 48.26)
+			(xy 165.1 50.8) (xy 152.4 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2053,7 +2093,7 @@
 	)
 	(wire
 		(pts
-			(xy 114.3 78.74) (xy 118.11 78.74)
+			(xy 116.84 78.74) (xy 118.11 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2063,7 +2103,7 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 102.87) (xy 102.87 71.12)
+			(xy 113.03 93.98) (xy 113.03 71.12)
 		)
 		(stroke
 			(width 0)
@@ -2073,7 +2113,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 90.17) (xy 149.86 78.74)
+			(xy 151.13 92.71) (xy 151.13 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2083,7 +2123,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 63.5) (xy 118.11 63.5)
+			(xy 109.22 63.5) (xy 118.11 63.5)
 		)
 		(stroke
 			(width 0)
@@ -2093,7 +2133,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 85.09) (xy 151.13 85.09)
+			(xy 165.1 87.63) (xy 152.4 87.63)
 		)
 		(stroke
 			(width 0)
@@ -2103,7 +2143,7 @@
 	)
 	(wire
 		(pts
-			(xy 154.94 57.15) (xy 154.94 66.04)
+			(xy 154.94 59.69) (xy 154.94 66.04)
 		)
 		(stroke
 			(width 0)
@@ -2113,7 +2153,7 @@
 	)
 	(wire
 		(pts
-			(xy 166.37 87.63) (xy 160.02 87.63)
+			(xy 165.1 90.17) (xy 158.75 90.17)
 		)
 		(stroke
 			(width 0)
@@ -2123,7 +2163,7 @@
 	)
 	(wire
 		(pts
-			(xy 181.61 48.26) (xy 191.77 48.26)
+			(xy 180.34 50.8) (xy 190.5 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2133,7 +2173,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT_MSM")
-		(at 80.01 50.8 0)
+		(at 96.52 50.8 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2142,7 +2182,7 @@
 		(fields_autoplaced yes)
 		(uuid "001cb362-6d57-4a50-b810-5e84dac98ef0")
 		(property "Reference" "SW4"
-			(at 80.01 41.91 0)
+			(at 96.52 41.91 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2150,7 +2190,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT_MSM"
-			(at 80.01 44.45 0)
+			(at 96.52 44.45 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2158,7 +2198,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 66.04 39.37 0)
+			(at 82.55 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2167,7 +2207,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 80.01 58.42 0)
+			(at 96.52 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2176,7 +2216,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw, center OFF position"
-			(at 80.01 50.8 0)
+			(at 96.52 50.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2204,7 +2244,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
-		(at 78.74 121.92 0)
+		(at 96.52 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2213,7 +2253,7 @@
 		(fields_autoplaced yes)
 		(uuid "302b391b-1a6d-46df-9095-bc7d34ec070a")
 		(property "Reference" "SW8"
-			(at 78.74 114.3 0)
+			(at 96.52 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2221,7 +2261,7 @@
 			)
 		)
 		(property "Value" "SW_Push"
-			(at 78.74 116.84 0)
+			(at 96.52 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2229,7 +2269,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 78.74 116.84 0)
+			(at 96.52 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2238,7 +2278,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 78.74 116.84 0)
+			(at 96.52 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2247,7 +2287,7 @@
 			)
 		)
 		(property "Description" "Push button switch, generic, two pins"
-			(at 78.74 121.92 0)
+			(at 96.52 110.49 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2406,7 +2446,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT_MSM")
-		(at 78.74 105.41 0)
+		(at 96.52 96.52 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2415,7 +2455,7 @@
 		(fields_autoplaced yes)
 		(uuid "88d3f354-09e7-4c84-bfb3-988302ae734e")
 		(property "Reference" "SW7"
-			(at 78.74 96.52 0)
+			(at 96.52 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2423,7 +2463,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT_MSM"
-			(at 78.74 99.06 0)
+			(at 96.52 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2431,7 +2471,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 64.77 93.98 0)
+			(at 82.55 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2440,7 +2480,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 78.74 113.03 0)
+			(at 96.52 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2449,7 +2489,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw, center OFF position"
-			(at 78.74 105.41 0)
+			(at 96.52 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2477,7 +2517,7 @@
 	)
 	(symbol
 		(lib_id "Device:RotaryEncoder_Switch")
-		(at 173.99 50.8 0)
+		(at 172.72 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2486,7 +2526,7 @@
 		(fields_autoplaced yes)
 		(uuid "9606c1d8-5b6a-4e67-a35d-e8e1ef8d7480")
 		(property "Reference" "SW1"
-			(at 173.99 40.64 0)
+			(at 172.72 43.18 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2494,7 +2534,7 @@
 			)
 		)
 		(property "Value" "RotaryEncoder_Switch"
-			(at 173.99 43.18 0)
+			(at 172.72 45.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2502,7 +2542,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 170.18 46.736 0)
+			(at 168.91 49.276 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2511,7 +2551,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 173.99 44.196 0)
+			(at 172.72 46.736 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2520,7 +2560,7 @@
 			)
 		)
 		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs, with switch"
-			(at 173.99 50.8 0)
+			(at 172.72 53.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2554,7 +2594,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT_MSM")
-		(at 78.74 88.9 0)
+		(at 96.52 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2563,7 +2603,7 @@
 		(fields_autoplaced yes)
 		(uuid "c5117de3-951e-41ee-87dc-260d6505e649")
 		(property "Reference" "SW6"
-			(at 78.74 80.01 0)
+			(at 96.52 73.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2571,7 +2611,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT_MSM"
-			(at 78.74 82.55 0)
+			(at 96.52 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2579,7 +2619,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 64.77 77.47 0)
+			(at 82.55 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2588,7 +2628,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 78.74 96.52 0)
+			(at 96.52 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2597,7 +2637,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw, center OFF position"
-			(at 78.74 88.9 0)
+			(at 96.52 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2625,7 +2665,7 @@
 	)
 	(symbol
 		(lib_id "Switch:SW_SPDT_MSM")
-		(at 78.74 71.12 0)
+		(at 96.52 68.58 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2634,7 +2674,7 @@
 		(fields_autoplaced yes)
 		(uuid "dda1753b-cb7d-4e96-a0a8-01a6e16c3557")
 		(property "Reference" "SW5"
-			(at 78.74 62.23 0)
+			(at 96.52 59.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2642,7 +2682,7 @@
 			)
 		)
 		(property "Value" "SW_SPDT_MSM"
-			(at 78.74 64.77 0)
+			(at 96.52 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2650,7 +2690,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 64.77 59.69 0)
+			(at 82.55 57.15 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2659,7 +2699,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 78.74 78.74 0)
+			(at 96.52 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2668,7 +2708,7 @@
 			)
 		)
 		(property "Description" "Switch, single pole double throw, center OFF position"
-			(at 78.74 71.12 0)
+			(at 96.52 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2696,7 +2736,7 @@
 	)
 	(symbol
 		(lib_id "Device:RotaryEncoder_Switch")
-		(at 173.99 69.85 0)
+		(at 172.72 72.39 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2705,7 +2745,7 @@
 		(fields_autoplaced yes)
 		(uuid "e7061bb0-c2b7-40c7-b513-7b1175a0671b")
 		(property "Reference" "SW2"
-			(at 173.99 59.69 0)
+			(at 172.72 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2713,7 +2753,7 @@
 			)
 		)
 		(property "Value" "RotaryEncoder_Switch"
-			(at 173.99 62.23 0)
+			(at 172.72 64.77 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2721,7 +2761,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 170.18 65.786 0)
+			(at 168.91 68.326 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2730,7 +2770,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 173.99 63.246 0)
+			(at 172.72 65.786 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2739,7 +2779,7 @@
 			)
 		)
 		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs, with switch"
-			(at 173.99 69.85 0)
+			(at 172.72 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2773,7 +2813,7 @@
 	)
 	(symbol
 		(lib_id "Device:RotaryEncoder_Switch")
-		(at 173.99 87.63 0)
+		(at 172.72 90.17 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2782,7 +2822,7 @@
 		(fields_autoplaced yes)
 		(uuid "ec3264a7-f8b4-40e4-9248-884ddd9fe114")
 		(property "Reference" "SW3"
-			(at 173.99 77.47 0)
+			(at 172.72 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2790,7 +2830,7 @@
 			)
 		)
 		(property "Value" "RotaryEncoder_Switch"
-			(at 173.99 80.01 0)
+			(at 172.72 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2798,7 +2838,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 170.18 83.566 0)
+			(at 168.91 86.106 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2807,7 +2847,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 173.99 81.026 0)
+			(at 172.72 83.566 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2816,7 +2856,7 @@
 			)
 		)
 		(property "Description" "Rotary encoder, dual channel, incremental quadrate outputs, with switch"
-			(at 173.99 87.63 0)
+			(at 172.72 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)

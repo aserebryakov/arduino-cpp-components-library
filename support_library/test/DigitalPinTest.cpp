@@ -35,26 +35,26 @@ protected:
 
 TEST_F(DigitalPinTest, Construction) {
     DigitalPin pin{0, hwApiMock};
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
 }
 
 TEST_F(DigitalPinTest, ReadTest) {
     EXPECT_CALL(hwApiMock, digitalRead(42)).Times(3)
-        .WillOnce(Return(HwApi::LEVEL_HIGH))
-        .WillOnce(Return(HwApi::LEVEL_HIGH))
-        .WillOnce(Return(HwApi::LEVEL_LOW));
+        .WillOnce(Return(HwApi::LEVEL_LOW))
+        .WillOnce(Return(HwApi::LEVEL_LOW))
+        .WillOnce(Return(HwApi::LEVEL_HIGH));
 
     DigitalPin pin{42, hwApiMock};
-    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::LOW_HIGH);
-
-    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
-
     EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::HIGH_LOW);
+
+    EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
+
+    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
+    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::LOW_HIGH);
 }

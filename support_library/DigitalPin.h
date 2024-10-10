@@ -70,8 +70,8 @@ public:
 private:
   int pin_number;
   HwApi& hw_api;
-  HwApi::DIGITAL_PIN_LEVEL current_level{HwApi::LEVEL_LOW};
-  HwApi::DIGITAL_PIN_LEVEL previous_level{HwApi::LEVEL_LOW};
+  HwApi::DIGITAL_PIN_LEVEL current_level{HwApi::LEVEL_HIGH};
+  HwApi::DIGITAL_PIN_LEVEL previous_level{HwApi::LEVEL_HIGH};
 };
 
 #endif //ROTARYENCODERPINIMPL_H

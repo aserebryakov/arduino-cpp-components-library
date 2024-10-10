@@ -31,7 +31,7 @@ void RotaryEncoder::readStatus() {
     readRotation();
 
     sw_pin.read();
-    if (sw_pin.getPinChange() == PIN_CHANGE::LOW_HIGH) {
+    if (sw_pin.getPinChange() == PIN_CHANGE::HIGH_LOW) {
         on_push_button();
     }
 }
@@ -44,7 +44,7 @@ void RotaryEncoder::readRotation() {
         return;
     }
 
-    if (clk_pin.getLevel()) {
+    if (clk_pin.getLevel() == HwApi::LEVEL_HIGH) {
         on_turn_counterclockwise();
     } else {
         on_turn_clockwise();

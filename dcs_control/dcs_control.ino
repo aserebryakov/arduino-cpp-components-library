@@ -2,120 +2,119 @@
 #include "RotaryEncoder.h"
 #include "HwApiImpl.h"
 
-const int pinLed = LED_BUILTIN;
-const int pinButton = 2;
-constexpr int DT_PIN{ 4 };
-constexpr int CLK_PIN{ 5 };
-constexpr int SW_PIN{ 3 };
+class RotaryEncoderController {
+  public:
+    RotaryEncoderController(const int dt_pin,
+                            const int clk_pin,
+                            const int sw_pin,
+                            const int turn_clockwise_button,
+                            const int turn_counterclockwise_button,
+                            const int switch_button,
+                            HwApi& hw_api) :
+                              encoder{dt_pin, clk_pin, sw_pin, hw_api},
+                              dt_pin{dt_pin},
+                              clk_pin{clk_pin},
+                              sw_pin{sw_pin},
+                              turn_clockwise_button{turn_clockwise_button},
+                              turn_counterclockwise_button{turn_counterclockwise_button},
+                              switch_button{switch_button} {
+        encoder.setPushButtonCallback({onPushButtonCallback, this});
+        encoder.setTurnClockwiseCallback({onTurnClockwiseCallback, this});
+        encoder.setTurnCounterClockwiseCallback({onTurnCounterclockwiseCallback, this});
+    }
+
+    void setup() {
+      pinMode(dt_pin, INPUT);
+      pinMode(clk_pin, INPUT);
+      pinMode(sw_pin, INPUT);
+    }
+
+    void readPins() {
+      encoder.readPins();
+    }
+
+  private:
+    static void onTurnClockwiseCallback(void* self) {
+      static_cast<RotaryEncoderController*>(self)->onTurnClockwise();
+    }
+
+    static void pressButton(const int button) {
+      Serial.println(button);
+      Gamepad.press(button);
+      Gamepad.write();
+      Gamepad.release(button);
+      Gamepad.write();
+    }
+
+    void onTurnClockwise() {
+      Serial.println("Clockwise");
+      pressButton(turn_clockwise_button);
+    }
+
+    static void onTurnCounterclockwiseCallback(void* self) {
+      static_cast<RotaryEncoderController*>(self)->onTurnCounterclockwise();
+    }
+
+    void onTurnCounterclockwise() {
+      Serial.println("Counterclockwise");
+      pressButton(turn_counterclockwise_button);
+    }
+
+    static void onPushButtonCallback(void* self) {
+      static_cast<RotaryEncoderController*>(self)->onPushButton();
+    }
+
+    void onPushButton() {
+      Serial.println("Push");
+      pressButton(switch_button);
+    }
+
+    RotaryEncoder encoder;
+    int dt_pin{};
+    int clk_pin{};
+    int sw_pin{};
+    int turn_clockwise_button{};
+    int turn_counterclockwise_button{};
+    int switch_button{};
+};
+
+class Controller {
+  public:
+    Controller(HwApi& hw_api) :
+      rotary1{21, 20, 19, 1, 2, 3, hw_api},
+      rotary2{18, 15, 14, 4, 5, 6, hw_api},
+      rotary3{16, 10, 9, 7, 8, 9, hw_api} {
+    }
+
+    void setup() {
+      rotary1.setup();
+      rotary2.setup();
+      rotary3.setup();
+    }
+
+    void loop() {
+      rotary1.readPins();
+      rotary2.readPins();
+      rotary3.readPins();
+    }
+
+  private:
+    RotaryEncoderController rotary1;
+    RotaryEncoderController rotary2;
+    RotaryEncoderController rotary3;
+};
 
 HwApiImpl hw_api{};
-RotaryEncoder encoder{ DT_PIN, CLK_PIN, SW_PIN, hw_api };
-
-
-void onTurnRight(void*) {
-  Gamepad.press(1);
-  Gamepad.write();
-  Gamepad.releaseAll();
-  Gamepad.write();
-
-  Serial.println("Right");
-  Serial.println(digitalRead(SW_PIN));
-  Serial.println(digitalRead(DT_PIN));
-  Serial.println(digitalRead(CLK_PIN));
-}
-
-void onTurnLeft(void*) {
-  Gamepad.press(2);
-  Gamepad.write();
-  Gamepad.releaseAll();
-  Gamepad.write();
-
-
-  Serial.println("Left");
-  Serial.println(digitalRead(SW_PIN));
-  Serial.println(digitalRead(DT_PIN));
-  Serial.println(digitalRead(CLK_PIN));
-}
-
-void onClick(void*) {
-  Gamepad.press(3);
-  Gamepad.write();
-  Gamepad.releaseAll();
-  Gamepad.write();
-
-
-  Serial.println("Click");
-  Serial.println(digitalRead(SW_PIN));
-  Serial.println(digitalRead(DT_PIN));
-  Serial.println(digitalRead(CLK_PIN));
-}
+Controller controller{hw_api};
 
 void setup() {
-  pinMode(pinLed, OUTPUT);
-  pinMode(pinButton, INPUT_PULLUP);
-  pinMode(DT_PIN, INPUT);
-  pinMode(CLK_PIN, INPUT);
-  pinMode(SW_PIN, INPUT);
+  controller.setup();
 
-  //   pinMode(DT_PIN, INPUT_PULLUP);
-  // pinMode(CLK_PIN, INPUT_PULLUP);
-  // pinMode(SW_PIN, INPUT_PULLUP);
-
-  // Sends a clean report to the host. This is important on any Arduino type.
   Gamepad.begin();
   Serial.begin(9600);
-
-  encoder.setPushButtonCallback({ onClick, nullptr });
-  encoder.setTurnClockwiseCallback({ onTurnRight, nullptr });
-  encoder.setTurnCounterClockwiseCallback({ onTurnLeft, nullptr });
 }
 
 void loop() {
-  encoder.readRotation();
-  encoder.readStatus();
-
-  // Serial.println(digitalRead(SW_PIN));
-  // Serial.println(digitalRead(DT_PIN));
-  // Serial.println(digitalRead(CLK_PIN));
-  // Serial.println(digitalRead(pinButton));
-
-
-  if (!digitalRead(pinButton)) {
-    digitalWrite(pinLed, HIGH);
-
-    // Press button 1-32
-    static uint8_t count = 0;
-    count++;
-    if (count == 33) {
-      Gamepad.releaseAll();
-      count = 0;
-    } else
-      Gamepad.press(count);
-
-    // Move x/y Axis to a new position (16bit)
-    Gamepad.xAxis(random(0xFFFF));
-    Gamepad.yAxis(random(0xFFFF));
-
-    // Go through all dPad positions
-    // values: 0-8 (0==centered)
-    static uint8_t dpad1 = GAMEPAD_DPAD_CENTERED;
-    Gamepad.dPad1(dpad1++);
-    if (dpad1 > GAMEPAD_DPAD_UP_LEFT)
-      dpad1 = GAMEPAD_DPAD_CENTERED;
-
-    static int8_t dpad2 = GAMEPAD_DPAD_CENTERED;
-    Gamepad.dPad2(dpad2--);
-    if (dpad2 < GAMEPAD_DPAD_CENTERED)
-      dpad2 = GAMEPAD_DPAD_UP_LEFT;
-
-    // Functions above only set the values.
-    // This writes the report to the host.
-    Gamepad.write();
-
-    // Simple debounce
-    delay(300);
-    digitalWrite(pinLed, LOW);
-  }
-
+  controller.loop();
   delay(10);
 }

@@ -1,6 +1,37 @@
 #include "HID-Project.h"
 #include "RotaryEncoder.h"
+#include "DigitalPin.h"
 #include "HwApiImpl.h"
+
+class Button {
+  public:
+    Button(const int pin, const int button, HwApi& hw_api) : pin{pin, hw_api}, pin_number{pin}, button{button} {}
+    
+    void setup() {
+      pinMode(pin_number, INPUT_PULLUP);
+    }
+
+    void read() {
+      auto _ = pin.read();
+      
+      if (pin.getPinChange() != PIN_CHANGE::HIGH_LOW) {
+        return;
+      }
+
+      Serial.println("Press");
+      Serial.println(button);
+
+      Gamepad.press(button);
+      Gamepad.write();
+      Gamepad.release(button);
+      Gamepad.write();
+    }
+
+  private:
+    DigitalPin pin;
+    int pin_number{0};
+    int button{0};
+};
 
 class RotaryEncoderController {
   public:
@@ -83,25 +114,45 @@ class Controller {
     Controller(HwApi& hw_api) :
       rotary1{21, 20, 19, 1, 2, 3, hw_api},
       rotary2{18, 15, 14, 4, 5, 6, hw_api},
-      rotary3{16, 10, 9, 7, 8, 9, hw_api} {
+      rotary3{16, 10, 9, 7, 8, 9, hw_api},
+      buttons{
+        {0, 10, hw_api},
+        {1, 11, hw_api},
+        {2, 12, hw_api},
+        {3, 13, hw_api},
+        {4, 14, hw_api},
+        {5, 15, hw_api},
+        {6, 16, hw_api},
+        {7, 17, hw_api},
+        {8, 18, hw_api},
+      } {
     }
 
     void setup() {
       rotary1.setup();
       rotary2.setup();
       rotary3.setup();
+
+      for (auto& button : buttons) {
+        button.setup();
+      }
     }
 
     void loop() {
       rotary1.readPins();
       rotary2.readPins();
       rotary3.readPins();
+
+      for (auto& button : buttons) {
+        button.read();
+      }
     }
 
   private:
     RotaryEncoderController rotary1;
     RotaryEncoderController rotary2;
     RotaryEncoderController rotary3;
+    Button buttons[9];
 };
 
 HwApiImpl hw_api{};

@@ -3,6 +3,16 @@
 #include "DigitalPin.h"
 #include "HwApiImpl.h"
 
+static void pressButton(const int button) {
+  Serial.println("Press");
+  Serial.println(button);
+  Gamepad.press(button);
+  Gamepad.write();
+  delay(20);
+  Gamepad.release(button);
+  Gamepad.write();
+}
+
 class Button {
   public:
     Button(const int pin, const int button, HwApi& hw_api) : pin{pin, hw_api}, pin_number{pin}, button{button} {}
@@ -18,13 +28,7 @@ class Button {
         return;
       }
 
-      Serial.println("Press");
-      Serial.println(button);
-
-      Gamepad.press(button);
-      Gamepad.write();
-      Gamepad.release(button);
-      Gamepad.write();
+      pressButton(button);
     }
 
   private:
@@ -67,14 +71,6 @@ class RotaryEncoderController {
   private:
     static void onTurnClockwiseCallback(void* self) {
       static_cast<RotaryEncoderController*>(self)->onTurnClockwise();
-    }
-
-    static void pressButton(const int button) {
-      Serial.println(button);
-      Gamepad.press(button);
-      Gamepad.write();
-      Gamepad.release(button);
-      Gamepad.write();
     }
 
     void onTurnClockwise() {

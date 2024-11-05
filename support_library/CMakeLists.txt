@@ -24,6 +24,8 @@ add_library(support_library
         HwApi.cpp
         HwApi.h
         HwApiImpl.h
+        ControllerBuilder.cpp
+        ControllerBuilder.h
 )
 
 add_subdirectory(test)

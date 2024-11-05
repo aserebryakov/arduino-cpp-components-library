@@ -20,44 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CONTROLLERBUILDER_H
-#define CONTROLLERBUILDER_H
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include "HwApiMock.h"
 
-#include <cstddef>
+#include "../ControllerBuilder.h"
+#include "../RotaryEncoder.h"
 
-#include "HwApi.h"
-
-class Control {
-public:
-    Control() = default;
-    Control(HwApi& hw_api) : hw_api(&hw_api) {};
-
-private:
-    HwApi* hw_api{nullptr};
-};
-
-template<typename First, typename... Rest>
-void setValue(const size_t index, Control storage[], First&& first, Rest&&... rest) {
-    storage[index] = first;
-    setValue(index + 1, storage, rest...);
+TEST(ControllerBuilderTest, Construction) {
+    HwApiMock hw_api_mock{};
+    ControllerBuilder<2> builder{Control{hw_api_mock}, Control{hw_api_mock}};
 }
-
-void setValue(const size_t index, Control storage[]) {
-}
-
-template <size_t NumberOfControls>
-class ControllerBuilder {
-public:
-    template <typename... Args>
-    ControllerBuilder(Args&& ...args) {
-        static_assert((sizeof...(Args)) == NumberOfControls, "Wrong number of controls");
-        setValue(0, controls, args...);
-    }
-
-    Control controls[NumberOfControls];
-};
-
-// #define ADD_CONTROL(ARG) FUNC(ARG)
-
-
-#endif //CONTROLLERBUILDER_H

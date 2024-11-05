@@ -44,8 +44,8 @@ Both parts can are designed to be printed without supports.
 * 40x60 mm prototype board
 * Dupont connectors
 * Wires
-* 4x screws and hex nuts for front board
-* 2x small screws to fix the board inside enclosure
+* 4x M3 screws and M3 hex nuts for front board
+* 2x or 4x small screws to fix the board inside enclosure
 
 ### Tools
 

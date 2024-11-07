@@ -4,14 +4,15 @@
 
 This library is meant to provide different options to use Arduino and integrate use of different controls.
 
-## HID Controller
+## Generic Controller
 
-The idea of the HidController is to provide the generic declarative API for simple HID devices.
+The idea of the GenericController is to provide the generic declarative API for simple HID devices.
 
 ```mermaid
 classDiagram
     direction RL
-    class Controller
+    
+    class GenericController
     
     class Control {
         <<interface>>
@@ -53,6 +54,6 @@ classDiagram
     RotaryEncoder --|> GenericControl : implements
     DigitalPin --|> GenericControl : implements
     DigitalPin "3" --* "1" RotaryEncoder : 
-    Control "*" --* "1" Controller
+    Control "*" --* "1" GenericController
     HwApi "1" --o "1" GenericControl
 ```

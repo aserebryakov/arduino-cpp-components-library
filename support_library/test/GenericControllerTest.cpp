@@ -30,27 +30,54 @@
 
 using namespace utility;
 
-class TestControl : public Control {
+class TestControl1 : public Control {
 public:
-    TestControl(HwApi& hw_api) : Control(hw_api) {
+    TestControl1(HwApi& hw_api) : Control(hw_api) {
     }
 
-    virtual ~TestControl() override = default;
+    virtual ~TestControl1() override = default;
 
     virtual void setup() override {
-
+        getHwApi()->digitalRead(1);
     }
 
     virtual void loop() override {
+    }
+};
 
+class TestControl2 : public Control {
+public:
+    TestControl2(HwApi& hw_api) : Control(hw_api) {
+    }
+
+    virtual ~TestControl2() override = default;
+
+    virtual void setup() override {
+        getHwApi()->digitalRead(2);
+    }
+
+    virtual void loop() override {
     }
 };
 
 TEST(ControllerBuilderTest, Construction) {
     HwApiMock hw_api_mock{};
 
-    GenericController<Control, 2> builder{
-        HeapObject<Control>(new TestControl(hw_api_mock)),
-        HeapObject<Control>(new TestControl(hw_api_mock))
+    GenericController<Control, 2> controller{
+        HeapObject<Control>(new TestControl1(hw_api_mock)),
+        HeapObject<Control>(new TestControl2(hw_api_mock))
     };
+}
+
+TEST(ControllerBuilderTest, Setup) {
+    HwApiMock hw_api_mock{};
+    EXPECT_CALL(hw_api_mock, digitalRead(1)).Times(1);
+    EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
+
+    GenericController<Control, 2> controller{
+        HeapObject<Control>(new TestControl1(hw_api_mock)),
+        HeapObject<Control>(new TestControl2(hw_api_mock))
+    };
+
+    controller.setup();
 }

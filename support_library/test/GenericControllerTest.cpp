@@ -24,17 +24,33 @@
 #include <gmock/gmock.h>
 #include "HwApiMock.h"
 
-#include "../ControllerBuilder.h"
+#include "../GenericController.h"
 #include "../RotaryEncoder.h"
 #include "../HeapObject.h"
 
 using namespace utility;
 
+class TestControl : public Control {
+public:
+    TestControl(HwApi& hw_api) : Control(hw_api) {
+    }
+
+    virtual ~TestControl() override = default;
+
+    virtual void setup() override {
+
+    }
+
+    virtual void loop() override {
+
+    }
+};
+
 TEST(ControllerBuilderTest, Construction) {
     HwApiMock hw_api_mock{};
 
-    ControllerBuilder<Control, 2> builder{
-        makeHeapObject<Control>(hw_api_mock),
-        makeHeapObject<Control>(hw_api_mock)
+    GenericController<Control, 2> builder{
+        HeapObject<Control>(new TestControl(hw_api_mock)),
+        HeapObject<Control>(new TestControl(hw_api_mock))
     };
 }

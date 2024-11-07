@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,4 +20,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ControllerBuilder.h"
+#ifndef CONTROLLERBUILDER_H
+#define CONTROLLERBUILDER_H
+
+#include <cstddef>
+
+#include "HwApi.h"
+#include "HeapObject.h"
+
+class Control {
+public:
+    Control() = default;
+    Control(HwApi& hw_api) : hw_api(&hw_api) {};
+    virtual ~Control() = default;
+
+    virtual void setup() = 0;
+    virtual void loop() = 0;
+
+private:
+    HwApi* hw_api{nullptr};
+};
+
+template<typename First, typename... Rest>
+void setValue(const size_t index, utility::HeapObject<Control> storage[], First&& first, Rest&&... rest) {
+    storage[index] = static_cast<utility::HeapObject<Control>&&>(first); // effectively replaces std::move but not 100% correct
+    setValue(index + 1, storage, rest...);
+}
+
+void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
+}
+
+template <typename T, size_t NumberOfControls>
+class GenericController {
+public:
+    template <typename... Args>
+    GenericController(Args&& ...args) {
+        static_assert((sizeof...(Args)) == NumberOfControls, "Wrong number of controls");
+        setValue(0, controls, args...);
+    }
+
+    utility::HeapObject<T> controls[NumberOfControls];
+};
+
+
+#endif //CONTROLLERBUILDER_H

@@ -24,8 +24,8 @@ add_library(support_library
         HwApi.cpp
         HwApi.h
         HwApiImpl.h
-        ControllerBuilder.cpp
-        ControllerBuilder.h
+        GenericController.cpp
+        GenericController.h
         HeapObject.cpp
         HeapObject.h
 )

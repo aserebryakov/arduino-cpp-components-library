@@ -9,7 +9,7 @@ add_executable(
         HwApiMock.cpp
         HwApiMock.h
         DigitalPinTest.cpp
-        DeviceBuilderTest.cpp
+        GenericControllerTest.cpp
         HeapObjectTest.cpp
 )
 

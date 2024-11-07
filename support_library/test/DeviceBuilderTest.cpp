@@ -26,8 +26,15 @@
 
 #include "../ControllerBuilder.h"
 #include "../RotaryEncoder.h"
+#include "../HeapObject.h"
+
+using namespace utility;
 
 TEST(ControllerBuilderTest, Construction) {
     HwApiMock hw_api_mock{};
-    ControllerBuilder<2> builder{Control{hw_api_mock}, Control{hw_api_mock}};
+
+    ControllerBuilder<Control, 2> builder{
+        makeHeapObject<Control>(hw_api_mock),
+        makeHeapObject<Control>(hw_api_mock)
+    };
 }

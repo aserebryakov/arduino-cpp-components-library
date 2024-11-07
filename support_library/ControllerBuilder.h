@@ -26,6 +26,7 @@
 #include <cstddef>
 
 #include "HwApi.h"
+#include "HeapObject.h"
 
 class Control {
 public:
@@ -37,15 +38,15 @@ private:
 };
 
 template<typename First, typename... Rest>
-void setValue(const size_t index, Control storage[], First&& first, Rest&&... rest) {
-    storage[index] = first;
+void setValue(const size_t index, utility::HeapObject<Control> storage[], First&& first, Rest&&... rest) {
+    storage[index] = static_cast<utility::HeapObject<Control>&&>(first); // effectively replaces std::move but not 100% correct
     setValue(index + 1, storage, rest...);
 }
 
-void setValue(const size_t index, Control storage[]) {
+void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
 }
 
-template <size_t NumberOfControls>
+template <typename T, size_t NumberOfControls>
 class ControllerBuilder {
 public:
     template <typename... Args>
@@ -54,10 +55,8 @@ public:
         setValue(0, controls, args...);
     }
 
-    Control controls[NumberOfControls];
+    utility::HeapObject<T> controls[NumberOfControls];
 };
-
-// #define ADD_CONTROL(ARG) FUNC(ARG)
 
 
 #endif //CONTROLLERBUILDER_H

@@ -28,6 +28,8 @@ namespace utility {
 template <typename T>
 class HeapObject {
 public:
+    HeapObject() = default;
+
     HeapObject(T* object) : object{object} {
     }
 
@@ -70,7 +72,7 @@ private:
 };
 
 template <typename T, typename... Args>
-HeapObject<T> makeHeapObject(Args ...args) {
+HeapObject<T> makeHeapObject(Args&& ...args) {
     return HeapObject<T>(new T(args...));
 }
 

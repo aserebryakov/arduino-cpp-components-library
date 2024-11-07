@@ -10,6 +10,7 @@ add_executable(
         HwApiMock.h
         DigitalPinTest.cpp
         DeviceBuilderTest.cpp
+        HeapObjectTest.cpp
 )
 
 include(GoogleTest)

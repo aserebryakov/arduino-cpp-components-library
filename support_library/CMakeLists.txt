@@ -26,6 +26,8 @@ add_library(support_library
         HwApiImpl.h
         ControllerBuilder.cpp
         ControllerBuilder.h
+        HeapObject.cpp
+        HeapObject.h
 )
 
 add_subdirectory(test)

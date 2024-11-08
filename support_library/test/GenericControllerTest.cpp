@@ -42,6 +42,7 @@ public:
     }
 
     virtual void loop() override {
+        getHwApi()->digitalWrite(1, 1);
     }
 };
 
@@ -57,10 +58,11 @@ public:
     }
 
     virtual void loop() override {
+        getHwApi()->digitalWrite(2, 2);
     }
 };
 
-TEST(ControllerBuilderTest, Construction) {
+TEST(GeneticControllerTest, Construction) {
     HwApiMock hw_api_mock{};
 
     GenericController<Control, 2> controller{
@@ -69,7 +71,7 @@ TEST(ControllerBuilderTest, Construction) {
     };
 }
 
-TEST(ControllerBuilderTest, Setup) {
+TEST(GeneticControllerTest, SetupTest) {
     HwApiMock hw_api_mock{};
     EXPECT_CALL(hw_api_mock, digitalRead(1)).Times(1);
     EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
@@ -80,4 +82,17 @@ TEST(ControllerBuilderTest, Setup) {
     };
 
     controller.setup();
+}
+
+TEST(GeneticControllerTest, LoopTest) {
+    HwApiMock hw_api_mock{};
+    EXPECT_CALL(hw_api_mock, digitalWrite(1, 1)).Times(1);
+    EXPECT_CALL(hw_api_mock, digitalWrite(2, 2)).Times(1);
+
+    GenericController<Control, 2> controller{
+        HeapObject<Control>(new TestControl1(hw_api_mock)),
+        HeapObject<Control>(new TestControl2(hw_api_mock))
+    };
+
+    controller.loop();
 }

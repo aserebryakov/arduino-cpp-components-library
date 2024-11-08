@@ -71,6 +71,12 @@ public:
         }
     }
 
+    void loop() {
+        for (auto& control : controls) {
+            control->loop();
+        }
+    }
+
 private:
     utility::HeapObject<T> controls[NumberOfControls];
 };

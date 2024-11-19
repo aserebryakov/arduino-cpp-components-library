@@ -25,7 +25,7 @@
 
 #include "HwApi.h"
 #include "Callback.h"
-#include "GenericController.h"
+#include "Control.h"
 
 enum class PIN_CHANGE {
     LOW_HIGH,

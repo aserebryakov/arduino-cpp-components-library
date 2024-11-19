@@ -28,6 +28,8 @@ add_library(support_library
         GenericController.h
         HeapObject.cpp
         HeapObject.h
+        Control.cpp
+        Control.h
 )
 
 add_subdirectory(test)

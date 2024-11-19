@@ -80,8 +80,8 @@ TEST_F(DigitalPinTest, CallbackTest) {
 
     DigitalPin pin{
         42, HwApi::PIN_MODE::INPUT_PULLUP,
-        Callback{onLowHighChange,this},
-        Callback{onHighLowChange, this},
+        {onLowHighChange,this},
+        {onHighLowChange, this},
         hwApiMock
     };
 

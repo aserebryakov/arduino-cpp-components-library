@@ -60,6 +60,8 @@ public:
     DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
                Callback&& on_high_low_change, HwApi& hwapi);
 
+    virtual ~DigitalPin() override = default;
+
     /**
      * Reads the level of the pin.
      *

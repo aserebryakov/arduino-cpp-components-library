@@ -17,8 +17,8 @@ add_library(support_library
         Scheduler.h
         Callback.cpp
         Callback.h
-#        RotaryEncoder.cpp
-#        RotaryEncoder.h
+        RotaryEncoder.cpp
+        RotaryEncoder.h
         DigitalPin.cpp
         DigitalPin.h
         HwApi.cpp

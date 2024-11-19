@@ -22,9 +22,13 @@
 
 #include "RotaryEncoder.h"
 
-RotaryEncoder::RotaryEncoder(const int dt_pin, const int clk_pin,
-                             const int sw_pin, HwApi& hw_api) : dt_pin{dt_pin, hw_api}, clk_pin{clk_pin, hw_api},
-                                                                sw_pin{sw_pin, hw_api} {
+RotaryEncoder::RotaryEncoder(DigitalPin&& dt_pin, DigitalPin&& clk_pin, DigitalPin&& sw_pin,
+                             Callback&& on_turn_clockwise, Callback&& on_turn_counterclockwise,
+                             Callback&& on_push_button) : dt_pin{dt_pin},
+                                                          clk_pin{clk_pin}, sw_pin{sw_pin},
+                                                          on_turn_clockwise{on_turn_clockwise},
+                                                          on_turn_counterclockwise{on_turn_counterclockwise},
+                                                          on_push_button{on_push_button} {
 }
 
 void RotaryEncoder::readPins() {
@@ -46,19 +50,18 @@ void RotaryEncoder::readRotation() {
 
     if (clk_pin.getLevel() == HwApi::LEVEL_HIGH) {
         on_turn_counterclockwise();
-    } else {
+    }
+    else {
         on_turn_clockwise();
     }
 }
 
-void RotaryEncoder::setTurnClockwiseCallback(Callback&& callback) {
-    on_turn_clockwise = callback;
+void RotaryEncoder::setup() {
+    dt_pin.setup();
+    clk_pin.setup();
+    sw_pin.setup();
 }
 
-void RotaryEncoder::setTurnCounterClockwiseCallback(Callback&& callback) {
-    on_turn_counterclockwise = callback;
-}
-
-void RotaryEncoder::setPushButtonCallback(Callback&& callback) {
-    on_push_button = callback;
+void RotaryEncoder::loop() {
+    readPins();
 }

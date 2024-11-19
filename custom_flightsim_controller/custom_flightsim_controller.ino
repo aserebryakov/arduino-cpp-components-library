@@ -3,6 +3,18 @@
 #include "DigitalPin.h"
 #include "HwApiImpl.h"
 
+#include "GenericController.h"
+
+class TestControl : public Control {
+  public:
+    TestControl(HwApi& hw_api) : Control{hw_api} {
+    }
+
+    virtual void setup() override {}
+    virtual void loop() override {}
+};
+
+
 static void pressButton(const int button) {
   Serial.println("Press");
   Serial.println(button);
@@ -153,9 +165,12 @@ class Controller {
 
 HwApiImpl hw_api{};
 Controller controller{hw_api};
+GenericController<Control, 1> generic_controller{utility::HeapObject<Control>(new TestControl(hw_api))};
+
 
 void setup() {
   controller.setup();
+  generic_controller.setup();
 
   Gamepad.begin();
   Serial.begin(9600);
@@ -163,5 +178,6 @@ void setup() {
 
 void loop() {
   controller.loop();
+  generic_controller.loop();
   delay(10);
 }

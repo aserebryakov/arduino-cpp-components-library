@@ -12,7 +12,11 @@ The idea of the GenericController is to provide the generic declarative API for 
 classDiagram
     direction RL
     
-    class GenericController
+    class GenericController {
+        + setup()
+        + loop()
+        - controls : list
+    }
     
     class Control {
         <<interface>>

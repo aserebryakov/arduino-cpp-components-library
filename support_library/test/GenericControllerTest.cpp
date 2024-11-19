@@ -25,7 +25,6 @@
 #include "HwApiMock.h"
 
 #include "../GenericController.h"
-#include "../RotaryEncoder.h"
 #include "../HeapObject.h"
 
 using namespace utility;
@@ -38,11 +37,11 @@ public:
     virtual ~TestControl1() override = default;
 
     virtual void setup() override {
-        getHwApi()->digitalRead(1);
+        getHwApi().digitalRead(1);
     }
 
     virtual void loop() override {
-        getHwApi()->digitalWrite(1, 1);
+        getHwApi().digitalWrite(1, 1);
     }
 };
 
@@ -54,11 +53,11 @@ public:
     virtual ~TestControl2() override = default;
 
     virtual void setup() override {
-        getHwApi()->digitalRead(2);
+        getHwApi().digitalRead(2);
     }
 
     virtual void loop() override {
-        getHwApi()->digitalWrite(2, 2);
+        getHwApi().digitalWrite(2, 2);
     }
 };
 

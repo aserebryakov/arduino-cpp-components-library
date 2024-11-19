@@ -22,27 +22,50 @@
 
 #include "DigitalPin.h"
 
-DigitalPin::DigitalPin(const int pin_number, HwApi& hw_api) : pin_number{pin_number}, hw_api{hw_api} {
+DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hwapi) : Control{hwapi},
+    pin_number{pin_number}, pin_mode{pin_mode} {
+}
+
+DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
+                       Callback&& on_high_low_change, HwApi& hwapi) : DigitalPin{pin_number, pin_mode, hwapi} {
+    on_low_high_change_callback = on_low_high_change;
+    on_high_low_change_callback = on_high_low_change;
 }
 
 PIN_CHANGE DigitalPin::getPinChange() const {
-  if (previous_level == current_level) {
-    return PIN_CHANGE::NONE;
-  }
+    if (previous_level == current_level) {
+        return PIN_CHANGE::NONE;
+    }
 
-  if (previous_level == HwApi::LEVEL_HIGH && current_level == HwApi::LEVEL_LOW) {
-    return PIN_CHANGE::HIGH_LOW;
-  }
+    if (previous_level == HwApi::LEVEL_HIGH && current_level == HwApi::LEVEL_LOW) {
+        return PIN_CHANGE::HIGH_LOW;
+    }
 
-  return PIN_CHANGE::LOW_HIGH;
+    return PIN_CHANGE::LOW_HIGH;
+}
+
+void DigitalPin::setup() {
+    getHwApi().pinMode(pin_number, pin_mode);
+}
+
+void DigitalPin::loop() {
+    read();
+
+    if (getPinChange() == PIN_CHANGE::HIGH_LOW) {
+        on_high_low_change_callback();
+    }
+
+    if (getPinChange() == PIN_CHANGE::LOW_HIGH) {
+        on_low_high_change_callback();
+    }
 }
 
 HwApi::DIGITAL_PIN_LEVEL DigitalPin::read() {
-  previous_level = current_level;
-  current_level = hw_api.digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
-  return current_level;
+    previous_level = current_level;
+    current_level = getHwApi().digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
+    return current_level;
 }
 
 HwApi::DIGITAL_PIN_LEVEL DigitalPin::getLevel() const {
-  return current_level;
+    return current_level;
 }

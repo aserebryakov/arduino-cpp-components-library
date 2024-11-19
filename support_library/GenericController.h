@@ -23,7 +23,7 @@
 #ifndef CONTROLLERBUILDER_H
 #define CONTROLLERBUILDER_H
 
-#include <cstddef>
+#include <stddef.h>
 
 #include "HwApi.h"
 #include "HeapObject.h"
@@ -33,14 +33,15 @@ public:
     Control() = default;
 
     Control(HwApi& hw_api) : hw_api(&hw_api) {
-    };
+    }
+
     virtual ~Control() = default;
 
     virtual void setup() = 0;
     virtual void loop() = 0;
 
-    HwApi* getHwApi() const {
-        return hw_api;
+    HwApi& getHwApi() const {
+        return *hw_api;
     }
 
 private:
@@ -53,7 +54,7 @@ void setValue(const size_t index, utility::HeapObject<Control> storage[], First&
     setValue(index + 1, storage, rest...);
 }
 
-void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
+static void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
 }
 
 template <typename T, size_t NumberOfControls>

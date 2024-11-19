@@ -20,30 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPI_H
-#define HWAPI_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
-#include <stdint.h> // Using C header for compatibility
+class Controller {
 
-class HwApi {
-public:
-    enum DIGITAL_PIN_LEVEL : int {
-        LEVEL_HIGH = 0x1,
-        LEVEL_LOW = 0x0
-    };
-
-    enum class PIN_MODE : int {
-        INPUT = 0x0,
-        OUTPUT = 0x1,
-        INPUT_PULLUP = 0x2
-    };
-
-    virtual ~HwApi() = default;
-
-    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const = 0;
-    virtual int digitalRead(const uint8_t pin) const = 0;
-    virtual void pinMode(const uint8_t pin, const PIN_MODE mode) const = 0;
 };
 
 
-#endif //HWAPI_H
+#endif //CONTROLLER_H

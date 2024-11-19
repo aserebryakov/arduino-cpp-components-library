@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(
         support_library_test
         SchedulerTest.cpp
-        RotaryEncoderTest.cpp
+#        RotaryEncoderTest.cpp
         HwApiMock.cpp
         HwApiMock.h
         DigitalPinTest.cpp

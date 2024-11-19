@@ -32,8 +32,8 @@ public:
 
     virtual void digitalWrite(const uint8_t pin, const uint8_t val) const final;
     virtual int digitalRead(const uint8_t pin) const final;
+    virtual void pinMode(const uint8_t pin, const PIN_MODE mode) const final;
 };
-
 
 
 #endif //HWAPIIMPL_H

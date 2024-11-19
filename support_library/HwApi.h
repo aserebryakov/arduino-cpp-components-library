@@ -33,9 +33,9 @@ public:
     };
 
     enum class PIN_MODE : int {
-        INPUT = 0x0,
-        OUTPUT = 0x1,
-        INPUT_PULLUP = 0x2
+        INPUT_MODE = 0x0,
+        OUTPUT_MODE = 0x1,
+        INPUT_PULLUP_MODE = 0x2
     };
 
     virtual ~HwApi() = default;

@@ -27,18 +27,18 @@
 
 #include "HwApi.h"
 #include "HeapObject.h"
-#include "Control.h"
+#include "Hardware.h"
 
 template <typename First, typename... Rest>
-void setValue(const size_t index, utility::HeapObject<Control> storage[], First&& first, Rest&&... rest) {
-    storage[index] = static_cast<utility::HeapObject<Control>&&>(first); // effectively replaces std::move but not 100% correct
+void setValue(const size_t index, utility::HeapObject<Hardware> storage[], First&& first, Rest&&... rest) {
+    storage[index] = static_cast<utility::HeapObject<Hardware>&&>(first); // effectively replaces std::move but not 100% correct
     setValue(index + 1, storage, rest...);
 }
 
-static void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
+static void setValue(const size_t index, utility::HeapObject<Hardware> storage[]) {
 }
 
-template <typename T, size_t NumberOfControls>
+template <size_t NumberOfControls>
 class GenericController {
 public:
     template <typename... Args>
@@ -60,7 +60,7 @@ public:
     }
 
 private:
-    utility::HeapObject<T> controls[NumberOfControls];
+    utility::HeapObject<Hardware> controls[NumberOfControls];
 };
 
 

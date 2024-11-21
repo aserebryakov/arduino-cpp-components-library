@@ -22,7 +22,7 @@
 
 #include "DigitalPin.h"
 
-DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hwapi) : Control{hwapi},
+DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hwapi) : Hardware{hwapi},
     pin_number{pin_number}, pin_mode{pin_mode} {
 }
 

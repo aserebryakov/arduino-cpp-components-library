@@ -26,12 +26,12 @@
 #include "Callback.h"
 #include "DigitalPin.h"
 #include "HwApi.h"
-#include "Control.h"
+#include "Hardware.h"
 
 /**
  * Implements rotary encoder functionality.
  */
-class RotaryEncoder : public Control {
+class RotaryEncoder : public Hardware {
 public:
     /**
       * Constructor.

@@ -25,7 +25,7 @@
 
 #include "HwApi.h"
 #include "Callback.h"
-#include "Control.h"
+#include "Hardware.h"
 
 enum class PIN_CHANGE {
     LOW_HIGH,
@@ -36,7 +36,7 @@ enum class PIN_CHANGE {
 /**
  * Represents abstraction level for digital pin.
  */
-class DigitalPin : public Control {
+class DigitalPin : public Hardware {
 public:
     /**
       * Constructor.

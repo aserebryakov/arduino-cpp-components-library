@@ -29,9 +29,9 @@
 
 using namespace utility;
 
-class TestControl1 : public Control {
+class TestControl1 : public Hardware {
 public:
-    TestControl1(HwApi& hw_api) : Control(hw_api) {
+    TestControl1(HwApi& hw_api) : Hardware(hw_api) {
     }
 
     virtual ~TestControl1() override = default;
@@ -45,9 +45,9 @@ public:
     }
 };
 
-class TestControl2 : public Control {
+class TestControl2 : public Hardware {
 public:
-    TestControl2(HwApi& hw_api) : Control(hw_api) {
+    TestControl2(HwApi& hw_api) : Hardware(hw_api) {
     }
 
     virtual ~TestControl2() override = default;
@@ -64,9 +64,9 @@ public:
 TEST(GeneticControllerTest, Construction) {
     HwApiMock hw_api_mock{};
 
-    GenericController<Control, 2> controller{
-        HeapObject<Control>(new TestControl1(hw_api_mock)),
-        HeapObject<Control>(new TestControl2(hw_api_mock))
+    GenericController<2> controller{
+        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
+        HeapObject<Hardware>(new TestControl2(hw_api_mock))
     };
 }
 
@@ -75,9 +75,9 @@ TEST(GeneticControllerTest, SetupTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(1)).Times(1);
     EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
 
-    GenericController<Control, 2> controller{
-        HeapObject<Control>(new TestControl1(hw_api_mock)),
-        HeapObject<Control>(new TestControl2(hw_api_mock))
+    GenericController<2> controller{
+        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
+        HeapObject<Hardware>(new TestControl2(hw_api_mock))
     };
 
     controller.setup();
@@ -88,9 +88,9 @@ TEST(GeneticControllerTest, LoopTest) {
     EXPECT_CALL(hw_api_mock, digitalWrite(1, 1)).Times(1);
     EXPECT_CALL(hw_api_mock, digitalWrite(2, 2)).Times(1);
 
-    GenericController<Control, 2> controller{
-        HeapObject<Control>(new TestControl1(hw_api_mock)),
-        HeapObject<Control>(new TestControl2(hw_api_mock))
+    GenericController<2> controller{
+        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
+        HeapObject<Hardware>(new TestControl2(hw_api_mock))
     };
 
     controller.loop();

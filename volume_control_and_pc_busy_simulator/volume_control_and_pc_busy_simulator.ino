@@ -44,8 +44,8 @@ public:
   }
 
 private:
-    GenericController<Control, 1> control{
-      HeapObject<Control>(new RotaryEncoder{
+    GenericController<1> control{
+      HeapObject<Hardware>(new RotaryEncoder{
         {DT_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
         {CLK_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
         {SW_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
@@ -59,7 +59,7 @@ private:
 class MouseControl {
 public:
   MouseControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
-    HeapObject<Control>(new DigitalPin{
+    HeapObject<Hardware>(new DigitalPin{
       MOUSE_SWITCH_PIN,
       HwApi::PIN_MODE::INPUT_PULLUP_MODE,
       {onSwitch, this},
@@ -110,7 +110,7 @@ public:
   }
 
 private:
-  GenericController<Control, 1> control;
+  GenericController<1> control;
   Scheduler& scheduler;
   HwApi& hw_api;
 
@@ -125,7 +125,7 @@ private:
 class KeyboardControl {
 public:
   KeyboardControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
-    HeapObject<Control>(new DigitalPin{
+    HeapObject<Hardware>(new DigitalPin{
       KEYBOARD_SWITCH_PIN,
       HwApi::PIN_MODE::INPUT_PULLUP_MODE,
       {onSwitch, this},
@@ -179,7 +179,7 @@ private:
   bool enabled{false};
   SchedulerTaskId task_id{0};
   uint8_t next_character{0};
-  GenericController<Control, 1> control;
+  GenericController<1> control;
 };
 
 class Controller {

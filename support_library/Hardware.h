@@ -25,14 +25,14 @@
 
 #include "HwApi.h"
 
-class Control {
+class Hardware {
 public:
-    Control() = default;
+    Hardware() = default;
 
-    Control(HwApi& hw_api) : hw_api(&hw_api) {
+    Hardware(HwApi& hw_api) : hw_api(&hw_api) {
     }
 
-    virtual ~Control() = default;
+    virtual ~Hardware() = default;
 
     virtual void setup() = 0;
     virtual void loop() = 0;

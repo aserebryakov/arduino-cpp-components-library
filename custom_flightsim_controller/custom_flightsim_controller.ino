@@ -18,10 +18,15 @@ static void pressButton(const int button) {
   Gamepad.write();
 }
 
-class Button {
+class Button : public ControlApi {
   public:
-    Button(const int pin, const int button, HwApi& hw_api) : pin{pin, hw_api}, pin_number{pin}, button{button} {}
-    
+    Button(const int pin, const int button, HwApi& hw_api) : pin{
+      pin,
+      HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
+      pin_number{pin},
+      button{button} {
+      }
+
     void setup() {
       pinMode(pin_number, INPUT_PULLUP);
     }

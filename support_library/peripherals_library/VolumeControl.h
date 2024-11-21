@@ -23,9 +23,11 @@
 #define VOLUMECONTROL_H
 
 namespace peripherals {
+
 class VolumeControl {
 
 };
+
 }
 
 #endif //VOLUMECONTROL_H

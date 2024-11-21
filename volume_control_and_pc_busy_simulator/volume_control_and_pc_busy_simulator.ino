@@ -22,9 +22,11 @@ class VolumeControl {
 public:
   void setup() {
     Consumer.begin();
+    control.setup();
   }
 
   void loop() {
+    control.loop();
   }
 
   static void volumeUp(void*) {
@@ -40,17 +42,40 @@ public:
   static void mute(void*) {
     Consumer.write(MEDIA_VOL_MUTE);
   }
+
+private:
+    GenericController<Control, 1> control{
+      HeapObject<Control>(new RotaryEncoder{
+        {DT_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
+        {CLK_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
+        {SW_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
+        {volumeUp, nullptr},
+        {volumeDown, nullptr},
+        {mute, nullptr}
+        })};
 };
 
 
 class MouseControl {
 public:
-  MouseControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api} {
+  MouseControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
+    HeapObject<Control>(new DigitalPin{
+      MOUSE_SWITCH_PIN,
+      HwApi::PIN_MODE::INPUT_PULLUP_MODE,
+      {onSwitch, this},
+      {},
+      hw_api
+      })} {
   }
 
   void setup() {
-    hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
     Mouse.begin();
+    hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
+    control.setup();
+  }
+
+  void loop() {
+    control.loop();
   }
 
   static void mouseTask(void* self) {
@@ -85,8 +110,10 @@ public:
   }
 
 private:
+  GenericController<Control, 1> control;
   Scheduler& scheduler;
   HwApi& hw_api;
+
   bool enabled{false};
   SchedulerTaskId task_id{0};
   int moves_made{0};
@@ -94,17 +121,79 @@ private:
   int y_increment{3};
 };
 
-class Controller {
+
+class KeyboardControl {
 public:
+  KeyboardControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
+    HeapObject<Control>(new DigitalPin{
+      KEYBOARD_SWITCH_PIN,
+      HwApi::PIN_MODE::INPUT_PULLUP_MODE,
+      {onSwitch, this},
+      {},
+      hw_api
+      })} {
+  }
+
   void setup() {
+    Keyboard.begin();
+    hw_api.pinMode(KEYBOARD_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
     control.setup();
-    volume_control.setup();
-    mouse_control.setup();
   }
 
   void loop() {
     control.loop();
+  }
+
+  static void keyboardTask(void* self) {
+    static_cast<KeyboardControl*>(self)->press_next_button();
+  }
+
+  static void onSwitch(void* self) {
+    static_cast<KeyboardControl*>(self)->onSwitch();
+  }
+
+  void onSwitch() {
+    if (!enabled) {
+      task_id = scheduler.addPeriodicTask({keyboardTask, this}, 200);
+      enabled = true;
+      next_character = 0;
+      hw_api.digitalWrite(KEYBOARD_LED_PIN, 1);
+      return;
+    }
+
+    scheduler.removeTask(task_id);
+    hw_api.digitalWrite(KEYBOARD_LED_PIN, 0);
+    enabled = false;
+  }
+
+  void press_next_button() {
+    static char text[]{"All work and no play makes Jack a dull boy.\n"};
+    Keyboard.write(text[next_character]);
+    next_character++;
+    next_character = next_character % sizeof(text);
+  }
+
+private:
+  Scheduler& scheduler;
+  HwApi& hw_api;
+  bool enabled{false};
+  SchedulerTaskId task_id{0};
+  uint8_t next_character{0};
+  GenericController<Control, 1> control;
+};
+
+class Controller {
+public:
+  void setup() {
+    volume_control.setup();
+    mouse_control.setup();
+    keyboard_control.setup();
+  }
+
+  void loop() {
     volume_control.loop();
+    mouse_control.loop();
+    keyboard_control.loop();
     scheduler.tick(TICK);
     delay(TICK);
   }
@@ -113,31 +202,12 @@ private:
     Scheduler scheduler{};
     VolumeControl volume_control{};
     MouseControl mouse_control{scheduler, hw_api};
-
-    GenericController<Control, 2> control{
-      HeapObject<Control>(new RotaryEncoder{
-        {DT_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {CLK_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {SW_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {VolumeControl::volumeUp, nullptr},
-        {VolumeControl::volumeDown, nullptr},
-        {VolumeControl::mute, nullptr}
-        }),
-      HeapObject<Control>(new DigitalPin{
-        MOUSE_SWITCH_PIN,
-        HwApi::PIN_MODE::INPUT_PULLUP_MODE,
-        {MouseControl::onSwitch, &mouse_control},
-        {},
-        hw_api
-        })};
+    KeyboardControl keyboard_control{scheduler, hw_api};
 };
 
 Controller controller{};
 
 void setup() {
-  // pinMode(KEYBOARD_SWITCH_PIN, INPUT_PULLUP);
-  // pinMode(KEYBOARD_LED_PIN, OUTPUT);
-
   controller.setup();
   Serial.begin(9600);
   Serial.println(42);
@@ -146,94 +216,3 @@ void setup() {
 void loop() {
   controller.loop();
 }
-
-
-// class KeyboardControl {
-// public:
-//   KeyboardControl(Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api} {
-//   }
-
-//   static void keyboardTask(void* self) {
-//     static_cast<KeyboardControl*>(self)->press_next_button();
-//   }
-
-//   void onSwitch() {
-//     if (!enabled) {
-//       task_id = scheduler.addPeriodicTask({keyboardTask, this}, 200);
-//       enabled = true;
-//       next_character = 0;
-//       hw_api.digitalWrite(KEYBOARD_LED_PIN, 1);
-//       return;
-//     }
-
-//     scheduler.removeTask(task_id);
-//     hw_api.digitalWrite(KEYBOARD_LED_PIN, 0);
-//     enabled = false;
-//   }
-
-//   void press_next_button() {
-//     static char text[]{"All work and no play makes Jack a dull boy.\n"};
-//     Keyboard.write(text[next_character]);
-//     next_character++;
-//     next_character = next_character % sizeof(text);
-//   }
-
-// private:
-//   Scheduler& scheduler;
-//   HwApi& hw_api;
-//   bool enabled{false};
-//   SchedulerTaskId task_id{0};
-//   uint8_t next_character{0};
-// };
-
-// class Controller {
-// public:
-//   Controller() {
-//     encoder.setTurnClockwiseCallback({Controller::onTurnClockwise, nullptr});
-//     encoder.setTurnCounterClockwiseCallback({Controller::onTurnCounterClockwise, nullptr});
-//     encoder.setPushButtonCallback({Controller::onPushButton, nullptr});
-//   }
-
-//   static void onTurnClockwise(void*) {
-//     Consumer.write(MEDIA_VOL_UP);
-//     Consumer.write(MEDIA_VOL_UP);
-//   }
-
-//   static void onTurnCounterClockwise(void*) {
-//     Consumer.write(MEDIA_VOL_DOWN);
-//     Consumer.write(MEDIA_VOL_DOWN);
-//   }
-
-//   static void onPushButton(void*) {
-//     Consumer.write(MEDIA_VOL_MUTE);
-//   }
-
-//   void loop() {
-//     encoder.readPins();
-
-//     mouse_switch.read();
-//     if (mouse_switch.getPinChange() == PIN_CHANGE::LOW_HIGH) {
-//       mouse.onSwitch();
-//     }
-
-//     keyboard_switch.read();
-//     if (keyboard_switch.getPinChange() == PIN_CHANGE::LOW_HIGH) {
-//       keyboard.onSwitch();
-//     }
-
-//     delay(10);
-//     scheduler.tick(10);
-//   }
-
-// private:
-//   Scheduler scheduler{};
-//   HwApiImpl hw_api{};
-//   MouseControl mouse{scheduler, hw_api};
-//   KeyboardControl keyboard{scheduler, hw_api};
-//   RotaryEncoder encoder{DT_PIN, CLK_PIN, SW_PIN, hw_api};
-//   DigitalPin mouse_switch{MOUSE_SWITCH_PIN, hw_api};
-//   DigitalPin keyboard_switch{KEYBOARD_SWITCH_PIN, hw_api};
-// };
-
-// Controller controller{};
-

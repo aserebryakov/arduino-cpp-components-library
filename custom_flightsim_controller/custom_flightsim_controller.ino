@@ -4,16 +4,9 @@
 #include "HwApiImpl.h"
 
 #include "GenericController.h"
+#include "peripherals_library/VolumeControl.h"
 
-class TestControl : public Control {
-  public:
-    TestControl(HwApi& hw_api) : Control{hw_api} {
-    }
-
-    virtual void setup() override {}
-    virtual void loop() override {}
-};
-
+peripherals::VolumeControl volume_control{};
 
 static void pressButton(const int button) {
   Serial.println("Press");

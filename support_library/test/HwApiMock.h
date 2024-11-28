@@ -24,7 +24,7 @@
 #ifndef HWAPIMOCK_H
 #define HWAPIMOCK_H
 
-#include "../HwApi.h"
+#include "../src/HwApi.h"
 #include <gmock/gmock.h>
 
 class HwApiMock : public HwApi {

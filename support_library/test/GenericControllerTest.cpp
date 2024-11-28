@@ -24,8 +24,8 @@
 #include <gmock/gmock.h>
 #include "HwApiMock.h"
 
-#include "../GenericController.h"
-#include "../HeapObject.h"
+#include "../src/GenericController.h"
+#include "../src/HeapObject.h"
 
 using namespace utility;
 

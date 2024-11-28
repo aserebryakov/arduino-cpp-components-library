@@ -23,7 +23,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-#include "../RotaryEncoder.h"
+#include "../src/RotaryEncoder.h"
 #include "HwApiMock.h"
 
 using namespace ::testing;

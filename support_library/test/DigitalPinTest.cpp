@@ -24,7 +24,7 @@
 #include <gtest/gtest.h>
 #include "HwApiMock.h"
 
-#include "../DigitalPin.h"
+#include "../src/DigitalPin.h"
 
 using namespace ::testing;
 

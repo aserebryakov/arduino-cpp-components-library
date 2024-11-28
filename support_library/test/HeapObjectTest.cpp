@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 #include <gtest/gtest.h>
-#include "../HeapObject.h"
+#include "../src/HeapObject.h"
 
 using namespace utility;
 

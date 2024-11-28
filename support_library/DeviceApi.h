@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,5 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef CALLBACKAPI_H
+#define CALLBACKAPI_H
 
-#include "VolumeControl.h"
+class DeviceApi {
+public:
+    DeviceApi() = default;
+    ~DeviceApi() = default;
+
+    virtual void setup() = 0;
+    virtual void loop() = 0;
+};
+
+#endif //CALLBACKAPI_H

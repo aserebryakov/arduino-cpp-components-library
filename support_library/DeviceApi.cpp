@@ -19,16 +19,5 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#ifndef CALLBACKAPI_H
-#define CALLBACKAPI_H
 
-class CallbackApi {
-public:
-    CallbackApi() = default;
-    ~CallbackApi() = default;
-
-    virtual void setup() = 0;
-    virtual void loop() = 0;
-};
-
-#endif //CALLBACKAPI_H
+#include "DeviceApi.h"

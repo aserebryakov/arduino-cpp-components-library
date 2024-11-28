@@ -4,6 +4,7 @@
 #include "HwApiImpl.h"
 #include "DigitalPin.h"
 #include "GenericController.h"
+#include "VolumeControl.h"
 
 using utility::HeapObject;
 
@@ -17,63 +18,6 @@ const int KEYBOARD_LED_PIN = 10;
 constexpr int TICK{5};
 
 HwApiImpl hw_api{};
-
-class VolumeControl : public CallbackApi {
-public:
-  VolumeControl(HwApi& hw_api);
-  virtual ~VolumeControl() = default;
-
-  virtual void setup() override;
-
-  virtual void loop() override;
-
-  static void volumeUp(void*);
-
-  static void volumeDown(void*);
-
-  static void mute(void*);
-
-private:
-    HwApi& hw_api;
-    GenericController<1> control;
-};
-
-VolumeControl::VolumeControl(HwApi& hw_api) : 
-  hw_api{hw_api},
-  control{
-      HeapObject<Hardware>(new RotaryEncoder{
-        {DT_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {CLK_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {SW_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {volumeUp, nullptr},
-        {volumeDown, nullptr},
-        {mute, nullptr}
-        })}
-{
-}
-
-void VolumeControl::setup() {
-  Consumer.begin();
-  control.setup();
-}
-
-void VolumeControl::loop() {
-  control.loop();
-}
-
-void VolumeControl::volumeUp(void*) {
-  Consumer.write(MEDIA_VOL_UP);
-  Consumer.write(MEDIA_VOL_UP);
-}
-
-void VolumeControl::volumeDown(void*) {
-  Consumer.write(MEDIA_VOL_DOWN);
-  Consumer.write(MEDIA_VOL_DOWN);
-}
-
-void VolumeControl::mute(void*) {
-  Consumer.write(MEDIA_VOL_MUTE);
-}
 
 class MouseControl {
 public:
@@ -219,7 +163,7 @@ public:
 
 private:
     Scheduler scheduler{};
-    VolumeControl volume_control{hw_api};
+    peripherals::VolumeControl volume_control{DT_PIN, SW_PIN, CLK_PIN, hw_api};
     MouseControl mouse_control{scheduler, hw_api};
     KeyboardControl keyboard_control{scheduler, hw_api};
 };

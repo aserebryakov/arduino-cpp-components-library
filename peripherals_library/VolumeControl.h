@@ -22,10 +22,31 @@
 #ifndef VOLUMECONTROL_H
 #define VOLUMECONTROL_H
 
+#include <Arduino.h>
+#include "DeviceApi.h"
+#include "GenericController.h"
+#include "HwApi.h"
+#include <HID-Project.h>
+//#if !defined(USBCON)
+//#error HID Project can only be used with an USB MCU.
+//#endif
+
 namespace peripherals {
 
-class VolumeControl {
+class VolumeControl : public DeviceApi {
+public:
+  VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api);
+  virtual ~VolumeControl() = default;
+  virtual void setup() override;
+  virtual void loop() override;
 
+  static void volumeUp(void*);
+  static void volumeDown(void*);
+  static void mute(void*);
+
+private:
+    HwApi& hw_api;
+    GenericController<1> control;
 };
 
 }

@@ -30,8 +30,8 @@ add_library(support_library
         HeapObject.h
         Hardware.cpp
         Hardware.h
-        CallbackApi.cpp
-        CallbackApi.h
+        DeviceApi.cpp
+        DeviceApi.h
 )
 
 add_subdirectory(test)

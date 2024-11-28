@@ -24,9 +24,9 @@
 #define CONTROL_H
 
 #include "HwApi.h"
-#include "CallbackApi.h"
+#include "DeviceApi.h"
 
-class Hardware : public CallbackApi {
+class Hardware : public DeviceApi {
 public:
     Hardware() = default;
 

@@ -20,27 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CONTROL_H
-#define CONTROL_H
-
-#include "HwApi.h"
 #include "CallbackApi.h"
-
-class Hardware : public CallbackApi {
-public:
-    Hardware() = default;
-
-    Hardware(HwApi& hw_api) : hw_api(&hw_api) {
-    }
-
-    virtual ~Hardware() = default;
-
-    HwApi& getHwApi() const {
-        return *hw_api;
-    }
-
-private:
-    HwApi* hw_api{nullptr};
-};
-
-#endif //CONTROL_H

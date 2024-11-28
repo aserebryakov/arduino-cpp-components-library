@@ -18,33 +18,29 @@ constexpr int TICK{5};
 
 HwApiImpl hw_api{};
 
-class VolumeControl {
+class VolumeControl : public CallbackApi {
 public:
-  void setup() {
-    Consumer.begin();
-    control.setup();
-  }
+  VolumeControl(HwApi& hw_api);
+  virtual ~VolumeControl() = default;
 
-  void loop() {
-    control.loop();
-  }
+  virtual void setup() override;
 
-  static void volumeUp(void*) {
-    Consumer.write(MEDIA_VOL_UP);
-    Consumer.write(MEDIA_VOL_UP);
-  }
+  virtual void loop() override;
 
-  static void volumeDown(void*) {
-    Consumer.write(MEDIA_VOL_DOWN);
-    Consumer.write(MEDIA_VOL_DOWN);
-  }
+  static void volumeUp(void*);
 
-  static void mute(void*) {
-    Consumer.write(MEDIA_VOL_MUTE);
-  }
+  static void volumeDown(void*);
+
+  static void mute(void*);
 
 private:
-    GenericController<1> control{
+    HwApi& hw_api;
+    GenericController<1> control;
+};
+
+VolumeControl::VolumeControl(HwApi& hw_api) : 
+  hw_api{hw_api},
+  control{
       HeapObject<Hardware>(new RotaryEncoder{
         {DT_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
         {CLK_PIN, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
@@ -52,9 +48,32 @@ private:
         {volumeUp, nullptr},
         {volumeDown, nullptr},
         {mute, nullptr}
-        })};
-};
+        })}
+{
+}
 
+void VolumeControl::setup() {
+  Consumer.begin();
+  control.setup();
+}
+
+void VolumeControl::loop() {
+  control.loop();
+}
+
+void VolumeControl::volumeUp(void*) {
+  Consumer.write(MEDIA_VOL_UP);
+  Consumer.write(MEDIA_VOL_UP);
+}
+
+void VolumeControl::volumeDown(void*) {
+  Consumer.write(MEDIA_VOL_DOWN);
+  Consumer.write(MEDIA_VOL_DOWN);
+}
+
+void VolumeControl::mute(void*) {
+  Consumer.write(MEDIA_VOL_MUTE);
+}
 
 class MouseControl {
 public:
@@ -200,7 +219,7 @@ public:
 
 private:
     Scheduler scheduler{};
-    VolumeControl volume_control{};
+    VolumeControl volume_control{hw_api};
     MouseControl mouse_control{scheduler, hw_api};
     KeyboardControl keyboard_control{scheduler, hw_api};
 };

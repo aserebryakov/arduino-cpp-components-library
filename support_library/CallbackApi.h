@@ -19,28 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef CALLBACKAPI_H
+#define CALLBACKAPI_H
 
-#ifndef CONTROL_H
-#define CONTROL_H
-
-#include "HwApi.h"
-#include "CallbackApi.h"
-
-class Hardware : public CallbackApi {
+class CallbackApi {
 public:
-    Hardware() = default;
+    CallbackApi() = default;
+    ~CallbackApi() = default;
 
-    Hardware(HwApi& hw_api) : hw_api(&hw_api) {
-    }
-
-    virtual ~Hardware() = default;
-
-    HwApi& getHwApi() const {
-        return *hw_api;
-    }
-
-private:
-    HwApi* hw_api{nullptr};
+    virtual void setup() = 0;
+    virtual void loop() = 0;
 };
 
-#endif //CONTROL_H
+#endif //CALLBACKAPI_H

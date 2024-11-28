@@ -18,13 +18,13 @@ classDiagram
         - controls : list
     }
     
-    class Control {
+    class CallbackApi {
         <<interface>>
         + setup() = 0
         + loop() = 0
     }
     
-    class GenericControl {
+    class Hardware {
         + ctor(HwApi&)
         + setup() = 0
         + loop() = 0
@@ -35,7 +35,6 @@ classDiagram
         + ctor(dt, clk, sw)
         + setup()
         + loop()
-        - pins
     }
     
     class DigitalPin {
@@ -54,10 +53,11 @@ classDiagram
         + operator()
     }
     
-    GenericControl --|> Control : implements
-    RotaryEncoder --|> GenericControl : implements
-    DigitalPin --|> GenericControl : implements
-    DigitalPin "3" --* "1" RotaryEncoder : 
-    Control "*" --* "1" GenericController
-    HwApi "1" --o "1" GenericControl
+    Hardware --|> CallbackApi : implements
+    RotaryEncoder --|> Hardware : implements
+    DigitalPin --|> Hardware : implements
+    CallbackApi "*" --* "1" GenericController
+    HwApi "1" --o "1" Hardware
+    Callback "1" --* "*" DigitalPin
+    Callback "1" --* "*" RotaryEncoder
 ```

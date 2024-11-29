@@ -4,7 +4,7 @@
 #include "HwApiImpl.h"
 #include "DigitalPin.h"
 #include "GenericController.h"
-#include "VolumeControl.h"
+#include "peripherals/VolumeControl.h"
 
 using utility::HeapObject;
 
@@ -149,15 +149,15 @@ class Controller {
 public:
   void setup() {
     volume_control.setup();
-    mouse_control.setup();
-    keyboard_control.setup();
+    // mouse_control.setup();
+    // keyboard_control.setup();
   }
 
   void loop() {
     volume_control.loop();
-    mouse_control.loop();
-    keyboard_control.loop();
-    scheduler.tick(TICK);
+    // mouse_control.loop();
+    // keyboard_control.loop();
+    // scheduler.tick(TICK);
     delay(TICK);
   }
 

@@ -27,9 +27,6 @@
 #include "GenericController.h"
 #include "HwApi.h"
 #include <HID-Project.h>
-//#if !defined(USBCON)
-//#error HID Project can only be used with an USB MCU.
-//#endif
 
 namespace peripherals {
 

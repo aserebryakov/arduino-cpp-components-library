@@ -85,7 +85,7 @@ TEST_F(DigitalPinTest, CallbackTest) {
         hwApiMock
     };
 
-    pin.setup();
+    pin.begin();
 
     pin.loop();
     EXPECT_EQ(on_high_low_calls, 1);

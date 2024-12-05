@@ -44,7 +44,7 @@ PIN_CHANGE DigitalPin::getPinChange() const {
     return PIN_CHANGE::LOW_HIGH;
 }
 
-void DigitalPin::setup() {
+void DigitalPin::begin() {
     getHwApi().pinMode(pin_number, pin_mode);
 }
 

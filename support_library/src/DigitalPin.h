@@ -85,7 +85,7 @@ public:
      */
     PIN_CHANGE getPinChange() const;
 
-    void setup() override;
+    void begin() override;
     void loop() override;
 
 private:

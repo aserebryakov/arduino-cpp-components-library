@@ -36,7 +36,7 @@ public:
 
     virtual ~TestControl1() override = default;
 
-    virtual void setup() override {
+    virtual void begin() override {
         getHwApi().digitalRead(1);
     }
 
@@ -52,7 +52,7 @@ public:
 
     virtual ~TestControl2() override = default;
 
-    virtual void setup() override {
+    virtual void begin() override {
         getHwApi().digitalRead(2);
     }
 
@@ -80,7 +80,7 @@ TEST(GeneticControllerTest, SetupTest) {
         HeapObject<Hardware>(new TestControl2(hw_api_mock))
     };
 
-    controller.setup();
+    controller.begin();
 }
 
 TEST(GeneticControllerTest, LoopTest) {

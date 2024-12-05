@@ -36,7 +36,7 @@ class VolumeControl : public DeviceApi {
 public:
   VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api);
   virtual ~VolumeControl() = default;
-  virtual void setup() override;
+  virtual void begin() override;
   virtual void loop() override;
 
   static void volumeUp(void*);
@@ -62,9 +62,9 @@ inline VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const i
 {
 }
 
-inline void VolumeControl::setup() {
+inline void VolumeControl::begin() {
     Consumer.begin();
-    control.setup();
+    control.begin();
 }
 
 inline void VolumeControl::loop() {

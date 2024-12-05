@@ -35,32 +35,32 @@ void setValue(const size_t index, utility::HeapObject<Hardware> storage[], First
     setValue(index + 1, storage, rest...);
 }
 
-static void setValue(const size_t index, utility::HeapObject<Hardware> storage[]) {
+static void setValue(const size_t, utility::HeapObject<Hardware>[]) {
 }
 
-template <size_t NumberOfControls>
+template <size_t NumberOfHardwareDevices>
 class GenericController {
 public:
     template <typename... Args>
     GenericController(Args&&... args) {
-        static_assert((sizeof...(Args)) == NumberOfControls, "Wrong number of controls");
-        setValue(0, controls, args...);
+        static_assert((sizeof...(Args)) == NumberOfHardwareDevices, "Wrong number of hardware devices");
+        setValue(0, devices, args...);
     }
 
-    void setup() {
-        for (auto& control : controls) {
-            control->setup();
+    void begin() {
+        for (auto& device : devices) {
+            device->begin();
         }
     }
 
     void loop() {
-        for (auto& control : controls) {
-            control->loop();
+        for (auto& device : devices) {
+            device->loop();
         }
     }
 
 private:
-    utility::HeapObject<Hardware> controls[NumberOfControls];
+    utility::HeapObject<Hardware> devices[NumberOfHardwareDevices];
 };
 
 

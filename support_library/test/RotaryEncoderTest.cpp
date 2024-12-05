@@ -66,7 +66,7 @@ TEST_F(RotaryEncoderTest, SetupTest) {
         DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock}
     };
 
-    encoder.setup();
+    encoder.begin();
 }
 
 TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {

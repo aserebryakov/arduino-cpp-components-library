@@ -56,10 +56,10 @@ void RotaryEncoder::readRotation() {
     }
 }
 
-void RotaryEncoder::setup() {
-    dt_pin.setup();
-    clk_pin.setup();
-    sw_pin.setup();
+void RotaryEncoder::begin() {
+    dt_pin.begin();
+    clk_pin.begin();
+    sw_pin.begin();
 }
 
 void RotaryEncoder::loop() {

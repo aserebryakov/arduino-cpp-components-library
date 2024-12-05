@@ -54,7 +54,7 @@ public:
      */
     void readPins();
 
-    void setup() override;
+    void begin() override;
     void loop() override;
 
 private:

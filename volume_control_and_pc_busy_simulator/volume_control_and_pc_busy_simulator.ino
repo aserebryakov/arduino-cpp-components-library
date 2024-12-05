@@ -31,10 +31,10 @@ public:
       })} {
   }
 
-  void setup() {
+  void begin() {
     Mouse.begin();
     hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
-    control.setup();
+    control.begin();
   }
 
   void loop() {
@@ -97,10 +97,10 @@ public:
       })} {
   }
 
-  void setup() {
+  void begin() {
     Keyboard.begin();
     hw_api.pinMode(KEYBOARD_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
-    control.setup();
+    control.begin();
   }
 
   void loop() {
@@ -147,10 +147,10 @@ private:
 
 class Controller {
 public:
-  void setup() {
-    volume_control.setup();
-    // mouse_control.setup();
-    // keyboard_control.setup();
+  void begin() {
+    volume_control.begin();
+    // mouse_control.begin();
+    // keyboard_control.begin();
   }
 
   void loop() {
@@ -171,7 +171,7 @@ private:
 Controller controller{};
 
 void setup() {
-  controller.setup();
+  controller.begin();
   Serial.begin(9600);
   Serial.println(42);
 }

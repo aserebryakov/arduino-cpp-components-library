@@ -27,7 +27,7 @@ public:
     DeviceApi() = default;
     ~DeviceApi() = default;
 
-    virtual void setup() = 0;
+    virtual void begin() = 0;
     virtual void loop() = 0;
 };
 

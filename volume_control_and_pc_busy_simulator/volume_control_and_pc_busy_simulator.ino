@@ -4,7 +4,7 @@
 #include "HwApiImpl.h"
 #include "DigitalPin.h"
 #include "GenericController.h"
-#include "peripherals/VolumeControl.h"
+#include "VolumeControl.h"
 
 using utility::HeapObject;
 

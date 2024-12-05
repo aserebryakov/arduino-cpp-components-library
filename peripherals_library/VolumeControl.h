@@ -19,16 +19,36 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef VOLUMECONTROL_H
+#define VOLUMECONTROL_H
 
-//#define USBCON // The actual check is propagated to header.
-#include "VolumeControl.h"
+#include <Arduino.h>
+#include <HID-Project.h>
+#include "DeviceApi.h"
+#include "GenericController.h"
+#include "HwApi.h"
 #include "HeapObject.h"
 #include "RotaryEncoder.h"
-#include "HID-Project.h"
 
 namespace peripherals {
 
-VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api) :
+class VolumeControl : public DeviceApi {
+public:
+  VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api);
+  virtual ~VolumeControl() = default;
+  virtual void setup() override;
+  virtual void loop() override;
+
+  static void volumeUp(void*);
+  static void volumeDown(void*);
+  static void mute(void*);
+
+private:
+    HwApi& hw_api;
+    GenericController<1> control;
+};
+
+inline VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api) :
   hw_api{hw_api},
   control{
       utility::HeapObject<Hardware>(new RotaryEncoder{
@@ -42,27 +62,29 @@ VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const int sw_p
 {
 }
 
-void VolumeControl::setup() {
-  Consumer.begin();
-  control.setup();
+inline void VolumeControl::setup() {
+    Consumer.begin();
+    control.setup();
 }
 
-void VolumeControl::loop() {
-  control.loop();
+inline void VolumeControl::loop() {
+    control.loop();
 }
 
-void VolumeControl::volumeUp(void*) {
-  Consumer.write(MEDIA_VOL_UP);
-  Consumer.write(MEDIA_VOL_UP);
+inline void VolumeControl::volumeUp(void*) {
+    Consumer.write(MEDIA_VOL_UP);
+    Consumer.write(MEDIA_VOL_UP);
 }
 
-void VolumeControl::volumeDown(void*) {
-  Consumer.write(MEDIA_VOL_DOWN);
-  Consumer.write(MEDIA_VOL_DOWN);
+inline void VolumeControl::volumeDown(void*) {
+    Consumer.write(MEDIA_VOL_DOWN);
+    Consumer.write(MEDIA_VOL_DOWN);
 }
 
-void VolumeControl::mute(void*) {
-  Consumer.write(MEDIA_VOL_MUTE);
+inline void VolumeControl::mute(void*) {
+    Consumer.write(MEDIA_VOL_MUTE);
 }
 
 }
+
+#endif //VOLUMECONTROL_H

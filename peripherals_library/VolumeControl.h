@@ -35,7 +35,7 @@ namespace peripherals {
 class VolumeControl : public DeviceApi {
 public:
   VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api);
-  virtual ~VolumeControl() = default;
+  virtual ~VolumeControl() override = default;
   virtual void begin() override;
   virtual void loop() override;
 

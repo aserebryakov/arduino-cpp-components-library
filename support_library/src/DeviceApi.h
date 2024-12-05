@@ -25,7 +25,7 @@
 class DeviceApi {
 public:
     DeviceApi() = default;
-    ~DeviceApi() = default;
+    virtual ~DeviceApi() = default;
 
     virtual void begin() = 0;
     virtual void loop() = 0;

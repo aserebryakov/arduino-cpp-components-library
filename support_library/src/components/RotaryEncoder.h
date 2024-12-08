@@ -24,13 +24,13 @@
 #define ROTARYENCODER_H
 
 #include "Callback.h"
-#include "DigitalPin.h"
-#include "ComponentApi.h"
+#include "DigitalInputPin.h"
+#include "Component.h"
 
 /**
  * Implements rotary encoder functionality.
  */
-class RotaryEncoder : public ComponentApi {
+class RotaryEncoder : public Component {
 public:
     /**
       * Constructor.
@@ -42,7 +42,7 @@ public:
       * @param on_turn_counterclockwise counterclockwise turn callback
       * @param on_push_button push button callback
       */
-    RotaryEncoder(DigitalPin&& dt_pin, DigitalPin&& clk_pin, DigitalPin&& sw_pin, Callback&& on_turn_clockwise = {},
+    RotaryEncoder(DigitalInputPin&& dt_pin, DigitalInputPin&& clk_pin, DigitalInputPin&& sw_pin, Callback&& on_turn_clockwise = {},
                   Callback&& on_turn_counterclockwise = {}, Callback&& on_push_button = {});
 
 
@@ -59,9 +59,9 @@ public:
 private:
     void readRotation();
 
-    DigitalPin dt_pin;
-    DigitalPin clk_pin;
-    DigitalPin sw_pin;
+    DigitalInputPin dt_pin;
+    DigitalInputPin clk_pin;
+    DigitalInputPin sw_pin;
     Callback on_turn_clockwise{};
     Callback on_turn_counterclockwise{};
     Callback on_push_button{};

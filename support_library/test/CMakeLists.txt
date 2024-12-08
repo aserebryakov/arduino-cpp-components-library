@@ -8,7 +8,7 @@ add_executable(
         RotaryEncoderTest.cpp
         HwApiMock.cpp
         HwApiMock.h
-        DigitalPinTest.cpp
+        DigitalInputPinTest.cpp
         GenericControllerTest.cpp
         HeapObjectTest.cpp
 )

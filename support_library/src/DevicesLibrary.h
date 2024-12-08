@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -19,16 +20,20 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#ifndef CALLBACKAPI_H
-#define CALLBACKAPI_H
 
-class PinApi {
-public:
-    PinApi() = default;
-    virtual ~PinApi() = default;
+#ifndef DEVICESLIBRARY_H
+#define DEVICESLIBRARY_H
 
-    virtual void begin() = 0;
-    virtual void loop() = 0;
-};
+#include "interfaces/HwApi.h"
+#include "utilities/Callback.h"
+#include "utilities/HeapObject.h"
+#include "utilities/Scheduler.h"
+#include "pins/DigitalInputPin.h"
+#include "pins/Pin.h"
+#include "components/Component.h"
+#include "components/RotaryEncoder.h"
+#include "devices/Device.h"
+#include "devices/GenericController.h"
+#include "HwApiImpl.h"
 
-#endif //CALLBACKAPI_H
+#endif //DEVICESLIBRARY_H

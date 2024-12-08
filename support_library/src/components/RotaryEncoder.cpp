@@ -22,7 +22,7 @@
 
 #include "RotaryEncoder.h"
 
-RotaryEncoder::RotaryEncoder(DigitalPin&& dt_pin, DigitalPin&& clk_pin, DigitalPin&& sw_pin,
+RotaryEncoder::RotaryEncoder(DigitalInputPin&& dt_pin, DigitalInputPin&& clk_pin, DigitalInputPin&& sw_pin,
                              Callback&& on_turn_clockwise, Callback&& on_turn_counterclockwise,
                              Callback&& on_push_button) : dt_pin{dt_pin},
                                                           clk_pin{clk_pin}, sw_pin{sw_pin},

@@ -49,9 +49,9 @@ protected:
 
 TEST_F(RotaryEncoderTest, Constuction) {
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock}
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock}
     };
 }
 
@@ -61,9 +61,9 @@ TEST_F(RotaryEncoderTest, SetupTest) {
     EXPECT_CALL(hw_api_mock, pinMode(SW_PIN, HwApi::PIN_MODE::INPUT_MODE)).Times(1);
 
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock}
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock}
     };
 
     encoder.begin();
@@ -76,9 +76,9 @@ TEST_F(RotaryEncoderTest, OnTurnClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(2).WillRepeatedly(Return(HwApi::LEVEL_LOW));
 
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
         {TestCallback::callback, &callback},
         {},
         {}
@@ -97,9 +97,9 @@ TEST_F(RotaryEncoderTest, OnTurnCounterClockwiseTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(CLK_PIN)).Times(2).WillRepeatedly(Return(HwApi::LEVEL_HIGH));
 
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
         {},
         {TestCallback::callback, &callback},
         {}
@@ -116,9 +116,9 @@ TEST_F(RotaryEncoderTest, OnPushButtonTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(2).WillRepeatedly(Return(HwApi::LEVEL_LOW));
 
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
         {},
         {},
         {TestCallback::callback, &callback}
@@ -135,9 +135,9 @@ TEST_F(RotaryEncoderTest, OnPushButtonLoopTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(SW_PIN)).Times(2).WillRepeatedly(Return(HwApi::LEVEL_LOW));
 
     RotaryEncoder encoder{
-        DigitalPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
-        DigitalPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{DT_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{CLK_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
+        DigitalInputPin{SW_PIN, HwApi::PIN_MODE::INPUT_MODE, hw_api_mock},
         {},
         {},
         {TestCallback::callback, &callback}

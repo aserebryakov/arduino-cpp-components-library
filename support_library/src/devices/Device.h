@@ -19,16 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#ifndef COMPONENTAPI_H
-#define COMPONENTAPI_H
+#ifndef DEVICEAPI_H
+#define DEVICEAPI_H
 
-class ComponentApi {
+class Device {
 public:
-    ComponentApi() = default;
-    virtual ~ComponentApi() = default;
+    Device() = default;
+    virtual ~Device() = default;
 
     virtual void begin() = 0;
     virtual void loop() = 0;
 };
 
-#endif //COMPONENTAPI_H
+#endif //DEVICEAPI_H

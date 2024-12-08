@@ -19,5 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef COMPONENTAPI_H
+#define COMPONENTAPI_H
 
-#include "PinApi.h"
+class Component {
+public:
+    Component() = default;
+    virtual ~Component() = default;
+
+    virtual void begin() = 0;
+    virtual void loop() = 0;
+};
+
+#endif //COMPONENTAPI_H

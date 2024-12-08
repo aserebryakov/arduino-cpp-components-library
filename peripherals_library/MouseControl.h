@@ -28,18 +28,18 @@
 #include "HwApi.h"
 #include "Scheduler.h"
 #include "HwApi.h"
-#include "DeviceApi.h"
+#include "Device.h"
 #include "GenericController.h"
 #include "HeapObject.h"
-#include "DigitalPin.h"
+#include "components/DigitalInputPin.h"
 
 
 namespace peripherals {
 
-class MouseControl : public DeviceApi {
+class MouseControl : public Device {
 public:
     MouseControl(const int switch_pin, Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
-        utility::HeapObject<Hardware>(new DigitalPin{
+        utility::HeapObject<Component>(new DigitalInputPin{
           switch_pin,
           HwApi::PIN_MODE::INPUT_PULLUP_MODE,
           {onSwitch, this},

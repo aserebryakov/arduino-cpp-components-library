@@ -20,19 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "DigitalPin.h"
+#include "DigitalInputPin.h"
 
-DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api) : hw_api{&hw_api},
+DigitalInputPin::DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api) : hw_api{&hw_api},
     pin_number{pin_number}, pin_mode{pin_mode} {
 }
 
-DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
-                       Callback&& on_high_low_change, HwApi& hwapi) : DigitalPin{pin_number, pin_mode, hwapi} {
+DigitalInputPin::DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
+                       Callback&& on_high_low_change, HwApi& hwapi) : DigitalInputPin{pin_number, pin_mode, hwapi} {
     on_low_high_change_callback = on_low_high_change;
     on_high_low_change_callback = on_high_low_change;
 }
 
-PIN_CHANGE DigitalPin::getPinChange() const {
+PIN_CHANGE DigitalInputPin::getPinChange() const {
     if (previous_level == current_level) {
         return PIN_CHANGE::NONE;
     }
@@ -44,11 +44,11 @@ PIN_CHANGE DigitalPin::getPinChange() const {
     return PIN_CHANGE::LOW_HIGH;
 }
 
-void DigitalPin::begin() {
+void DigitalInputPin::begin() {
     hw_api->pinMode(pin_number, pin_mode);
 }
 
-void DigitalPin::loop() {
+void DigitalInputPin::loop() {
     read();
 
     if (getPinChange() == PIN_CHANGE::HIGH_LOW) {
@@ -60,12 +60,12 @@ void DigitalPin::loop() {
     }
 }
 
-HwApi::DIGITAL_PIN_LEVEL DigitalPin::read() {
+HwApi::DIGITAL_PIN_LEVEL DigitalInputPin::read() {
     previous_level = current_level;
     current_level = hw_api->digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
     return current_level;
 }
 
-HwApi::DIGITAL_PIN_LEVEL DigitalPin::getLevel() const {
+HwApi::DIGITAL_PIN_LEVEL DigitalInputPin::getLevel() const {
     return current_level;
 }

@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <ComponentApi.h>
+#include <Component.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "HwApiMock.h"
@@ -30,7 +30,7 @@
 
 using namespace utility;
 
-class TestControl1 : public ComponentApi {
+class TestControl1 : public Component {
 public:
     TestControl1(HwApi& hw_api) : hw_api(hw_api) {
     }
@@ -49,7 +49,7 @@ private:
     HwApi& hw_api;
 };
 
-class TestControl2 : public ComponentApi {
+class TestControl2 : public Component {
 public:
     TestControl2(HwApi& hw_api) : hw_api(hw_api) {
     }
@@ -72,8 +72,8 @@ TEST(GeneticControllerTest, Construction) {
     HwApiMock hw_api_mock{};
 
     GenericController<2> controller{
-        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
-        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
+        HeapObject<Component>(new TestControl1(hw_api_mock)),
+        HeapObject<Component>(new TestControl2(hw_api_mock))
     };
 }
 
@@ -83,8 +83,8 @@ TEST(GeneticControllerTest, SetupTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
 
     GenericController<2> controller{
-        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
-        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
+        HeapObject<Component>(new TestControl1(hw_api_mock)),
+        HeapObject<Component>(new TestControl2(hw_api_mock))
     };
 
     controller.begin();
@@ -96,8 +96,8 @@ TEST(GeneticControllerTest, LoopTest) {
     EXPECT_CALL(hw_api_mock, digitalWrite(2, 2)).Times(1);
 
     GenericController<2> controller{
-        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
-        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
+        HeapObject<Component>(new TestControl1(hw_api_mock)),
+        HeapObject<Component>(new TestControl2(hw_api_mock))
     };
 
     controller.loop();

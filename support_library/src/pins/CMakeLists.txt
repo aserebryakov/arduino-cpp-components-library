@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.29)
 
 add_library(pins_library STATIC
-        DigitalPin.h
-        DigitalPin.cpp
-        PinApi.h
-        PinApi.cpp
+        DigitalInputPin.h
+        DigitalInputPin.cpp
+        Pin.h
+        Pin.cpp
 )
 
 target_include_directories(pins_library PUBLIC

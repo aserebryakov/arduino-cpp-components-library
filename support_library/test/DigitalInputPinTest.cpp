@@ -24,39 +24,39 @@
 #include <gtest/gtest.h>
 #include "HwApiMock.h"
 
-#include "DigitalPin.h"
+#include "DigitalInputPin.h"
 
 using namespace ::testing;
 
-class DigitalPinTest : public Test {
+class DigitalInputPinTest : public Test {
 protected:
     NiceMock<HwApiMock> hwApiMock{};
 
     static void onLowHighChange(void* self) {
-        (static_cast<DigitalPinTest*>(self)->on_low_high_calls)++;
+        (static_cast<DigitalInputPinTest*>(self)->on_low_high_calls)++;
     }
 
     static void onHighLowChange(void* self) {
-        (static_cast<DigitalPinTest*>(self)->on_high_low_calls)++;
+        (static_cast<DigitalInputPinTest*>(self)->on_high_low_calls)++;
     }
 
     int on_low_high_calls{0};
     int on_high_low_calls{0};
 };
 
-TEST_F(DigitalPinTest, Construction) {
-    DigitalPin pin{0, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
+TEST_F(DigitalInputPinTest, Construction) {
+    DigitalInputPin pin{0, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
     EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
 }
 
-TEST_F(DigitalPinTest, ReadTest) {
+TEST_F(DigitalInputPinTest, ReadTest) {
     EXPECT_CALL(hwApiMock, digitalRead(42)).Times(3)
         .WillOnce(Return(HwApi::LEVEL_LOW))
         .WillOnce(Return(HwApi::LEVEL_LOW))
         .WillOnce(Return(HwApi::LEVEL_HIGH));
 
-    DigitalPin pin{42, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
+    DigitalInputPin pin{42, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
     EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::HIGH_LOW);
@@ -70,7 +70,7 @@ TEST_F(DigitalPinTest, ReadTest) {
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::LOW_HIGH);
 }
 
-TEST_F(DigitalPinTest, CallbackTest) {
+TEST_F(DigitalInputPinTest, CallbackTest) {
     EXPECT_CALL(hwApiMock, pinMode(42, HwApi::PIN_MODE::INPUT_PULLUP_MODE)).Times(1);
 
     EXPECT_CALL(hwApiMock, digitalRead(42)).Times(3)
@@ -78,7 +78,7 @@ TEST_F(DigitalPinTest, CallbackTest) {
         .WillOnce(Return(HwApi::LEVEL_LOW))
         .WillOnce(Return(HwApi::LEVEL_HIGH));
 
-    DigitalPin pin{
+    DigitalInputPin pin{
         42, HwApi::PIN_MODE::INPUT_PULLUP_MODE,
         {onLowHighChange,this},
         {onHighLowChange, this},

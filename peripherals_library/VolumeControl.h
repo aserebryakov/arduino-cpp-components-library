@@ -24,15 +24,15 @@
 
 #include <Arduino.h>
 #include <HID-Project.h>
-#include "DeviceApi.h"
+#include "Device.h"
 #include "GenericController.h"
 #include "HwApi.h"
 #include "HeapObject.h"
-#include "RotaryEncoder.h"
+#include "components/RotaryEncoder.h"
 
 namespace peripherals {
 
-class VolumeControl : public DeviceApi {
+class VolumeControl : public Device {
 public:
   VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api);
   virtual ~VolumeControl() override = default;
@@ -51,7 +51,7 @@ private:
 inline VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api) :
   hw_api{hw_api},
   control{
-      utility::HeapObject<Hardware>(new RotaryEncoder{
+      utility::HeapObject<Component>(new RotaryEncoder{
         {dt_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
         {clk_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
         {sw_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},

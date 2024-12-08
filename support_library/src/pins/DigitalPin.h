@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ROTARYENCODERPINIMPL_H
-#define ROTARYENCODERPINIMPL_H
+#ifndef DIGITALINPUTPINIMPL_H
+#define DIGITALINPUTPINIMPL_H
 
 #include "HwApi.h"
 #include "Callback.h"
-#include "Hardware.h"
+#include "PinApi.h"
 
 enum class PIN_CHANGE {
     LOW_HIGH,
@@ -36,17 +36,17 @@ enum class PIN_CHANGE {
 /**
  * Represents abstraction level for digital pin.
  */
-class DigitalPin : public Hardware {
+class DigitalPin : public PinApi {
 public:
     /**
       * Constructor.
       *
       * @param[in] pin_number Pin number
       * @param[in] pin_mode Pin mode
-      * @param[in] hwapi Hardware API implementation reference
+      * @param[in] hw_api Hardware API implementation reference
       *
       */
-    DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hwapi);
+    DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api);
 
     /**
      * Constructor.
@@ -55,10 +55,10 @@ public:
      * @param pin_mode Pin mode
      * @param on_low_high_change Callback for change from LOW to HIGH
      * @param on_high_low_change Callback for change from HIGH to LOW
-     * @param hwapi Hardware API implementation reference
+     * @param hw_api Hardware API implementation reference
      */
     DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
-               Callback&& on_high_low_change, HwApi& hwapi);
+               Callback&& on_high_low_change, HwApi& hw_api);
 
     virtual ~DigitalPin() override = default;
 
@@ -89,6 +89,7 @@ public:
     void loop() override;
 
 private:
+    HwApi* hw_api{nullptr};
     int pin_number;
     HwApi::PIN_MODE pin_mode;
     Callback on_low_high_change_callback;
@@ -97,4 +98,4 @@ private:
     HwApi::DIGITAL_PIN_LEVEL previous_level{HwApi::LEVEL_HIGH};
 };
 
-#endif //ROTARYENCODERPINIMPL_H
+#endif //DIGITALINPUTPINIMPL_H

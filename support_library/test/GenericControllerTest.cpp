@@ -20,53 +20,60 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <ComponentApi.h>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "HwApiMock.h"
 
-#include "../src/GenericController.h"
-#include "../src/HeapObject.h"
+#include "GenericController.h"
+#include "HeapObject.h"
 
 using namespace utility;
 
-class TestControl1 : public Hardware {
+class TestControl1 : public ComponentApi {
 public:
-    TestControl1(HwApi& hw_api) : Hardware(hw_api) {
+    TestControl1(HwApi& hw_api) : hw_api(hw_api) {
     }
 
     virtual ~TestControl1() override = default;
 
     virtual void begin() override {
-        getHwApi().digitalRead(1);
+        hw_api.digitalRead(1);
     }
 
     virtual void loop() override {
-        getHwApi().digitalWrite(1, 1);
+        hw_api.digitalWrite(1, 1);
     }
+
+private:
+    HwApi& hw_api;
 };
 
-class TestControl2 : public Hardware {
+class TestControl2 : public ComponentApi {
 public:
-    TestControl2(HwApi& hw_api) : Hardware(hw_api) {
+    TestControl2(HwApi& hw_api) : hw_api(hw_api) {
     }
 
     virtual ~TestControl2() override = default;
 
     virtual void begin() override {
-        getHwApi().digitalRead(2);
+        hw_api.digitalRead(2);
     }
 
     virtual void loop() override {
-        getHwApi().digitalWrite(2, 2);
+        hw_api.digitalWrite(2, 2);
     }
+
+private:
+    HwApi& hw_api;
 };
 
 TEST(GeneticControllerTest, Construction) {
     HwApiMock hw_api_mock{};
 
     GenericController<2> controller{
-        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
-        HeapObject<Hardware>(new TestControl2(hw_api_mock))
+        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
+        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
     };
 }
 
@@ -76,8 +83,8 @@ TEST(GeneticControllerTest, SetupTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
 
     GenericController<2> controller{
-        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
-        HeapObject<Hardware>(new TestControl2(hw_api_mock))
+        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
+        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
     };
 
     controller.begin();
@@ -89,8 +96,8 @@ TEST(GeneticControllerTest, LoopTest) {
     EXPECT_CALL(hw_api_mock, digitalWrite(2, 2)).Times(1);
 
     GenericController<2> controller{
-        HeapObject<Hardware>(new TestControl1(hw_api_mock)),
-        HeapObject<Hardware>(new TestControl2(hw_api_mock))
+        HeapObject<ComponentApi>(new TestControl1(hw_api_mock)),
+        HeapObject<ComponentApi>(new TestControl2(hw_api_mock))
     };
 
     controller.loop();

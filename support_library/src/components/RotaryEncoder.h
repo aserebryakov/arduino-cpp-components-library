@@ -20,27 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CONTROL_H
-#define CONTROL_H
+#ifndef ROTARYENCODER_H
+#define ROTARYENCODER_H
 
-#include "HwApi.h"
-#include "DeviceApi.h"
+#include "Callback.h"
+#include "DigitalPin.h"
+#include "ComponentApi.h"
 
-class Hardware : public DeviceApi {
+/**
+ * Implements rotary encoder functionality.
+ */
+class RotaryEncoder : public ComponentApi {
 public:
-    Hardware() = default;
+    /**
+      * Constructor.
+      *
+      * @param dt_pin DT pin
+      * @param clk_pin CLK pin
+      * @param sw_pin SW pin
+      * @param on_turn_clockwise clockwise turn callback
+      * @param on_turn_counterclockwise counterclockwise turn callback
+      * @param on_push_button push button callback
+      */
+    RotaryEncoder(DigitalPin&& dt_pin, DigitalPin&& clk_pin, DigitalPin&& sw_pin, Callback&& on_turn_clockwise = {},
+                  Callback&& on_turn_counterclockwise = {}, Callback&& on_push_button = {});
 
-    Hardware(HwApi& hw_api) : hw_api(&hw_api) {
-    }
 
-    virtual ~Hardware() = default;
+    virtual ~RotaryEncoder() override = default;
 
-    HwApi& getHwApi() const {
-        return *hw_api;
-    }
+    /**
+     * Reads pins levels and calls callbacks.
+     */
+    void readPins();
+
+    void begin() override;
+    void loop() override;
 
 private:
-    HwApi* hw_api{nullptr};
+    void readRotation();
+
+    DigitalPin dt_pin;
+    DigitalPin clk_pin;
+    DigitalPin sw_pin;
+    Callback on_turn_clockwise{};
+    Callback on_turn_counterclockwise{};
+    Callback on_push_button{};
 };
 
-#endif //CONTROL_H
+#endif //ROTARYENCODER_H

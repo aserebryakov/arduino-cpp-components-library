@@ -22,7 +22,7 @@
 
 #include "DigitalPin.h"
 
-DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hwapi) : Hardware{hwapi},
+DigitalPin::DigitalPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api) : hw_api{&hw_api},
     pin_number{pin_number}, pin_mode{pin_mode} {
 }
 
@@ -45,7 +45,7 @@ PIN_CHANGE DigitalPin::getPinChange() const {
 }
 
 void DigitalPin::begin() {
-    getHwApi().pinMode(pin_number, pin_mode);
+    hw_api->pinMode(pin_number, pin_mode);
 }
 
 void DigitalPin::loop() {
@@ -62,7 +62,7 @@ void DigitalPin::loop() {
 
 HwApi::DIGITAL_PIN_LEVEL DigitalPin::read() {
     previous_level = current_level;
-    current_level = getHwApi().digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
+    current_level = hw_api->digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
     return current_level;
 }
 

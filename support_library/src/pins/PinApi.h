@@ -19,5 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef CALLBACKAPI_H
+#define CALLBACKAPI_H
 
-#include "DeviceApi.h"
+class PinApi {
+public:
+    PinApi() = default;
+    virtual ~PinApi() = default;
+
+    virtual void begin() = 0;
+    virtual void loop() = 0;
+};
+
+#endif //CALLBACKAPI_H

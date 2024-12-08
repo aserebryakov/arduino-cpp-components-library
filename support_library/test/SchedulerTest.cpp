@@ -22,8 +22,8 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Scheduler.h"
-#include "../src/Callback.h"
+#include "Scheduler.h"
+#include "Callback.h"
 
 class TestTask {
 public:

@@ -27,17 +27,17 @@
 
 #include "HwApi.h"
 #include "HeapObject.h"
-#include "Hardware.h"
+#include "ComponentApi.h"
 
 template <typename First, typename... Rest>
-void setValue(const size_t index, utility::HeapObject<Hardware> storage[], First&& first, Rest&&... rest) {
-    storage[index] = static_cast<utility::HeapObject<Hardware>&&>(first); // effectively replaces std::move but not 100% correct
+void setValue(const size_t index, utility::HeapObject<ComponentApi> storage[], First&& first, Rest&&... rest) {
+    storage[index] = static_cast<utility::HeapObject<ComponentApi>&&>(first); // effectively replaces std::move but not 100% correct
     setValue(index + 1, storage, rest...);
 }
 
 template <typename Last>
-void setValue(const size_t index, utility::HeapObject<Hardware> storage[], Last&& last) {
-    storage[index] = static_cast<utility::HeapObject<Hardware>&&>(last); // effectively replaces std::move but not 100% correct
+void setValue(const size_t index, utility::HeapObject<ComponentApi> storage[], Last&& last) {
+    storage[index] = static_cast<utility::HeapObject<ComponentApi>&&>(last); // effectively replaces std::move but not 100% correct
 }
 
 template <size_t NumberOfHardwareDevices>
@@ -62,7 +62,7 @@ public:
     }
 
 private:
-    utility::HeapObject<Hardware> devices[NumberOfHardwareDevices];
+    utility::HeapObject<ComponentApi> devices[NumberOfHardwareDevices];
 };
 
 

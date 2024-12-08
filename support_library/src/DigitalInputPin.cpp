@@ -21,15 +21,15 @@
 // SOFTWARE.
 
 #include "DigitalInputPin.h"
+#include "Utilities.h"
 
-DigitalInputPin::DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api) : hw_api{&hw_api},
-    pin_number{pin_number}, pin_mode{pin_mode} {
+DigitalInputPin::DigitalInputPin(InputPinConfig&& pin_config, HwApi& hw_api) : DigitalInputPin{
+    utilities::move(pin_config), {}, {}, hw_api} {
 }
 
-DigitalInputPin::DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
-                       Callback&& on_high_low_change, HwApi& hwapi) : DigitalInputPin{pin_number, pin_mode, hwapi} {
-    on_low_high_change_callback = on_low_high_change;
-    on_high_low_change_callback = on_high_low_change;
+DigitalInputPin::DigitalInputPin(InputPinConfig&& pin_config, Callback&& on_low_high_change,
+                                 Callback&& on_high_low_change, HwApi& hwapi) : hw_api{hwapi}, config{pin_config},
+    on_low_high_change_callback{on_low_high_change}, on_high_low_change_callback{on_high_low_change} {
 }
 
 PIN_CHANGE DigitalInputPin::getPinChange() const {
@@ -45,7 +45,7 @@ PIN_CHANGE DigitalInputPin::getPinChange() const {
 }
 
 void DigitalInputPin::begin() {
-    hw_api->pinMode(pin_number, pin_mode);
+    hw_api.pinMode(config.getPin(), config.isPullup() ? HwApi::PIN_MODE::INPUT_PULLUP_MODE : HwApi::PIN_MODE::INPUT_MODE);
 }
 
 void DigitalInputPin::loop() {
@@ -62,7 +62,7 @@ void DigitalInputPin::loop() {
 
 HwApi::DIGITAL_PIN_LEVEL DigitalInputPin::read() {
     previous_level = current_level;
-    current_level = hw_api->digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
+    current_level = hw_api.digitalRead(config.getPin()) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
     return current_level;
 }
 

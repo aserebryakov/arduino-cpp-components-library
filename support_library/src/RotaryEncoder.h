@@ -38,12 +38,15 @@ public:
       * @param dt_pin DT pin
       * @param clk_pin CLK pin
       * @param sw_pin SW pin
+      * @param hw_api Hardware API instance
       * @param on_turn_clockwise clockwise turn callback
       * @param on_turn_counterclockwise counterclockwise turn callback
       * @param on_push_button push button callback
       */
-    RotaryEncoder(DigitalInputPin&& dt_pin, DigitalInputPin&& clk_pin, DigitalInputPin&& sw_pin, Callback&& on_turn_clockwise = {},
-                  Callback&& on_turn_counterclockwise = {}, Callback&& on_push_button = {});
+    RotaryEncoder(InputPinConfig&& dt_pin, InputPinConfig&& clk_pin, InputPinConfig&& sw_pin, HwApi& hw_api,
+                  Callback&& on_turn_clockwise = {},
+                  Callback&& on_turn_counterclockwise = {},
+                  Callback&& on_push_button = {});
 
 
     virtual ~RotaryEncoder() override = default;

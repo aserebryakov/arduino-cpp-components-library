@@ -21,11 +21,13 @@
 // SOFTWARE.
 
 #include "RotaryEncoder.h"
+#include "Utilities.h"
 
-RotaryEncoder::RotaryEncoder(DigitalInputPin&& dt_pin, DigitalInputPin&& clk_pin, DigitalInputPin&& sw_pin,
+RotaryEncoder::RotaryEncoder(InputPinConfig&& dt_pin, InputPinConfig&& clk_pin, InputPinConfig&& sw_pin, HwApi& hw_api,
                              Callback&& on_turn_clockwise, Callback&& on_turn_counterclockwise,
-                             Callback&& on_push_button) : dt_pin{dt_pin},
-                                                          clk_pin{clk_pin}, sw_pin{sw_pin},
+                             Callback&& on_push_button) : dt_pin{utilities::move(dt_pin), hw_api},
+                                                          clk_pin{utilities::move(clk_pin), hw_api},
+                                                          sw_pin{utilities::move(sw_pin), hw_api},
                                                           on_turn_clockwise{on_turn_clockwise},
                                                           on_turn_counterclockwise{on_turn_counterclockwise},
                                                           on_push_button{on_push_button} {

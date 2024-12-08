@@ -26,6 +26,7 @@
 #include "HwApi.h"
 #include "Callback.h"
 #include "Pin.h"
+#include "InputPinConfig.h"
 
 enum class PIN_CHANGE {
     LOW_HIGH,
@@ -41,23 +42,20 @@ public:
     /**
       * Constructor.
       *
-      * @param[in] pin_number Pin number
-      * @param[in] pin_mode Pin mode
+      * @param[in] pin_config Pin configuration
       * @param[in] hw_api Hardware API implementation reference
-      *
       */
-    DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, HwApi& hw_api);
+    DigitalInputPin(InputPinConfig&& pin_config, HwApi& hw_api);
 
     /**
      * Constructor.
      *
-     * @param pin_number Pin number
-     * @param pin_mode Pin mode
-     * @param on_low_high_change Callback for change from LOW to HIGH
-     * @param on_high_low_change Callback for change from HIGH to LOW
-     * @param hw_api Hardware API implementation reference
+     * @param[in] pin_config Pin configuration
+     * @param[in] on_low_high_change Callback for change from LOW to HIGH
+     * @param[in] on_high_low_change Callback for change from HIGH to LOW
+     * @param[in] hw_api Hardware API implementation reference
      */
-    DigitalInputPin(const int pin_number, const HwApi::PIN_MODE pin_mode, Callback&& on_low_high_change,
+    DigitalInputPin(InputPinConfig&& pin_config, Callback&& on_low_high_change,
                Callback&& on_high_low_change, HwApi& hw_api);
 
     virtual ~DigitalInputPin() override = default;
@@ -89,9 +87,8 @@ public:
     void loop() override;
 
 private:
-    HwApi* hw_api{nullptr};
-    int pin_number;
-    HwApi::PIN_MODE pin_mode;
+    HwApi& hw_api;
+    InputPinConfig config;
     Callback on_low_high_change_callback;
     Callback on_high_low_change_callback;
     HwApi::DIGITAL_PIN_LEVEL current_level{HwApi::LEVEL_HIGH};

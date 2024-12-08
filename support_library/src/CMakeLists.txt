@@ -12,6 +12,7 @@ add_library(utilities_library STATIC
         HeapObject.cpp
         Scheduler.h
         Scheduler.cpp
+        Utilities.h
 )
 
 add_library(pins_library STATIC
@@ -30,6 +31,10 @@ add_library(components_library STATIC
         RotaryEncoder.cpp
         Component.h
         Component.cpp
+        Button.cpp
+        Button.h
+        InputPinConfig.cpp
+        InputPinConfig.h
 )
 
 target_link_libraries(

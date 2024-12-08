@@ -45,7 +45,7 @@ protected:
 };
 
 TEST_F(DigitalInputPinTest, Construction) {
-    DigitalInputPin pin{0, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
+    DigitalInputPin pin{{0, true}, hwApiMock};
     EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
 }
@@ -56,7 +56,7 @@ TEST_F(DigitalInputPinTest, ReadTest) {
         .WillOnce(Return(HwApi::LEVEL_LOW))
         .WillOnce(Return(HwApi::LEVEL_HIGH));
 
-    DigitalInputPin pin{42, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hwApiMock};
+    DigitalInputPin pin{{42, true}, hwApiMock};
     EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
     EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::HIGH_LOW);
@@ -79,7 +79,7 @@ TEST_F(DigitalInputPinTest, CallbackTest) {
         .WillOnce(Return(HwApi::LEVEL_HIGH));
 
     DigitalInputPin pin{
-        42, HwApi::PIN_MODE::INPUT_PULLUP_MODE,
+        {42, true},
         {onLowHighChange,this},
         {onHighLowChange, this},
         hwApiMock

@@ -31,7 +31,7 @@
 #include "Device.h"
 #include "GenericController.h"
 #include "HeapObject.h"
-#include "components/DigitalInputPin.h"
+#include "DigitalInputPin.h"
 
 
 namespace peripherals {

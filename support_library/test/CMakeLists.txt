@@ -18,6 +18,7 @@ include(GoogleTest)
 target_link_libraries(
         support_library_test
         support_library
+        api_library
         devices_library
         GTest::gmock_main
 )

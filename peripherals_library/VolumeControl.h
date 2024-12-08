@@ -28,7 +28,7 @@
 #include "GenericController.h"
 #include "HwApi.h"
 #include "HeapObject.h"
-#include "components/RotaryEncoder.h"
+#include "RotaryEncoder.h"
 
 namespace peripherals {
 

@@ -25,7 +25,7 @@
 #include <Arduino.h>
 #include <HID-Project.h>
 #include "Device.h"
-#include "GenericController.h"
+#include "ComponentsComposition.h"
 #include "HwApi.h"
 #include "HeapObject.h"
 #include "RotaryEncoder.h"
@@ -45,7 +45,7 @@ public:
 
 private:
     HwApi& hw_api;
-    GenericController<1> control;
+    ComponentsComposition<1> control;
 };
 
 inline VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hw_api) :

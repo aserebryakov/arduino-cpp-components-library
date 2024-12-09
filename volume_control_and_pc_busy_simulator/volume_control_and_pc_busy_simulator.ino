@@ -1,6 +1,5 @@
 #include "HID-Project.h"
 #include "HwApiImpl.h"
-#include "GenericController.h"
 #include "VolumeControl.h"
 #include "Scheduler.h"
 #include "MouseControl.h"
@@ -97,7 +96,7 @@ public:
 private:
     Scheduler scheduler{};
     peripherals::VolumeControl volume_control{DT_PIN, CLK_PIN, SW_PIN, hw_api};
-    peripherals::MouseControl mouse_control{MOUSE_SWITCH_PIN, scheduler, hw_api};
+    peripherals::MouseControl mouse_control{MOUSE_SWITCH_PIN, MOUSE_LED_PIN, scheduler, hw_api};
     // KeyboardControl keyboard_control{scheduler, hw_api};
 };
 

@@ -37,8 +37,8 @@ public:
     void setLow() const;
 
 private:
-    HwApi& hwapi;
     int pin_number;
+    HwApi& hwapi;
 };
 
 

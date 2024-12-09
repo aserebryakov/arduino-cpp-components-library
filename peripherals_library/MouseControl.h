@@ -29,9 +29,10 @@
 #include "Scheduler.h"
 #include "HwApi.h"
 #include "Device.h"
-#include "GenericController.h"
+#include "ComponentsComposition.h"
 #include "HeapObject.h"
 #include "Button.h"
+#include "DigitalLed.h"
 
 
 namespace peripherals {
@@ -63,13 +64,15 @@ public:
         if (!enabled) {
             task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
             enabled = true;
-//            hw_api.digitalWrite(MOUSE_LED_PIN, 1);
             return;
         }
 
         scheduler.removeTask(task_id);
-//        hw_api.digitalWrite(MOUSE_LED_PIN, 0);
         enabled = false;
+    }
+
+    bool isEnabled() const {
+      return enabled;
     }
 
 private:
@@ -83,19 +86,19 @@ private:
 
 class MouseControl : public Device {
 public:
-    MouseControl(const int switch_pin, Scheduler& scheduler, HwApi& hw_api) : jiggler{scheduler}, hw_api{hw_api}, control{
+    MouseControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) : jiggler{scheduler}, hw_api{hw_api}, control{
         utility::HeapObject<Component>(new Button{
           {switch_pin, true},
           hw_api,
           {onSwitch, this},
           {},
-          })} {
+          })},
+  		led{led_pin, hw_api} {
     }
 
     virtual ~MouseControl() override = default;
 
     void begin() {
-//        hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
         control.begin();
     }
 
@@ -104,13 +107,21 @@ public:
     }
 
     static void onSwitch(void* self) {
-        static_cast<MouseControl*>(self)->jiggler.toggle();
+        auto& this_ = *(static_cast<MouseControl*>(self));
+        this_.jiggler.toggle();
+
+        if (this_.jiggler.isEnabled()) {
+          this_.led.turnOn();
+        } else {
+          this_.led.turnOff();
+        }
     }
 
 private:
     MouseJigglerLogic jiggler;
     HwApi& hw_api;
-    GenericController<1> control;
+    ComponentsComposition<1> control;
+    DigitalLed led;
 };
 
 }

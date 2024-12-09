@@ -12,6 +12,7 @@ add_executable(
         GenericControllerTest.cpp
         HeapObjectTest.cpp
         ButtonTest.cpp
+        DigitalOutputPinTest.cpp
 )
 
 include(GoogleTest)

@@ -35,6 +35,8 @@ add_library(components_library STATIC
         Button.h
         InputPinConfig.cpp
         InputPinConfig.h
+        DigitalOutputPin.cpp
+        DigitalOutputPin.h
 )
 
 target_link_libraries(

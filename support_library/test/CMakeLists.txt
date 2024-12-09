@@ -13,6 +13,7 @@ add_executable(
         HeapObjectTest.cpp
         ButtonTest.cpp
         DigitalOutputPinTest.cpp
+        DigitalLedTest.cpp
 )
 
 include(GoogleTest)

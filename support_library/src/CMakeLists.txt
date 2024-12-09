@@ -20,6 +20,10 @@ add_library(pins_library STATIC
         DigitalInputPin.cpp
         Pin.h
         Pin.cpp
+        InputPinConfig.cpp
+        InputPinConfig.h
+        DigitalOutputPin.cpp
+        DigitalOutputPin.h
 )
 
 target_link_libraries(
@@ -33,10 +37,8 @@ add_library(components_library STATIC
         Component.cpp
         Button.cpp
         Button.h
-        InputPinConfig.cpp
-        InputPinConfig.h
-        DigitalOutputPin.cpp
-        DigitalOutputPin.h
+        DigitalLed.cpp
+        DigitalLed.h
 )
 
 target_link_libraries(

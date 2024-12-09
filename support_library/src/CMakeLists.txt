@@ -42,8 +42,8 @@ target_link_libraries(
 )
 
 add_library(devices_library STATIC
-        GenericController.h
-        GenericController.cpp
+        ComponentsComposition.h
+        ComponentsComposition.cpp
 )
 
 target_link_libraries(

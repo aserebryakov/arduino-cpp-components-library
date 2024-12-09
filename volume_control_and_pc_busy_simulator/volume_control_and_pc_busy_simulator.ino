@@ -3,7 +3,7 @@
 #include "GenericController.h"
 #include "VolumeControl.h"
 #include "Scheduler.h"
-// #include "MouseControl.h"
+#include "MouseControl.h"
 
 using utility::HeapObject;
 
@@ -82,13 +82,13 @@ class Controller {
 public:
   void begin() {
     volume_control.begin();
-    // mouse_control.begin();
+    mouse_control.begin();
     // keyboard_control.begin();
   }
 
   void loop() {
     volume_control.loop();
-    // mouse_control.loop();
+    mouse_control.loop();
     // keyboard_control.loop();
     scheduler.tick(TICK);
     delay(TICK);
@@ -97,7 +97,7 @@ public:
 private:
     Scheduler scheduler{};
     peripherals::VolumeControl volume_control{DT_PIN, CLK_PIN, SW_PIN, hw_api};
-    // peripherals::MouseControl mouse_control{MOUSE_SWITCH_PIN, scheduler, hw_api};
+    peripherals::MouseControl mouse_control{MOUSE_SWITCH_PIN, scheduler, hw_api};
     // KeyboardControl keyboard_control{scheduler, hw_api};
 };
 

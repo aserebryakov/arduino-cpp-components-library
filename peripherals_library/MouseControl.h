@@ -31,54 +31,22 @@
 #include "Device.h"
 #include "GenericController.h"
 #include "HeapObject.h"
-#include "DigitalInputPin.h"
+#include "Button.h"
 
 
 namespace peripherals {
 
-class MouseControl : public Device {
+class MouseJigglerLogic {
 public:
-    MouseControl(const int switch_pin, Scheduler& scheduler, HwApi& hw_api) : scheduler{scheduler}, hw_api{hw_api}, control{
-        utility::HeapObject<Component>(new DigitalInputPin{
-          switch_pin,
-          HwApi::PIN_MODE::INPUT_PULLUP_MODE,
-          {onSwitch, this},
-          {},
-          hw_api
-          })} {
-    }
-
-    virtual ~MouseControl() override = default;
-
-    void begin() {
-        Mouse.begin();
-//        hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
-        control.begin();
-    }
-
-    void loop() {
-        control.loop();
+    MouseJigglerLogic(Scheduler& scheduler) : scheduler{scheduler} {
     }
 
     static void mouseTask(void* self) {
-        static_cast<MouseControl*>(self)->move();
+        static_cast<MouseJigglerLogic*>(self)->move();
     }
 
-    static void onSwitch(void* self) {
-        static_cast<MouseControl*>(self)->onSwitch();
-    }
-
-    void onSwitch() {
-        if (!enabled) {
-            task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
-            enabled = true;
-//            hw_api.digitalWrite(MOUSE_LED_PIN, 1);
-            return;
-        }
-
-        scheduler.removeTask(task_id);
-//        hw_api.digitalWrite(MOUSE_LED_PIN, 0);
-        enabled = false;
+    void begin() {
+        Mouse.begin();
     }
 
     void move() {
@@ -91,16 +59,58 @@ public:
         }
     }
 
-private:
-    GenericController<1> control;
-    Scheduler& scheduler;
-    HwApi& hw_api;
+    void toggle() {
+        if (!enabled) {
+            task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
+            enabled = true;
+//            hw_api.digitalWrite(MOUSE_LED_PIN, 1);
+            return;
+        }
 
+        scheduler.removeTask(task_id);
+//        hw_api.digitalWrite(MOUSE_LED_PIN, 0);
+        enabled = false;
+    }
+
+private:
+    Scheduler& scheduler;
     bool enabled{false};
     SchedulerTaskId task_id{0};
     int moves_made{0};
     int x_increment{3};
     int y_increment{3};
+};
+
+class MouseControl : public Device {
+public:
+    MouseControl(const int switch_pin, Scheduler& scheduler, HwApi& hw_api) : jiggler{scheduler}, hw_api{hw_api}, control{
+        utility::HeapObject<Component>(new Button{
+          {switch_pin, true},
+          hw_api,
+          {onSwitch, this},
+          {},
+          })} {
+    }
+
+    virtual ~MouseControl() override = default;
+
+    void begin() {
+//        hw_api.pinMode(MOUSE_LED_PIN, HwApi::PIN_MODE::OUTPUT_MODE);
+        control.begin();
+    }
+
+    void loop() {
+        control.loop();
+    }
+
+    static void onSwitch(void* self) {
+        static_cast<MouseControl*>(self)->jiggler.toggle();
+    }
+
+private:
+    MouseJigglerLogic jiggler;
+    HwApi& hw_api;
+    GenericController<1> control;
 };
 
 }

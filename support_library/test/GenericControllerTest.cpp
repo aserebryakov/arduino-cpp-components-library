@@ -25,7 +25,7 @@
 #include <gmock/gmock.h>
 #include "HwApiMock.h"
 
-#include "GenericController.h"
+#include "ComponentsComposition.h"
 #include "HeapObject.h"
 
 using namespace utility;
@@ -71,7 +71,7 @@ private:
 TEST(GeneticControllerTest, Construction) {
     HwApiMock hw_api_mock{};
 
-    GenericController<2> controller{
+    ComponentsComposition<2> controller{
         HeapObject<Component>(new TestControl1(hw_api_mock)),
         HeapObject<Component>(new TestControl2(hw_api_mock))
     };
@@ -82,7 +82,7 @@ TEST(GeneticControllerTest, SetupTest) {
     EXPECT_CALL(hw_api_mock, digitalRead(1)).Times(1);
     EXPECT_CALL(hw_api_mock, digitalRead(2)).Times(1);
 
-    GenericController<2> controller{
+    ComponentsComposition<2> controller{
         HeapObject<Component>(new TestControl1(hw_api_mock)),
         HeapObject<Component>(new TestControl2(hw_api_mock))
     };
@@ -95,7 +95,7 @@ TEST(GeneticControllerTest, LoopTest) {
     EXPECT_CALL(hw_api_mock, digitalWrite(1, 1)).Times(1);
     EXPECT_CALL(hw_api_mock, digitalWrite(2, 2)).Times(1);
 
-    GenericController<2> controller{
+    ComponentsComposition<2> controller{
         HeapObject<Component>(new TestControl1(hw_api_mock)),
         HeapObject<Component>(new TestControl2(hw_api_mock))
     };

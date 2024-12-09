@@ -39,12 +39,12 @@ void setValue(const size_t index, utility::HeapObject<Component> storage[], Last
     storage[index] = static_cast<utility::HeapObject<Component>&&>(last); // effectively replaces std::move but not 100% correct
 }
 
-template <size_t NumberOfHardwareDevices>
-class GenericController {
+template <size_t NumberOfComponents>
+class ComponentsComposition {
 public:
     template <typename... Args>
-    GenericController(Args&&... args) {
-        static_assert((sizeof...(Args)) == NumberOfHardwareDevices, "Wrong number of hardware devices");
+    ComponentsComposition(Args&&... args) {
+        static_assert((sizeof...(Args)) == NumberOfComponents, "Wrong number of hardware devices");
         setValue(0, devices, args...);
     }
 
@@ -61,7 +61,7 @@ public:
     }
 
 private:
-    utility::HeapObject<Component> devices[NumberOfHardwareDevices];
+    utility::HeapObject<Component> devices[NumberOfComponents];
 };
 
 

@@ -52,9 +52,10 @@ inline VolumeControl::VolumeControl(const int dt_pin, const int clk_pin, const i
   hw_api{hw_api},
   control{
       utility::HeapObject<Component>(new RotaryEncoder{
-        {dt_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {clk_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
-        {sw_pin, HwApi::PIN_MODE::INPUT_PULLUP_MODE, hw_api},
+        {dt_pin, true},
+        {clk_pin, true},
+        {sw_pin, true},
+        hw_api,
         {volumeUp, nullptr},
         {volumeDown, nullptr},
         {mute, nullptr}

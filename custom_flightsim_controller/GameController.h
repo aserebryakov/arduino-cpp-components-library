@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
+#include "ComponentsComposition.h"
+#include "Device.h"
+#include "HeapObject.h"
+#include "ControllerRotaryEncoder.h"
+#include "ControllerButton.h"
 
-class HwApiMock : public HwApi {
+class GameController : public Device {
 public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
+    GameController(HwApi& hw_api);
+    virtual ~GameController() override = default;
+    virtual void begin() override;
+    virtual void loop() override;
+
+private:
+    ComponentsComposition<12> components;
 };
 
-#endif //HWAPIMOCK_H
+
+#endif //CONTROLLER_H

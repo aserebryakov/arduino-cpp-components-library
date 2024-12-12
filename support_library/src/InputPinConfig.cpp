@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#include "InputPinConfig.h"
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
+InputPinConfig::InputPinConfig(const int pin, const bool is_pullup)
+    : pin{pin},
+      is_pullup{is_pullup} {
+}
 
-class HwApiMock : public HwApi {
-public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
-};
+int InputPinConfig::getPin() const {
+    return pin;
+}
 
-#endif //HWAPIMOCK_H
+bool InputPinConfig::isPullup() const {
+    return is_pullup;
+}

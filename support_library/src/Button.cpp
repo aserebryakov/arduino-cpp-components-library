@@ -20,23 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPI_H
-#define HWAPI_H
+#include "Button.h"
+#include "Utilities.h"
 
-#include <stdint.h> // Using C header for compatibility
+Button::Button(InputPinConfig&& config, HwApi& hw_api, Callback&& on_pressed, Callback&& on_released) :
+  pin{utilities::move(config), utilities::move(on_released), utilities::move(on_pressed), hw_api} {
+}
 
-class HwApi {
-public:
-    enum DIGITAL_PIN_LEVEL : int {
-        LEVEL_HIGH = 0x1,
-        LEVEL_LOW = 0x0
-    };
+inline void Button::begin() {
+  pin.begin();
+}
 
-    virtual ~HwApi() = default;
-
-    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const = 0;
-    virtual int digitalRead(const uint8_t pin) const = 0;
-};
-
-
-#endif //HWAPI_H
+inline void Button::loop() {
+  pin.loop();
+}

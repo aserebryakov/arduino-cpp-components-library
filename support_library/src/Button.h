@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#ifndef MOMENTARYBUTTON_H
+#define MOMENTARYBUTTON_H
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
+#include "Component.h"
+#include "DigitalInputPin.h"
+#include "Callback.h"
 
-class HwApiMock : public HwApi {
+class Button : public Component {
 public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
+    Button(InputPinConfig&& config, HwApi& hw_api, Callback&& on_pressed = {}, Callback&& on_released = {});
+    virtual ~Button() override = default;
+
+    virtual void begin() override;
+    virtual void loop() override;
+
+private:
+    DigitalInputPin pin;
 };
 
-#endif //HWAPIMOCK_H
+#endif //MOMENTARYBUTTON_H

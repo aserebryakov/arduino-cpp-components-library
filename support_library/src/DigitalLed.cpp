@@ -21,19 +21,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIIMPL_H
-#define HWAPIIMPL_H
+#include "DigitalLed.h"
 
-#include "HwApi.h"
+DigitalLed::DigitalLed(const int pin_number, HwApi& hw_api) : pin{pin_number, hw_api} {
+}
 
-class HwApiImpl : public HwApi {
-public:
-    virtual ~HwApiImpl() override = default;
+void DigitalLed::begin() {
+    pin.begin();
+}
 
-    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const final;
-    virtual int digitalRead(const uint8_t pin) const final;
-};
+void DigitalLed::loop() {
+    pin.loop();
+}
 
+void DigitalLed::turnOn() const {
+    pin.setHigh();
+}
 
-
-#endif //HWAPIIMPL_H
+void DigitalLed::turnOff() const {
+    pin.setLow();
+}

@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,15 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef DEVICEAPI_H
+#define DEVICEAPI_H
 
-#include "HwApiImpl.h"
+class Device {
+public:
+    Device() = default;
+    virtual ~Device() = default;
 
-#include "Arduino.h"
+    virtual void begin() = 0;
+    virtual void loop() = 0;
+};
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
-}
-
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
-}
+#endif //DEVICEAPI_H

@@ -4,10 +4,9 @@ project(arduino_fun)
 set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(support_library)
+add_subdirectory(custom_flightsim_controller)
 
 add_library(arduino_fun
-        library.cpp
-        support_library/DigitalPin.cpp
-        support_library/DigitalPin.h)
+        library.cpp)
 
-target_link_libraries(arduino_fun support_library)
+target_link_libraries(arduino_fun support_library custom_flightsim_controller)

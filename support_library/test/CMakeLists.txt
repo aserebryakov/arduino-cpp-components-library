@@ -8,9 +8,12 @@ add_executable(
         RotaryEncoderTest.cpp
         HwApiMock.cpp
         HwApiMock.h
-        DigitalPinTest.cpp
+        DigitalInputPinTest.cpp
         GenericControllerTest.cpp
         HeapObjectTest.cpp
+        ButtonTest.cpp
+        DigitalOutputPinTest.cpp
+        DigitalLedTest.cpp
 )
 
 include(GoogleTest)
@@ -18,6 +21,8 @@ include(GoogleTest)
 target_link_libraries(
         support_library_test
         support_library
+        api_library
+        devices_library
         GTest::gmock_main
 )
 

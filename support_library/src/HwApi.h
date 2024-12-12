@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#ifndef HWAPI_H
+#define HWAPI_H
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
+#include <stdint.h> // Using C header for compatibility
 
-class HwApiMock : public HwApi {
+class HwApi {
 public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
+    enum DIGITAL_PIN_LEVEL : int {
+        LEVEL_HIGH = 0x1,
+        LEVEL_LOW = 0x0
+    };
+
+    enum class PIN_MODE : int {
+        INPUT_MODE = 0x0,
+        OUTPUT_MODE = 0x1,
+        INPUT_PULLUP_MODE = 0x2
+    };
+
+    virtual ~HwApi() = default;
+
+    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const = 0;
+    virtual int digitalRead(const uint8_t pin) const = 0;
+    virtual void pinMode(const uint8_t pin, const PIN_MODE mode) const = 0;
 };
 
-#endif //HWAPIMOCK_H
+
+#endif //HWAPI_H

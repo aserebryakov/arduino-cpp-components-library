@@ -21,17 +21,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#include "ControllerButton.h"
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
 
-class HwApiMock : public HwApi {
-public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
-};
+ControllerButton::ControllerButton(const int pin, const int button_number, HwApi& hw_api)
+  : button{
+      { pin, true },
+      hw_api,
+      { onPress, this },
+      { {}, nullptr }
+    },
+    button_number{ button_number } {
+}
 
-#endif //HWAPIMOCK_H
+void ControllerButton::onPress(void* self) {
+  static_cast<ControllerButton*>(self)->onPress();
+}
+
+void ControllerButton::onPress() {
+  pressButton(button_number);
+}
+
+void ControllerButton::begin() {
+  button.begin();
+}
+
+void ControllerButton::loop() {
+  button.loop();
+}

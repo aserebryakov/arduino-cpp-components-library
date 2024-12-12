@@ -19,59 +19,16 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#ifndef COMPONENTAPI_H
+#define COMPONENTAPI_H
 
-#ifndef ROTARYENCODERPINIMPL_H
-#define ROTARYENCODERPINIMPL_H
-
-#include "HwApi.h"
-
-enum class PIN_CHANGE {
-  LOW_HIGH,
-  HIGH_LOW,
-  NONE
-};
-
-/**
- * Represents abstraction level for digital pin.
- */
-class DigitalPin {
+class Component {
 public:
-  /**
-   * Constructor.
-   *
-   * @param[in] pin_number Pin number
-   * @param[in] hwapi Hardware API implementation reference
-   */
-  DigitalPin(const int pin_number, HwApi& hwapi);
+    Component() = default;
+    virtual ~Component() = default;
 
-  /**
-   * Reads the level of the pin.
-   *
-   * Updates internal states (pin change and current level).
-   *
-   * @return pin level.
-   */
-  HwApi::DIGITAL_PIN_LEVEL read();
-
-  /**
-   * Returns previously read pin level.
-   *
-   * @return pin level
-   */
-  HwApi::DIGITAL_PIN_LEVEL getLevel() const;
-
-  /**
-   * Returns level change between last two reads.
-   *
-   * @return level change (low-high or high-low)
-   */
-  PIN_CHANGE getPinChange() const;
-
-private:
-  int pin_number;
-  HwApi& hw_api;
-  HwApi::DIGITAL_PIN_LEVEL current_level{HwApi::LEVEL_HIGH};
-  HwApi::DIGITAL_PIN_LEVEL previous_level{HwApi::LEVEL_HIGH};
+    virtual void begin() = 0;
+    virtual void loop() = 0;
 };
 
-#endif //ROTARYENCODERPINIMPL_H
+#endif //COMPONENTAPI_H

@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
-
-#include "HwApi.h"
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
-class HwApiMock : public HwApi {
-public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
+#include "DigitalLed.h"
+
+using namespace ::testing;
+
+class DigitalLedTest : public Test {
+protected:
+    NiceMock<HwApiMock> hw_api_mock{};
 };
 
-#endif //HWAPIMOCK_H
+TEST_F(DigitalLedTest, Begin) {
+    EXPECT_CALL(hw_api_mock, pinMode(42, HwApi::PIN_MODE::OUTPUT_MODE)).Times(1);
+    DigitalLed led{42, hw_api_mock};
+    led.begin();
+}
+
+TEST_F(DigitalLedTest, TurnOn) {
+    EXPECT_CALL(hw_api_mock, digitalWrite(42, HwApi::DIGITAL_PIN_LEVEL::LEVEL_HIGH)).Times(1);
+    DigitalLed led{42, hw_api_mock};
+    led.turnOn();
+}
+
+
+TEST_F(DigitalLedTest, TurnOff) {
+    EXPECT_CALL(hw_api_mock, digitalWrite(42, HwApi::DIGITAL_PIN_LEVEL::LEVEL_LOW)).Times(1);
+    DigitalLed led{42, hw_api_mock};
+    led.turnOff();
+}

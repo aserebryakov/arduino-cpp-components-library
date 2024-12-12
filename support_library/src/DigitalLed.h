@@ -20,45 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "RotaryEncoder.h"
+#ifndef DIGITALLED_H
+#define DIGITALLED_H
 
-RotaryEncoder::RotaryEncoder(const int dt_pin, const int clk_pin,
-                             const int sw_pin, HwApi& hw_api) : dt_pin{dt_pin, hw_api}, clk_pin{clk_pin, hw_api},
-                                                                sw_pin{sw_pin, hw_api} {
-}
+#include "Component.h"
+#include "DigitalOutputPin.h"
 
-void RotaryEncoder::readPins() {
-    readRotation();
+class DigitalLed : public Component {
+public:
+    DigitalLed(const int pin_number, HwApi& hw_api);
+    virtual ~DigitalLed() override = default;
 
-    sw_pin.read();
-    if (sw_pin.getPinChange() == PIN_CHANGE::HIGH_LOW) {
-        on_push_button();
-    }
-}
+    void begin() override;
+    void loop() override;
 
-void RotaryEncoder::readRotation() {
-    dt_pin.read();
-    clk_pin.read();
+    void turnOn() const;
+    void turnOff() const;
 
-    if (dt_pin.getPinChange() != PIN_CHANGE::LOW_HIGH) {
-        return;
-    }
+private:
+    DigitalOutputPin pin;
+};
 
-    if (clk_pin.getLevel() == HwApi::LEVEL_HIGH) {
-        on_turn_counterclockwise();
-    } else {
-        on_turn_clockwise();
-    }
-}
 
-void RotaryEncoder::setTurnClockwiseCallback(Callback&& callback) {
-    on_turn_clockwise = callback;
-}
-
-void RotaryEncoder::setTurnCounterClockwiseCallback(Callback&& callback) {
-    on_turn_counterclockwise = callback;
-}
-
-void RotaryEncoder::setPushButtonCallback(Callback&& callback) {
-    on_push_button = callback;
-}
+#endif //DIGITALLED_H

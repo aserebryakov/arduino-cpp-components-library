@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,41 +21,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <gmock/gmock.h>
-#include <gtest/gtest.h>
-#include "HwApiMock.h"
+#ifndef CONTROLLERBUTTON_H
+#define CONTROLLERBUTTON_H
 
-#include "../DigitalPin.h"
+#include "Component.h"
+#include "Button.h"
+#include <Arduino.h>
+#include "HID-Project.h"
+#include "PressButton.h"
 
-using namespace ::testing;
+class ControllerButton : public Component {
+public:
+    ControllerButton(const int pin, const int button_number, HwApi& hw_api);
+    virtual ~ControllerButton() override = default;
 
-class DigitalPinTest : public Test {
-protected:
-    NiceMock<HwApiMock> hwApiMock{};
+    static void onPress(void* self);
+
+    void onPress();
+
+    virtual void begin() override;
+
+    virtual void loop() override;
+
+private:
+    Button button;
+    int button_number{0};
 };
 
-TEST_F(DigitalPinTest, Construction) {
-    DigitalPin pin{0, hwApiMock};
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
-}
 
-TEST_F(DigitalPinTest, ReadTest) {
-    EXPECT_CALL(hwApiMock, digitalRead(42)).Times(3)
-        .WillOnce(Return(HwApi::LEVEL_LOW))
-        .WillOnce(Return(HwApi::LEVEL_LOW))
-        .WillOnce(Return(HwApi::LEVEL_HIGH));
 
-    DigitalPin pin{42, hwApiMock};
-    EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::HIGH_LOW);
-
-    EXPECT_EQ(pin.read(), HwApi::LEVEL_LOW);
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_LOW);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::NONE);
-
-    EXPECT_EQ(pin.read(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getLevel(), HwApi::LEVEL_HIGH);
-    EXPECT_EQ(pin.getPinChange(), PIN_CHANGE::LOW_HIGH);
-}
+#endif //CONTROLLERBUTTON_H

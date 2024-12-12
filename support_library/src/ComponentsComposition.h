@@ -23,62 +23,46 @@
 #ifndef CONTROLLERBUILDER_H
 #define CONTROLLERBUILDER_H
 
-#include <cstddef>
+#include <stddef.h>
 
-#include "HwApi.h"
 #include "HeapObject.h"
-
-class Control {
-public:
-    Control() = default;
-
-    Control(HwApi& hw_api) : hw_api(&hw_api) {
-    };
-    virtual ~Control() = default;
-
-    virtual void setup() = 0;
-    virtual void loop() = 0;
-
-    HwApi* getHwApi() const {
-        return hw_api;
-    }
-
-private:
-    HwApi* hw_api{nullptr};
-};
+#include "Component.h"
+#include "Utilities.h"
 
 template <typename First, typename... Rest>
-void setValue(const size_t index, utility::HeapObject<Control> storage[], First&& first, Rest&&... rest) {
-    storage[index] = static_cast<utility::HeapObject<Control>&&>(first); // effectively replaces std::move but not 100% correct
+void setValue(const size_t index, utility::HeapObject<Component> storage[], First&& first, Rest&&... rest) {
+    storage[index] = utilities::move(first);
     setValue(index + 1, storage, rest...);
 }
 
-void setValue(const size_t index, utility::HeapObject<Control> storage[]) {
+template <typename Last>
+void setValue(const size_t index, utility::HeapObject<Component> storage[], Last&& last) {
+    storage[index] = utilities::move(last);
 }
 
-template <typename T, size_t NumberOfControls>
-class GenericController {
+template <size_t NumberOfComponents>
+class ComponentsComposition {
 public:
     template <typename... Args>
-    GenericController(Args&&... args) {
-        static_assert((sizeof...(Args)) == NumberOfControls, "Wrong number of controls");
-        setValue(0, controls, args...);
+    ComponentsComposition(Args&&... args) {
+        static_assert((sizeof...(Args)) == NumberOfComponents, "Wrong number of hardware devices");
+        setValue(0, devices, args...);
     }
 
-    void setup() {
-        for (auto& control : controls) {
-            control->setup();
+    void begin() {
+        for (auto& device : devices) {
+            device->begin();
         }
     }
 
     void loop() {
-        for (auto& control : controls) {
-            control->loop();
+        for (auto& device : devices) {
+            device->loop();
         }
     }
 
 private:
-    utility::HeapObject<T> controls[NumberOfControls];
+    utility::HeapObject<Component> devices[NumberOfComponents];
 };
 
 

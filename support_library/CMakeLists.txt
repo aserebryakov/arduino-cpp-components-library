@@ -12,22 +12,5 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_library(support_library
-        Scheduler.cpp
-        Scheduler.h
-        Callback.cpp
-        Callback.h
-        RotaryEncoder.cpp
-        RotaryEncoder.h
-        DigitalPin.cpp
-        DigitalPin.h
-        HwApi.cpp
-        HwApi.h
-        HwApiImpl.h
-        GenericController.cpp
-        GenericController.h
-        HeapObject.cpp
-        HeapObject.h
-)
-
+add_subdirectory(src)
 add_subdirectory(test)

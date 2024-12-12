@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,29 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "DigitalPin.h"
+#ifndef PRESSBUTTON_H
+#define PRESSBUTTON_H
 
-DigitalPin::DigitalPin(const int pin_number, HwApi& hw_api) : pin_number{pin_number}, hw_api{hw_api} {
-}
 
-PIN_CHANGE DigitalPin::getPinChange() const {
-  if (previous_level == current_level) {
-    return PIN_CHANGE::NONE;
-  }
+void pressButton(const int button);
 
-  if (previous_level == HwApi::LEVEL_HIGH && current_level == HwApi::LEVEL_LOW) {
-    return PIN_CHANGE::HIGH_LOW;
-  }
 
-  return PIN_CHANGE::LOW_HIGH;
-}
-
-HwApi::DIGITAL_PIN_LEVEL DigitalPin::read() {
-  previous_level = current_level;
-  current_level = hw_api.digitalRead(pin_number) == HwApi::LEVEL_HIGH ? HwApi::LEVEL_HIGH : HwApi::LEVEL_LOW;
-  return current_level;
-}
-
-HwApi::DIGITAL_PIN_LEVEL DigitalPin::getLevel() const {
-  return current_level;
-}
+#endif //PRESSBUTTON_H

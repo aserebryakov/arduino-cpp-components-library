@@ -24,62 +24,47 @@
 #define ROTARYENCODER_H
 
 #include "Callback.h"
-#include "DigitalPin.h"
-#include "HwApi.h"
+#include "DigitalInputPin.h"
+#include "Component.h"
 
 /**
  * Implements rotary encoder functionality.
  */
-class RotaryEncoder {
+class RotaryEncoder : public Component {
 public:
-   /**
-    * Constructor.
-    *
-    * @param dt_pin DT pin number
-    * @param clk_pin CLK pin number
-    * @param sw_pin SW pin number
-    * @param hwapi HwApi instance
-    */
-   RotaryEncoder(const int dt_pin, const int clk_pin, const int sw_pin, HwApi& hwapi);
+    /**
+      * Constructor.
+      *
+      * @param dt_pin DT pin
+      * @param clk_pin CLK pin
+      * @param sw_pin SW pin
+      * @param hw_api Hardware API instance
+      * @param on_turn_clockwise clockwise turn callback
+      * @param on_turn_counterclockwise counterclockwise turn callback
+      * @param on_push_button push button callback
+      */
+    RotaryEncoder(InputPinConfig&& dt_pin, InputPinConfig&& clk_pin, InputPinConfig&& sw_pin, HwApi& hw_api,
+                  Callback&& on_turn_clockwise = {},
+                  Callback&& on_turn_counterclockwise = {},
+                  Callback&& on_push_button = {});
+
+
+    virtual ~RotaryEncoder() override = default;
 
     /**
      * Reads pins levels and calls callbacks.
      */
     void readPins();
 
-    /**
-     * Sets callback when encoder is rotated clockwise.
-     *
-     * Callback is called when DT pin changes from LOW to HIGH and CLK pin reads HIGH.
-     *
-     * @param callback
-     */
-    void setTurnClockwiseCallback(Callback&& callback);
-
-    /**
-     * Sets callback when encoder is rotated counterclockwise.
-     *
-     * Callback is called when DT pin changes from LOW to HIGH and CLK pin reads LOW.
-     *
-     * @param callback
-     */
-    void setTurnCounterClockwiseCallback(Callback&& callback);
-
-    /**
-     * Sets callback when switch is pushed.
-     *
-     * Callback is called when SW pin changes from HIGH to LOW.
-     *
-     * @param callback
-     */
-    void setPushButtonCallback(Callback&& callback);
+    void begin() override;
+    void loop() override;
 
 private:
     void readRotation();
 
-    DigitalPin dt_pin;
-    DigitalPin clk_pin;
-    DigitalPin sw_pin;
+    DigitalInputPin dt_pin;
+    DigitalInputPin clk_pin;
+    DigitalInputPin sw_pin;
     Callback on_turn_clockwise{};
     Callback on_turn_counterclockwise{};
     Callback on_push_button{};

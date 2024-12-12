@@ -21,17 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#ifndef HWAPIIMPL_H
+#define HWAPIIMPL_H
 
 #include "HwApi.h"
-#include <gmock/gmock.h>
 
-class HwApiMock : public HwApi {
+class HwApiImpl : public HwApi {
 public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
+    virtual ~HwApiImpl() override = default;
+
+    virtual void digitalWrite(const uint8_t pin, const uint8_t val) const final;
+    virtual int digitalRead(const uint8_t pin) const final;
+    virtual void pinMode(const uint8_t pin, const PIN_MODE mode) const final;
 };
 
-#endif //HWAPIMOCK_H
+
+#endif //HWAPIIMPL_H

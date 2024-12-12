@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,17 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef HWAPIMOCK_H
-#define HWAPIMOCK_H
+#include "GameController.h"
 
-#include "HwApi.h"
-#include <gmock/gmock.h>
+using utility::HeapObject;
 
-class HwApiMock : public HwApi {
-public:
-    MOCK_METHOD(int, digitalRead, (uint8_t), (const, override));
-    MOCK_METHOD(void, digitalWrite, (uint8_t, uint8_t), (const, override));
-    MOCK_METHOD(void, pinMode, (uint8_t, HwApi::PIN_MODE), (const, override));
-};
+GameController::GameController(HwApi& hw_api) : components{
+    HeapObject<Component>(new ControllerRotaryEncoder(21, 20, 19, 1, 2, 3, hw_api)),
+    HeapObject<Component>(new ControllerRotaryEncoder(18, 15, 14, 4, 5, 6, hw_api)),
+    HeapObject<Component>(new ControllerRotaryEncoder(16, 10, 9, 7, 8, 9, hw_api)),
+    HeapObject<Component>(new ControllerButton(0, 10, hw_api)),
+    HeapObject<Component>(new ControllerButton(1, 11, hw_api)),
+    HeapObject<Component>(new ControllerButton(2, 12, hw_api)),
+    HeapObject<Component>(new ControllerButton(3, 13, hw_api)),
+    HeapObject<Component>(new ControllerButton(4, 14, hw_api)),
+    HeapObject<Component>(new ControllerButton(5, 15, hw_api)),
+    HeapObject<Component>(new ControllerButton(6, 16, hw_api)),
+    HeapObject<Component>(new ControllerButton(7, 17, hw_api)),
+    HeapObject<Component>(new ControllerButton(8, 18, hw_api))} {
+}
 
-#endif //HWAPIMOCK_H
+
+void GameController::begin() {
+    Gamepad.begin();
+    components.begin();
+}
+
+void GameController::loop() {
+    components.loop();
+}
+

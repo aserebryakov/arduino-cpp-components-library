@@ -20,50 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CONTROLLERBUILDER_H
-#define CONTROLLERBUILDER_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
-#include <stddef.h>
-
+#include "ComponentsComposition.h"
+#include "Device.h"
 #include "HeapObject.h"
-#include "Component.h"
-#include "Utilities.h"
+#include "ControllerRotaryEncoder.h"
+#include "ControllerButton.h"
 
-template <typename First, typename... Rest>
-void setValue(const size_t index, utility::HeapObject<Component> storage[], First&& first, Rest&&... rest) {
-    storage[index] = utilities::move(first);
-    setValue(index + 1, storage, rest...);
-}
-
-template <typename Last>
-void setValue(const size_t index, utility::HeapObject<Component> storage[], Last&& last) {
-    storage[index] = utilities::move(last);
-}
-
-template <size_t NumberOfComponents>
-class ComponentsComposition {
+class GameController : public Device {
 public:
-    template <typename... Args>
-    ComponentsComposition(Args&&... args) {
-        static_assert((sizeof...(Args)) == NumberOfComponents, "Wrong number of hardware devices");
-        setValue(0, devices, args...);
-    }
-
-    void begin() {
-        for (auto& device : devices) {
-            device->begin();
-        }
-    }
-
-    void loop() {
-        for (auto& device : devices) {
-            device->loop();
-        }
-    }
+    GameController(HwApi& hw_api);
+    virtual ~GameController() override = default;
+    virtual void begin() override;
+    virtual void loop() override;
 
 private:
-    utility::HeapObject<Component> devices[NumberOfComponents];
+    ComponentsComposition<12> components;
 };
 
 
-#endif //CONTROLLERBUILDER_H
+#endif //CONTROLLER_H

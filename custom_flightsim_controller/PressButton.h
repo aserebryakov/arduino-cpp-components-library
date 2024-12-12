@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,12 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CONTROLLER_H
-#define CONTROLLER_H
-
-class Controller {
-
-};
+#ifndef PRESSBUTTON_H
+#define PRESSBUTTON_H
 
 
-#endif //CONTROLLER_H
+void pressButton(const int button);
+
+
+#endif //PRESSBUTTON_H

@@ -1,3 +1,4 @@
+
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -20,5 +21,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Controller.h"
+#ifndef CONTROLLERBUTTON_H
+#define CONTROLLERBUTTON_H
 
+#include "Component.h"
+#include "Button.h"
+#include <Arduino.h>
+#include "HID-Project.h"
+#include "PressButton.h"
+
+class ControllerButton : public Component {
+public:
+    ControllerButton(const int pin, const int button_number, HwApi& hw_api);
+    virtual ~ControllerButton() override = default;
+
+    static void onPress(void* self);
+
+    void onPress();
+
+    virtual void begin() override;
+
+    virtual void loop() override;
+
+private:
+    Button button;
+    int button_number{0};
+};
+
+
+
+#endif //CONTROLLERBUTTON_H

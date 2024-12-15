@@ -3,8 +3,7 @@
 #include "VolumeControl.h"
 #include "Scheduler.h"
 #include "MouseControl.h"
-
-using utility::HeapObject;
+#include "KeyboardControl.h"
 
 constexpr int DT_PIN = 7;
 constexpr int CLK_PIN = 5;
@@ -17,61 +16,57 @@ constexpr int TICK{ 5 };
 
 HwApiImpl hw_api{};
 
-class KeyboardLogic {
+class MouseControl : public Device {
 public:
-  KeyboardLogic(Scheduler& scheduler)
-    : scheduler{ scheduler } {
+  MouseControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) :
+      jiggler{scheduler},
+      button{
+              {switch_pin, true},
+              hw_api,
+              {onSwitch, this},
+              {}
+      },
+    led{led_pin, hw_api} {
   }
 
-  static void keyboardTask(void* self) {
-    static_cast<KeyboardLogic*>(self)->press_next_button();
-  }
+  virtual ~MouseControl() override = default;
 
   void begin() {
-    Keyboard.begin();
+    button.begin();
   }
 
-  void toggle() {
-    if (!enabled) {
-      task_id = scheduler.addPeriodicTask({ keyboardTask, this }, 300);
-      enabled = true;
-      return;
+  void loop() {
+    button.loop();
+  }
+
+  static void onSwitch(void* self) {
+    auto& this_ = *(static_cast<MouseControl*>(self));
+    this_.jiggler.toggle();
+
+    if (this_.jiggler.isEnabled()) {
+      this_.led.turnOn();
+    } else {
+      this_.led.turnOff();
     }
-
-    scheduler.removeTask(task_id);
-    enabled = false;
-    next_character = 0;
-  }
-
-  bool isEnabled() const {
-    return enabled;
-  }
-
-  void press_next_button() {
-    static char text[]{ "All work and no play makes Jack a dull boy.\n" };
-    Keyboard.write(text[next_character]);
-    next_character++;
-    next_character = next_character % sizeof(text);
   }
 
 private:
-  Scheduler& scheduler;
-  bool enabled{ false };
-  SchedulerTaskId task_id{ 0 };
-  uint8_t next_character{ 0 };
+  peripherals::MouseJigglerLogic jiggler;
+  Button button;
+  DigitalLed led;
 };
 
-class KeyboardControl {
+class KeyboardControl : public Device {
 public:
-  KeyboardControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) :
-    keyboard_logic{ scheduler },
-    button{
-      { switch_pin, true },
-      hw_api,
-      { onSwitch, this },
-      {}
-    },
-    led{ led_pin, hw_api } {
+  KeyboardControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api)
+    : keyboard_logic{ scheduler },
+      button{
+        { switch_pin, true },
+        hw_api,
+        { onSwitch, this },
+        {}
+      },
+      led{ led_pin, hw_api } {
   }
 
   void begin() {
@@ -95,7 +90,7 @@ public:
   }
 
 private:
-  KeyboardLogic keyboard_logic;
+  peripherals::KeyboardLogic keyboard_logic;
   Button button;
   DigitalLed led;
 };
@@ -119,8 +114,8 @@ public:
 private:
   Scheduler scheduler{};
   peripherals::VolumeControl volume_control{ DT_PIN, CLK_PIN, SW_PIN, hw_api };
-  peripherals::MouseControl mouse_control{ MOUSE_SWITCH_PIN, MOUSE_LED_PIN, scheduler, hw_api };
-  KeyboardControl keyboard_control{ KEYBOARD_SWITCH_PIN, KEYBOARD_LED_PIN, scheduler, hw_api};
+  MouseControl mouse_control{ MOUSE_SWITCH_PIN, MOUSE_LED_PIN, scheduler, hw_api };
+  KeyboardControl keyboard_control{ KEYBOARD_SWITCH_PIN, KEYBOARD_LED_PIN, scheduler, hw_api };
 };
 
 Controller controller{};

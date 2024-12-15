@@ -37,89 +37,65 @@ namespace peripherals {
 
 class MouseJigglerLogic {
 public:
-    MouseJigglerLogic(Scheduler& scheduler) : scheduler{scheduler} {
+  MouseJigglerLogic(Scheduler& scheduler)
+    : scheduler{ scheduler } {
+  }
+
+  static void mouseTask(void* self) {
+    static_cast<MouseJigglerLogic*>(self)->move();
+  }
+
+  void begin() {
+    Mouse.begin();
+  }
+
+  void move() {
+    Mouse.move(x_increment, y_increment);
+    moves_made++;
+    if (moves_made % 60 == 0) {
+      x_increment = -x_increment;
+      y_increment = -y_increment;
+      Mouse.click();
+    }
+  }
+
+  void start() {
+    if (isEnabled()) {
+      return;
     }
 
-    static void mouseTask(void* self) {
-        static_cast<MouseJigglerLogic*>(self)->move();
+    task_id = scheduler.addPeriodicTask({ mouseTask, this }, 20);
+    enabled = true;
+  }
+
+  void stop() {
+    if (!isEnabled()) {
+      return;
     }
 
-    void begin() {
-        Mouse.begin();
-    }
+    scheduler.removeTask(task_id);
+    enabled = false;
+  }
 
-    void move() {
-        Mouse.move(x_increment, y_increment);
-        moves_made++;
-        if (moves_made % 60 == 0) {
-            x_increment = -x_increment;
-            y_increment = -y_increment;
-            Mouse.click();
-        }
+  void toggle() {
+    if (!isEnabled()) {
+      start();
+    } else {
+      stop();
     }
+  }
 
-    void toggle() {
-        if (!enabled) {
-            task_id = scheduler.addPeriodicTask({mouseTask, this}, 20);
-            enabled = true;
-            return;
-        }
-
-        scheduler.removeTask(task_id);
-        enabled = false;
-    }
-
-    bool isEnabled() const {
-      return enabled;
-    }
+  bool isEnabled() const {
+    return enabled;
+  }
 
 private:
-    Scheduler& scheduler;
-    bool enabled{false};
-    SchedulerTaskId task_id{0};
-    int moves_made{0};
-    int x_increment{3};
-    int y_increment{3};
-};
-
-class MouseControl : public Device {
-public:
-    MouseControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) :
-        jiggler{scheduler},
-        button{
-            {switch_pin, true},
-            hw_api,
-            {onSwitch, this},
-            {}
-        },
-  		led{led_pin, hw_api} {
-    }
-
-    virtual ~MouseControl() override = default;
-
-    void begin() {
-        button.begin();
-    }
-
-    void loop() {
-        button.loop();
-    }
-
-    static void onSwitch(void* self) {
-        auto& this_ = *(static_cast<MouseControl*>(self));
-        this_.jiggler.toggle();
-
-        if (this_.jiggler.isEnabled()) {
-          this_.led.turnOn();
-        } else {
-          this_.led.turnOff();
-        }
-    }
-
-private:
-    MouseJigglerLogic jiggler;
-    Button button;
-    DigitalLed led;
+  Scheduler& scheduler;
+  bool enabled{ false };
+  SchedulerTaskId task_id{ 0 };
+  int moves_made{ 0 };
+  int x_increment{ 3 };
+  int y_increment{ 3 };
 };
 
 }

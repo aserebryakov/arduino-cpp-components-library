@@ -24,6 +24,10 @@
 #ifndef KEYBOARDCONTROL_H
 #define KEYBOARDCONTROL_H
 
+#include "Scheduler.h"
+#include <Arduino.h>
+#include "HID-Project.h"
+
 namespace peripherals {
 
 class KeyboardLogic {

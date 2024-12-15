@@ -2,14 +2,15 @@
 #include "HwApiImpl.h"
 #include "HID-Project.h"
 #include "GameController.h"
-#include "VolumeControl.h"
-#include "ConsumerButtonTester.h"
+#include "MultiFunctionalControl.h"
+#include "Scheduler.h"
 
 HwApiImpl hw_api{};
-utility::HeapObject<Device> device{nullptr};
+Scheduler scheduler{};
+utility::HeapObject<Device> device{ nullptr };
 
-constexpr int CONFIGURATION_PIN{7};
-constexpr int DELAY_MS{5};
+constexpr int CONFIGURATION_PIN{ 7 };
+constexpr int DELAY_MS{ 5 };
 
 void setup() {
   Serial.begin(9600);
@@ -19,8 +20,7 @@ void setup() {
     Serial.println("Game Controller Selected");
     device = utility::HeapObject<Device>(new GameController(hw_api));
   } else {
-     device = utility::HeapObject<Device>(new peripherals::VolumeControl(21, 20, 19, hw_api));
-//   device = utility::HeapObject<Device>(new ConsumerButtonTester(21, 20, 19, hw_api));
+    device = utility::HeapObject<Device>(new MultiFunctionalControl(scheduler, hw_api));
   }
 
   device->begin();
@@ -28,5 +28,6 @@ void setup() {
 
 void loop() {
   device->loop();
+  scheduler.tick(DELAY_MS);
   delay(DELAY_MS);
 }

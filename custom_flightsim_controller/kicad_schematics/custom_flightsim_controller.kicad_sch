@@ -664,151 +664,6 @@
 				)
 			)
 		)
-		(symbol "Switch:SW_Push"
-			(pin_numbers hide)
-			(pin_names
-				(offset 1.016) hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "SW"
-				(at 1.27 2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "SW_Push"
-				(at 0 -1.524 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 5.08 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Push button switch, generic, two pins"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "switch normally-open pushbutton push-button"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "SW_Push_0_1"
-				(circle
-					(center -2.032 0)
-					(radius 0.508)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 1.27) (xy 0 3.048)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 1.27) (xy -2.54 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 2.032 0)
-					(radius 0.508)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 5.08 0 180)
-					(length 2.54)
-					(name "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Switch:SW_SPDT_MSM"
 			(pin_names
 				(offset 0) hide)
@@ -1047,6 +902,16 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f27d5846-b529-47de-9335-220af017f79c")
+	)
+	(wire
+		(pts
+			(xy 149.86 55.88) (xy 149.86 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "028bb81b-bbcd-4e8e-a345-08ade07a9b0b")
 	)
 	(wire
 		(pts
@@ -1400,6 +1265,16 @@
 	)
 	(wire
 		(pts
+			(xy 148.59 55.88) (xy 149.86 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6be15ca2-3350-454d-a159-fdfd3fe11513")
+	)
+	(wire
+		(pts
 			(xy 194.31 87.63) (xy 152.4 87.63)
 		)
 		(stroke
@@ -1560,7 +1435,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 110.49) (xy 115.57 76.2)
+			(xy 115.57 107.95) (xy 115.57 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1730,6 +1605,16 @@
 	)
 	(wire
 		(pts
+			(xy 149.86 113.03) (xy 101.6 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c44d46ff-f25c-404e-8c15-d3adfd4d60db")
+	)
+	(wire
+		(pts
 			(xy 152.4 58.42) (xy 148.59 58.42)
 		)
 		(stroke
@@ -1790,7 +1675,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 110.49) (xy 115.57 110.49)
+			(xy 101.6 107.95) (xy 115.57 107.95)
 		)
 		(stroke
 			(width 0)
@@ -1914,74 +1799,6 @@
 			(project ""
 				(path "/1e0e1b28-f6bb-4218-ab83-9b1d927bd31c"
 					(reference "SW4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Switch:SW_Push")
-		(at 96.52 110.49 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "302b391b-1a6d-46df-9095-bc7d34ec070a")
-		(property "Reference" "SW8"
-			(at 96.52 102.87 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SW_Push"
-			(at 96.52 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 96.52 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 96.52 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Push button switch, generic, two pins"
-			(at 96.52 110.49 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "05d39d4f-5b56-4008-810f-490893ae2d3d")
-		)
-		(pin "2"
-			(uuid "4b61f556-fb70-40f7-b78e-e813a5522780")
-		)
-		(instances
-			(project ""
-				(path "/1e0e1b28-f6bb-4218-ab83-9b1d927bd31c"
-					(reference "SW8")
 					(unit 1)
 				)
 			)
@@ -2566,6 +2383,77 @@
 			(project "dcs_control"
 				(path "/1e0e1b28-f6bb-4218-ab83-9b1d927bd31c"
 					(reference "SW5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_SPDT_MSM")
+		(at 96.52 110.49 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ef6be478-06f2-47ae-b50d-c2b48404e5ec")
+		(property "Reference" "SW1"
+			(at 96.52 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SW_SPDT_MSM"
+			(at 96.52 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 82.55 99.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 96.52 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Switch, single pole double throw, center OFF position"
+			(at 96.52 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "50f53fef-acf6-47aa-bb6b-77c84e3a7edc")
+		)
+		(pin "3"
+			(uuid "d6295851-767c-48fb-9c10-7f65363800ec")
+		)
+		(pin "2"
+			(uuid "b69c83ad-2f09-46f7-93db-8b5df4f3c387")
+		)
+		(instances
+			(project "custom_flightsim_controller"
+				(path "/1e0e1b28-f6bb-4218-ab83-9b1d927bd31c"
+					(reference "SW1")
 					(unit 1)
 				)
 			)

@@ -27,9 +27,7 @@
 #include <HID-Project.h>
 #include "HwApi.h"
 #include "Scheduler.h"
-#include "HwApi.h"
 #include "Device.h"
-#include "ComponentsComposition.h"
 #include "HeapObject.h"
 #include "Button.h"
 #include "DigitalLed.h"
@@ -86,24 +84,25 @@ private:
 
 class MouseControl : public Device {
 public:
-    MouseControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) : jiggler{scheduler}, hw_api{hw_api}, control{
-        utility::HeapObject<Component>(new Button{
-          {switch_pin, true},
-          hw_api,
-          {onSwitch, this},
-          {},
-          })},
+    MouseControl(const int switch_pin, const int led_pin, Scheduler& scheduler, HwApi& hw_api) :
+        jiggler{scheduler},
+        button{
+            {switch_pin, true},
+            hw_api,
+            {onSwitch, this},
+            {}
+        },
   		led{led_pin, hw_api} {
     }
 
     virtual ~MouseControl() override = default;
 
     void begin() {
-        control.begin();
+        button.begin();
     }
 
     void loop() {
-        control.loop();
+        button.loop();
     }
 
     static void onSwitch(void* self) {
@@ -119,8 +118,7 @@ public:
 
 private:
     MouseJigglerLogic jiggler;
-    HwApi& hw_api;
-    ComponentsComposition<1> control;
+    Button button;
     DigitalLed led;
 };
 

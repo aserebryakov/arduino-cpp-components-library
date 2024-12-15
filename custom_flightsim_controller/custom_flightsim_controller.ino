@@ -3,12 +3,13 @@
 #include "HID-Project.h"
 #include "GameController.h"
 #include "VolumeControl.h"
+#include "ConsumerButtonTester.h"
 
 HwApiImpl hw_api{};
-GameController game_controller{hw_api};
 utility::HeapObject<Device> device{nullptr};
 
 constexpr int CONFIGURATION_PIN{7};
+constexpr int DELAY_MS{5};
 
 void setup() {
   Serial.begin(9600);
@@ -18,7 +19,8 @@ void setup() {
     Serial.println("Game Controller Selected");
     device = utility::HeapObject<Device>(new GameController(hw_api));
   } else {
-    device = utility::HeapObject<Device>(new peripherals::VolumeControl(21, 20, 19, hw_api));
+     device = utility::HeapObject<Device>(new peripherals::VolumeControl(21, 20, 19, hw_api));
+//   device = utility::HeapObject<Device>(new ConsumerButtonTester(21, 20, 19, hw_api));
   }
 
   device->begin();
@@ -26,5 +28,5 @@ void setup() {
 
 void loop() {
   device->loop();
-  delay(5);
+  delay(DELAY_MS);
 }

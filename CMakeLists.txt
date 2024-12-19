@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.29)
-project(arduino_fun)
+project(support_library)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(support_library)
-add_subdirectory(custom_flightsim_controller)
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
 
-add_library(arduino_fun
-        library.cpp)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
-target_link_libraries(arduino_fun support_library custom_flightsim_controller)
+add_subdirectory(src)
+add_subdirectory(test)

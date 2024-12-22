@@ -54,18 +54,19 @@ target_link_libraries(
         devices_library PUBLIC utilities_library components_library
 )
 
-add_library(support_library STATIC
+add_library(cpp_components_library STATIC
+        CppComponents.h
         HwApiImpl.h
 )
 
 target_link_libraries(
-        support_library
+        cpp_components_library
         api_library
         pins_library
         components_library
 )
 
-target_include_directories(support_library PUBLIC
+target_include_directories(cpp_components_library PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:>
 )

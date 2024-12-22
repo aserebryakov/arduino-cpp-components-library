@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.29)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(
-        support_library_test
+        cpp_components_test
         SchedulerTest.cpp
         RotaryEncoderTest.cpp
         HwApiMock.cpp
@@ -19,8 +19,8 @@ add_executable(
 include(GoogleTest)
 
 target_link_libraries(
-        support_library_test
-        support_library
+        cpp_components_test
+        cpp_components_library
         api_library
         devices_library
         GTest::gmock_main
@@ -28,4 +28,4 @@ target_link_libraries(
 
 enable_testing()
 
-gtest_discover_tests(support_library_test)
+gtest_discover_tests(cpp_components_test)

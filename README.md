@@ -41,6 +41,7 @@ Abstraction level that represents pins and work with them.
 
 ```mermaid
 classDiagram
+    direction BT
     class PinApi {
         <<interface>>
         + begin() = 0
@@ -84,7 +85,8 @@ Component is a composition of pins that has clear real life functional represent
 
 ```mermaid
 classDiagram
-    class HwComponentApi {
+    direction BT
+    class Component {
         <<interface>>
         + begin() = 0
         + loop() = 0
@@ -120,9 +122,9 @@ classDiagram
     }
 
     DigitalOutputPin "1" --* "1" Led
-    RotaryEncoder --|> HwComponentApi : implements
-    Led --|> HwComponentApi : implements
-    Button --|> HwComponentApi : implements
+    RotaryEncoder --|> Component : implements
+    Led --|> Component : implements
+    Button --|> Component : implements
 ```
 
 ### Devices
@@ -132,7 +134,9 @@ mouse, etc.).
 
 ```mermaid
 classDiagram
-    class HwDeviceApi {
+    direction BT
+    
+    class Device {
         <<interface>>
         + begin() = 0
         + loop() = 0
@@ -143,6 +147,6 @@ classDiagram
         + loop()
     }
     
-    VolumeControl --|> HwDeviceApi : implements
+    VolumeControl --|> Device : implements
     RotaryEncoder "1" --* "1" VolumeControl
 ```

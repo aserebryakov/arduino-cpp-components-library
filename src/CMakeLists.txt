@@ -55,7 +55,7 @@ target_link_libraries(
 )
 
 add_library(cpp_components_library STATIC
-        CppComponents.h
+        CppComponentsLibrary.h
         HwApiImpl.h
 )
 

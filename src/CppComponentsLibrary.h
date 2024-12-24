@@ -38,5 +38,6 @@
 #include "RotaryEncoder.h"
 #include "Scheduler.h"
 #include "Utilities.h"
+#include "HwApiImpl.h"
 
 #endif //CPPCOMPONENTS_H

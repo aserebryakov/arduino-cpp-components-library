@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.29)
-
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(
@@ -26,6 +24,7 @@ target_link_libraries(
         GTest::gmock_main
 )
 
-enable_testing()
+#enable_testing()
 
 gtest_discover_tests(cpp_components_test)
+

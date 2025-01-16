@@ -1,5 +1,7 @@
-cmake_minimum_required(VERSION 3.29)
-project(support_library)
+cmake_minimum_required(VERSION 3.28)
+project(cpp_components_library)
+
+include(CTest)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -13,4 +15,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(src)
-add_subdirectory(test)
+
+if (BUILD_TESTING)
+    add_subdirectory(test)
+endif()

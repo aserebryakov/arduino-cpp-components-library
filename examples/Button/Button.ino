@@ -20,16 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// This example demonstrates how to work with RotaryEncoder object.
+// This example demonstrates how to work with Button object.
 //
 // Hardware:
 // - Arduino
-// - KY-40 rotary encoder
+// - Button
 //
 // Setup:
-// - DT pin is connected to D3
-// - SW pin is connected to D4
-// - CLK pin is connected to D2
+// - Button is connected to D2
 
 #include <Arduino.h>
 #include <CppComponentsLibrary.h>
@@ -37,72 +35,59 @@
 // Instantiate a hardware api object.
 HwApiImpl hw_api{};
 
-constexpr int DT_PIN{3};
-constexpr int SW_PIN{4};
-constexpr int CLK_PIN{2};
+constexpr int BUTTON_PIN{2};
 
 // Class is used to implement callbacks and store the internal state.
 //
 // Inheritance from Device class isn't necessary, but it provides default functions
 // to be implemented to have a consistent API
-class RotaryEncoderLogic : public Device {
+class ButtonLogic : public Device {
 public:
-  RotaryEncoderLogic() : encoder{
-    {DT_PIN, true}, // Setting DT pin to PULL_UP mode
-    {CLK_PIN, true}, // Setting CLK pin to PULL_UP mode
-    {SW_PIN, true}, // Setting SW pin to PULL_UP mode
-    hw_api, // Providing to encoder instance of HwApi to be used to control pins
-    {onTurnClockwise, this}, // Connecting clockwise turn event to callback function and this object
-    {onTurnCounterClockwise, this}, // Connecting counter clockwise turn event to callback function and this object 
-    {onTurnPushButton, this} // Connecting button push event to callback function and this object
+  ButtonLogic() : button{
+    {BUTTON_PIN, true}, // Setting DT pin to PULL_UP mode
+    hw_api, // Providing to button instance of HwApi to be used to setup pin and read pin value
+    {onPushButton, this}, // Connecting button push event to callback function and this object
+    {onReleaseButton, this}, // Connecting button release event to callback function and this object 
     }
   {
   }
 
-  virtual ~RotaryEncoderLogic() = default;
+  virtual ~ButtonLogic() override = default;
 
   // Function to be called from setup() 
   virtual void begin() override {
-    encoder.begin(); // Initializes pins
+    button.begin(); // Initializes pin
   }
 
   // Function to be called from loop()
   virtual void loop() override {
-    encoder.loop(); // Reads pins values and calls callback funcitons
+    button.loop(); // Reads pin value and calls callback funcitons
   }
 
-  // Function that is called when knob is turned clockwise
-  static void onTurnClockwise(void* self) {
+  // Function that is called when button is pushed
+  static void onPushButton(void* self) {
     // Callback function is unaware of the pointer type so we cast it to current object type.
-    auto& logic{*static_cast<RotaryEncoderLogic*>(self)};
+    auto& logic{*static_cast<ButtonLogic*>(self)};
     logic.counter++;
-    Serial.print("Turn clockwise : ");
+    Serial.print("Button pushed : ");
     Serial.println(logic.counter);
   }
 
-  // Function that is called when knob is turned counter clockwise
-  static void onTurnCounterClockwise(void* self) {
-    auto& logic{*static_cast<RotaryEncoderLogic*>(self)};
+  // Function that is called when when button is released
+  static void onReleaseButton(void* self) {
+    auto& logic{*static_cast<ButtonLogic*>(self)};
     logic.counter--;
-    Serial.print("Turn counter clockwise : ");
-    Serial.println(logic.counter);
-  }
-
-  // Function that is called when putton is pushed
-  static void onTurnPushButton(void* self) {
-    auto& logic{*static_cast<RotaryEncoderLogic*>(self)};
-    logic.counter = 0;
-    Serial.print("Push button : ");
+    Serial.print("Button released : ");
     Serial.println(logic.counter);
   }
 
 private:
-  RotaryEncoder encoder;
+  Button button;
   int counter{0};
 };
 
 // Instantiating the object
-RotaryEncoderLogic logic{};
+ButtonLogic logic{};
 
 void setup() {
   Serial.begin(57600);
@@ -111,5 +96,5 @@ void setup() {
 
 void loop() {
   logic.loop();
-  delay(5);
+  delay(10);
 }

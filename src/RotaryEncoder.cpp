@@ -43,14 +43,14 @@ void RotaryEncoder::readPins() {
 }
 
 void RotaryEncoder::readRotation() {
-    dt_pin.read();
     clk_pin.read();
+    dt_pin.read();
 
-    if (dt_pin.getPinChange() != PIN_CHANGE::LOW_HIGH) {
+    if (clk_pin.getPinChange() != PIN_CHANGE::LOW_HIGH) {
         return;
     }
 
-    if (clk_pin.getLevel() == HwApi::LEVEL_HIGH) {
+    if (dt_pin.getLevel() == HwApi::LEVEL_HIGH) {
         on_turn_counterclockwise();
     }
     else {

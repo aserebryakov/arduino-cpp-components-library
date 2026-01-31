@@ -20,25 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
+#ifndef ANALOGINPUTPIN_H
+#define ANALOGINPUTPIN_H
 
-#include "AnalogInputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
 #include "HwApi.h"
-#include "InputPinConfig.h"
 #include "Pin.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
-#include "HwApiImpl.h"
+#include "InputPinConfig.h"
 
-#endif //CPPCOMPONENTS_H
+/**
+ * Represents abstraction level for analog pin.
+ */
+class AnalogInputPin : public Pin {
+public:
+    /**
+      * Constructor.
+      *
+      * @param[in] pin_config Pin configuration
+      * @param[in] hw_api Hardware API implementation reference
+      */
+    AnalogInputPin(InputPinConfig&& pin_config, HwApi& hw_api);
+
+    virtual ~AnalogInputPin() override = default;
+
+    /**
+     * Reads the value of the pin.
+     *
+     * @return pin value.
+     */
+    int read();
+
+    /**
+     * Returns previously read pin value.
+     *
+     * @return pin value
+     */
+    int getValue() const;
+
+    void begin() override;
+    void loop() override;
+
+private:
+    HwApi& hw_api;
+    InputPinConfig config;
+    int current_value{0};
+};
+
+#endif //ANALOGINPUTPIN_H

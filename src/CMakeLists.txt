@@ -18,6 +18,8 @@ add_library(utilities_library STATIC
 add_library(pins_library STATIC
         DigitalInputPin.h
         DigitalInputPin.cpp
+        AnalogInputPin.h
+        AnalogInputPin.cpp
         Pin.h
         Pin.cpp
         InputPinConfig.cpp

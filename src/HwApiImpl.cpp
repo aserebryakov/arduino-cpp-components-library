@@ -33,6 +33,10 @@ int HwApiImpl::digitalRead(const uint8_t pin) const {
     return ::digitalRead(pin);
 }
 
+int HwApiImpl::analogRead(const uint8_t pin) const {
+    return ::analogRead(pin);
+}
+
 void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
     static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
     static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);

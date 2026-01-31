@@ -20,25 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
-
 #include "AnalogInputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
-#include "HwApiImpl.h"
 
-#endif //CPPCOMPONENTS_H
+AnalogInputPin::AnalogInputPin(InputPinConfig&& pin_config, HwApi& hw_api) : hw_api{hw_api}, config{pin_config} {
+}
+
+void AnalogInputPin::begin() {
+    hw_api.pinMode(config.getPin(), config.isPullup() ? HwApi::PIN_MODE::INPUT_PULLUP_MODE : HwApi::PIN_MODE::INPUT_MODE);
+}
+
+void AnalogInputPin::loop() {
+    read();
+}
+
+int AnalogInputPin::read() {
+    current_value = hw_api.analogRead(config.getPin());
+    return current_value;
+}
+
+int AnalogInputPin::getValue() const {
+    return current_value;
+}

@@ -20,25 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
 #include "AnalogInputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
-#include "HwApiImpl.h"
 
-#endif //CPPCOMPONENTS_H
+using namespace ::testing;
+
+class AnalogInputPinTest : public Test {
+protected:
+    NiceMock<HwApiMock> hwApiMock{};
+};
+
+TEST_F(AnalogInputPinTest, Construction) {
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    EXPECT_EQ(pin.getValue(), 0);
+}
+
+TEST_F(AnalogInputPinTest, ReadTest) {
+    EXPECT_CALL(hwApiMock, analogRead(14)).Times(3)
+        .WillOnce(Return(100))
+        .WillOnce(Return(200))
+        .WillOnce(Return(300));
+
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    EXPECT_EQ(pin.read(), 100);
+    EXPECT_EQ(pin.getValue(), 100);
+
+    EXPECT_EQ(pin.read(), 200);
+    EXPECT_EQ(pin.getValue(), 200);
+
+    EXPECT_EQ(pin.read(), 300);
+    EXPECT_EQ(pin.getValue(), 300);
+}
+
+TEST_F(AnalogInputPinTest, BeginAndLoop) {
+    EXPECT_CALL(hwApiMock, pinMode(14, HwApi::PIN_MODE::INPUT_MODE)).Times(1);
+    EXPECT_CALL(hwApiMock, analogRead(14)).Times(1).WillOnce(Return(512));
+
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    pin.begin();
+    pin.loop();
+
+    EXPECT_EQ(pin.getValue(), 512);
+}

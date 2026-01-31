@@ -7,6 +7,7 @@ add_executable(
         HwApiMock.cpp
         HwApiMock.h
         DigitalInputPinTest.cpp
+        AnalogInputPinTest.cpp
         GenericControllerTest.cpp
         HeapObjectTest.cpp
         ButtonTest.cpp

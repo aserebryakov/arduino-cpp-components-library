@@ -26,6 +26,8 @@ add_library(pins_library STATIC
         InputPinConfig.h
         DigitalOutputPin.cpp
         DigitalOutputPin.h
+        AnalogOutputPin.cpp
+        AnalogOutputPin.h
 )
 
 target_link_libraries(

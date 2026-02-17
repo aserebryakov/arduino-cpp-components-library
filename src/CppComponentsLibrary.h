@@ -24,6 +24,7 @@
 #define CPPCOMPONENTS_H
 
 #include "AnalogInputPin.h"
+#include "AnalogOutputPin.h"
 #include "Button.h"
 #include "Callback.h"
 #include "Component.h"

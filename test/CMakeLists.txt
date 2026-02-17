@@ -12,6 +12,7 @@ add_executable(
         HeapObjectTest.cpp
         ButtonTest.cpp
         DigitalOutputPinTest.cpp
+        AnalogOutputPinTest.cpp
         DigitalLedTest.cpp
 )
 

@@ -20,40 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ANALOGOUTPUTPIN_H
-#define ANALOGOUTPUTPIN_H
+#include "AnalogLed.h"
 
-#include "HwApi.h"
-#include "Pin.h"
+AnalogLed::AnalogLed(const int pin_number, HwApi& hw_api) : pin{pin_number, hw_api} {
+}
 
-/**
- * Represents abstraction level for analog output pin (PWM).
- */
-class AnalogOutputPin : public Pin {
-public:
-    /**
-      * Constructor.
-      *
-      * @param[in] pin_number Pin number
-      * @param[in] hwapi Hardware API implementation reference
-      */
-    AnalogOutputPin(const int pin_number, HwApi& hwapi);
+void AnalogLed::begin() {
+    pin.begin();
+}
 
-    virtual ~AnalogOutputPin() override = default;
+void AnalogLed::loop() {
+    pin.loop();
+}
 
-    /**
-     * Writes an analog value (PWM wave) to a pin.
-     *
-     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
-     */
-    void write(const int value) const;
+void AnalogLed::turnOn() const {
+    pin.write(255);
+}
 
-    void begin() override;
-    void loop() override;
+void AnalogLed::turnOff() const {
+    pin.write(0);
+}
 
-private:
-    int pin_number;
-    HwApi& hwapi;
-};
-
-#endif //ANALOGOUTPUTPIN_H
+void AnalogLed::setBrightness(const int value) const {
+    pin.write(value);
+}

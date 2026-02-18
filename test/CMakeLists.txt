@@ -14,6 +14,7 @@ add_executable(
         DigitalOutputPinTest.cpp
         AnalogOutputPinTest.cpp
         DigitalLedTest.cpp
+        AnalogLedTest.cpp
 )
 
 include(GoogleTest)

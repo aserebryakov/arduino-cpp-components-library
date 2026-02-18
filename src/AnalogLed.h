@@ -20,40 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ANALOGOUTPUTPIN_H
-#define ANALOGOUTPUTPIN_H
+#ifndef ANALOGLED_H
+#define ANALOGLED_H
 
-#include "HwApi.h"
-#include "Pin.h"
+#include "Component.h"
+#include "AnalogOutputPin.h"
 
 /**
- * Represents abstraction level for analog output pin (PWM).
+ * Represents abstraction level for analog LED (PWM).
  */
-class AnalogOutputPin : public Pin {
+class AnalogLed : public Component {
 public:
     /**
       * Constructor.
       *
       * @param[in] pin_number Pin number
-      * @param[in] hwapi Hardware API implementation reference
+      * @param[in] hw_api Hardware API implementation reference
       */
-    AnalogOutputPin(const int pin_number, HwApi& hwapi);
-
-    virtual ~AnalogOutputPin() override = default;
-
-    /**
-     * Writes an analog value (PWM wave) to a pin.
-     *
-     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
-     */
-    void write(const int value) const;
+    AnalogLed(const int pin_number, HwApi& hw_api);
+    virtual ~AnalogLed() override = default;
 
     void begin() override;
     void loop() override;
 
+    /**
+     * Turns LED on (maximum brightness).
+     */
+    void turnOn() const;
+
+    /**
+     * Turns LED off.
+     */
+    void turnOff() const;
+
+    /**
+     * Sets LED brightness.
+     *
+     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
+     */
+    void setBrightness(const int value) const;
+
 private:
-    int pin_number;
-    HwApi& hwapi;
+    AnalogOutputPin pin;
 };
 
-#endif //ANALOGOUTPUTPIN_H
+#endif //ANALOGLED_H

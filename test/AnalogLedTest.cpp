@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2026 Alexander Serebryakov
+// Copyright (c) 2024 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ANALOGOUTPUTPIN_H
-#define ANALOGOUTPUTPIN_H
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
-#include "HwApi.h"
-#include "Pin.h"
+#include "AnalogLed.h"
 
-/**
- * Represents abstraction level for analog output pin (PWM).
- */
-class AnalogOutputPin : public Pin {
-public:
-    /**
-      * Constructor.
-      *
-      * @param[in] pin_number Pin number
-      * @param[in] hwapi Hardware API implementation reference
-      */
-    AnalogOutputPin(const int pin_number, HwApi& hwapi);
+using namespace ::testing;
 
-    virtual ~AnalogOutputPin() override = default;
-
-    /**
-     * Writes an analog value (PWM wave) to a pin.
-     *
-     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
-     */
-    void write(const int value) const;
-
-    void begin() override;
-    void loop() override;
-
-private:
-    int pin_number;
-    HwApi& hwapi;
+class AnalogLedTest : public Test {
+protected:
+    NiceMock<HwApiMock> hw_api_mock{};
 };
 
-#endif //ANALOGOUTPUTPIN_H
+TEST_F(AnalogLedTest, Begin) {
+    EXPECT_CALL(hw_api_mock, pinMode(42, HwApi::PIN_MODE::OUTPUT_MODE)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.begin();
+}
+
+TEST_F(AnalogLedTest, TurnOn) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 255)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.turnOn();
+}
+
+TEST_F(AnalogLedTest, TurnOff) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 0)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.turnOff();
+}
+
+TEST_F(AnalogLedTest, SetBrightness) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 128)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.setBrightness(128);
+}

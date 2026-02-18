@@ -43,6 +43,8 @@ add_library(components_library STATIC
         Button.h
         DigitalLed.cpp
         DigitalLed.h
+        AnalogLed.cpp
+        AnalogLed.h
 )
 
 target_link_libraries(

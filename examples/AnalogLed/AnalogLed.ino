@@ -20,40 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef ANALOGOUTPUTPIN_H
-#define ANALOGOUTPUTPIN_H
+// This example demonstrates how to work with AnalogLed object.
+//
+// Hardware:
+// - Arduino
+// - LED
+//
+// Setup:
+// - LED is connected to D3 (PWM pin)
 
-#include "HwApi.h"
-#include "Pin.h"
+#include <Arduino.h>
+#include <CppComponentsLibrary.h>
 
-/**
- * Represents abstraction level for analog output pin (PWM).
- */
-class AnalogOutputPin : public Pin {
-public:
-    /**
-      * Constructor.
-      *
-      * @param[in] pin_number Pin number
-      * @param[in] hwapi Hardware API implementation reference
-      */
-    AnalogOutputPin(const int pin_number, HwApi& hwapi);
+// Instantiate a hardware api object.
+HwApiImpl hw_api{};
 
-    virtual ~AnalogOutputPin() override = default;
+constexpr int LED_PIN{3};
 
-    /**
-     * Writes an analog value (PWM wave) to a pin.
-     *
-     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
-     */
-    void write(const int value) const;
+AnalogLed led{
+  LED_PIN, // Set LED pin number
+  hw_api // provide the instance of HwApi to control pin
+  };
 
-    void begin() override;
-    void loop() override;
+void setup() {
+  Serial.begin(9600);
+  led.begin(); // Initialization (includes pin configuration)
+}
 
-private:
-    int pin_number;
-    HwApi& hwapi;
-};
+void loop() {
+  Serial.println("Increasing brightness");
+  for (int i = 0; i <= 255; i++) {
+    led.setBrightness(i);
+    delay(10);
+  }
 
-#endif //ANALOGOUTPUTPIN_H
+  Serial.println("Decreasing brightness");
+  for (int i = 255; i >= 0; i--) {
+    led.setBrightness(i);
+    delay(10);
+  }
+
+  Serial.println("Turn on");
+  led.turnOn();
+  delay(500);
+
+  Serial.println("Turn off");
+  led.turnOff();
+  delay(500);
+}

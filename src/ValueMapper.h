@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
+#ifndef VALUEMAPPER_H
+#define VALUEMAPPER_H
 
-#include "AnalogInputPin.h"
-#include "AnalogLed.h"
-#include "AnalogOutputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
-#include "Potentiometer.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
-#include "ValueMapper.h"
-#include "HwApiImpl.h"
+/**
+ * Utility class to map values from a source range to a target range.
+ */
+class ValueMapper {
+public:
+    /**
+     * Constructor.
+     * 
+     * @param[in] in_min Lower bound of the source range
+     * @param[in] in_max Upper bound of the source range
+     * @param[in] out_min Lower bound of the target range
+     * @param[in] out_max Upper bound of the target range
+     */
+    ValueMapper(const int in_min, const int in_max, const int out_min, const int out_max)
+        : in_min{in_min}, in_max{in_max}, out_min{out_min}, out_max{out_max} {}
 
-#endif //CPPCOMPONENTS_H
+    /**
+     * Maps a value based on the pre-configured source and target ranges.
+     * 
+     * @param[in] value The value to be mapped
+     * @return The mapped value
+     */
+    int map(const int value) const {
+        if (in_max == in_min) return out_min;
+        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
+private:
+    int in_min;
+    int in_max;
+    int out_min;
+    int out_max;
+};
+
+#endif // VALUEMAPPER_H

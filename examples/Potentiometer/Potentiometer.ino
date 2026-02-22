@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,29 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
+// This example demonstrates how to work with Potentiometer object.
+//
+// Hardware:
+// - Arduino
+// - Potentiometer connected to A0
+//
+// Setup:
+// - Potentiometer center pin is connected to A0
+// - Other pins are connected to 5V and GND
 
-#include "AnalogInputPin.h"
-#include "AnalogLed.h"
-#include "AnalogOutputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
-#include "Potentiometer.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
-#include "ValueMapper.h"
-#include "HwApiImpl.h"
+#include <Arduino.h>
+#include <CppComponentsLibrary.h>
 
-#endif //CPPCOMPONENTS_H
+// Instantiate a hardware api object.
+HwApiImpl hw_api{};
+
+// Define mapping for Potentiometer: 10-bit ADC (0-1023) to percentage (0-100)
+ValueMapper potMapper{0, 1023, 0, 100};
+
+// Instantiate Potentiometer on A0
+Potentiometer pot{{A0, false}, hw_api, potMapper};
+
+void setup() {
+    Serial.begin(9600);
+    pot.begin(); // Initialization (includes pin configuration)
+}
+
+void loop() {
+    pot.loop(); // Refresh the internal state
+
+    int rawValue = pot.getRawValue();
+    int mappedValue = pot.getMappedValue();
+
+    Serial.print("Raw: ");
+    Serial.print(rawValue);
+    Serial.print(" | Mapped: ");
+    Serial.print(mappedValue);
+    Serial.println("%");
+
+    delay(100);
+}

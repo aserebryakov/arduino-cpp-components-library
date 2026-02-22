@@ -13,6 +13,7 @@ add_library(utilities_library STATIC
         Scheduler.h
         Scheduler.cpp
         Utilities.h
+        ValueMapper.h
 )
 
 add_library(pins_library STATIC
@@ -45,6 +46,8 @@ add_library(components_library STATIC
         DigitalLed.h
         AnalogLed.cpp
         AnalogLed.h
+        Potentiometer.h
+        Potentiometer.cpp
 )
 
 target_link_libraries(

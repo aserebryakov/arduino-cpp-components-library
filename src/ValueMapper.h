@@ -42,12 +42,12 @@ public:
     /**
      * Maps a value based on the pre-configured source and target ranges.
      * 
-     * @param[in] value The value to be mapped
+     * @param[in] value The value to be mapped (using long because int * int overflows)
      * @return The mapped value
      */
-    int map(const int value) const {
+    int map(const long value) const {
         if (in_max == in_min) return out_min;
-        return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        return static_cast<int>((value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
     }
 
 private:

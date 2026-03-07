@@ -16,7 +16,7 @@ add_executable(
         DigitalLedTest.cpp
         AnalogLedTest.cpp
         ValueMapperTest.cpp
-        PotentiometerTest.cpp
+        AnalogInputTest.cpp
 )
 
 include(GoogleTest)

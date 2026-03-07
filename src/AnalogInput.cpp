@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,30 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
-
-#include "AnalogInputPin.h"
-#include "AnalogLed.h"
-#include "AnalogOutputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
 #include "AnalogInput.h"
-#include "Potentiometer.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
 #include "Utilities.h"
-#include "ValueMapper.h"
-#include "HwApiImpl.h"
 
-#endif //CPPCOMPONENTS_H
+AnalogInput::AnalogInput(InputPinConfig&& config,
+                             HwApi& hw_api, 
+                             const ValueMapper& mapper)
+    : pin{utilities::move(config), hw_api}, mapper{mapper} {
+}
+
+void AnalogInput::begin() {
+    pin.begin();
+}
+
+void AnalogInput::loop() {
+    pin.loop();
+}
+
+int AnalogInput::getRawValue() const {
+    return pin.getValue();
+}
+
+int AnalogInput::getMappedValue() const {
+    return mapper.map(pin.getValue());
+}

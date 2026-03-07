@@ -24,28 +24,28 @@
 #include <gtest/gtest.h>
 #include "HwApiMock.h"
 
-#include "Potentiometer.h"
+#include "AnalogInput.h"
 
 using namespace ::testing;
 
-class PotentiometerTest : public Test {
+class AnalogInputTest : public Test {
 protected:
     NiceMock<HwApiMock> hwApiMock{};
     const int PIN_NUMBER = 14;
     const ValueMapper defaultMapper{0, 1023, 0, 100};
 };
 
-TEST_F(PotentiometerTest, InitialValues) {
-    Potentiometer pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
+TEST_F(AnalogInputTest, InitialValues) {
+    AnalogInput pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
     EXPECT_EQ(pot.getRawValue(), 0);
     EXPECT_EQ(pot.getMappedValue(), 0);
 }
 
-TEST_F(PotentiometerTest, InitializationAndLoop) {
+TEST_F(AnalogInputTest, InitializationAndLoop) {
     EXPECT_CALL(hwApiMock, pinMode(PIN_NUMBER, HwApi::PIN_MODE::INPUT_MODE)).Times(1);
     EXPECT_CALL(hwApiMock, analogRead(PIN_NUMBER)).WillRepeatedly(Return(511));
 
-    Potentiometer pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
+    AnalogInput pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
     pot.begin();
     pot.loop();
 
@@ -53,8 +53,8 @@ TEST_F(PotentiometerTest, InitializationAndLoop) {
     EXPECT_EQ(pot.getMappedValue(), 49); // (511 - 0) * 100 / 1023 = 49.95
 }
 
-TEST_F(PotentiometerTest, ValueUpdates) {
-    Potentiometer pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
+TEST_F(AnalogInputTest, ValueUpdates) {
+    AnalogInput pot{{PIN_NUMBER, false}, hwApiMock, defaultMapper};
     
     EXPECT_CALL(hwApiMock, analogRead(PIN_NUMBER))
         .WillOnce(Return(0))

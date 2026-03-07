@@ -46,8 +46,9 @@ add_library(components_library STATIC
         DigitalLed.h
         AnalogLed.cpp
         AnalogLed.h
+        AnalogInput.h
+        AnalogInput.cpp
         Potentiometer.h
-        Potentiometer.cpp
 )
 
 target_link_libraries(

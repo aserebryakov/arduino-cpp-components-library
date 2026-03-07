@@ -20,27 +20,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Potentiometer.h"
-#include "Utilities.h"
+// This example demonstrates how to work with Potentiometer object.
+//
+// Hardware:
+// - Arduino
+// - Potentiometer connected to A0
+//
+// Setup:
+// - Potentiometer center pin is connected to A0
+// - Other pins are connected to 5V and GND
 
-Potentiometer::Potentiometer(InputPinConfig&& config, 
-                             HwApi& hw_api, 
-                             const ValueMapper& mapper)
-    : pin{utilities::move(config), hw_api}, mapper{mapper} {
+#include <Arduino.h>
+#include <CppComponentsLibrary.h>
+
+// Instantiate a hardware api object.
+HwApiImpl hw_api{};
+
+// Define mapping for Potentiometer: 10-bit ADC (0-1023) to percentage (0-100)
+ValueMapper potMapper{0, 1023, 0, 100};
+
+// Instantiate analog input on A0
+AnalogInput pot{{A0, false}, hw_api, potMapper};
+
+void setup() {
+    Serial.begin(9600);
+    pot.begin(); // Initialization (includes pin configuration)
 }
 
-void Potentiometer::begin() {
-    pin.begin();
-}
+void loop() {
+    pot.loop(); // Refresh the internal state
 
-void Potentiometer::loop() {
-    pin.loop();
-}
+    int rawValue = pot.getRawValue();
+    int mappedValue = pot.getMappedValue();
 
-int Potentiometer::getRawValue() const {
-    return pin.getValue();
-}
+    Serial.print("Raw: ");
+    Serial.print(rawValue);
+    Serial.print(" | Mapped: ");
+    Serial.print(mappedValue);
+    Serial.println("%");
 
-int Potentiometer::getMappedValue() const {
-    return mapper.map(pin.getValue());
+    delay(100);
 }

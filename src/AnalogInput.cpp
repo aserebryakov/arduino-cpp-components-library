@@ -1,7 +1,6 @@
-
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,30 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+#include "AnalogInput.h"
+#include "Utilities.h"
 
-#include "Arduino.h"
-
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
+AnalogInput::AnalogInput(InputPinConfig&& config,
+                             HwApi& hw_api, 
+                             const ValueMapper& mapper)
+    : pin{utilities::move(config), hw_api}, mapper{mapper} {
 }
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
+void AnalogInput::begin() {
+    pin.begin();
 }
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
+void AnalogInput::loop() {
+    pin.loop();
 }
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
+int AnalogInput::getRawValue() const {
+    return pin.getValue();
 }
 
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
-
-    ::pinMode(pin, static_cast<int>(mode));
+int AnalogInput::getMappedValue() const {
+    return mapper.map(pin.getValue());
 }

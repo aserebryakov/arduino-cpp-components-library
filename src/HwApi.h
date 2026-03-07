@@ -42,6 +42,8 @@ public:
 
     virtual void digitalWrite(const uint8_t pin, const uint8_t val) const = 0;
     virtual int digitalRead(const uint8_t pin) const = 0;
+    virtual int analogRead(const uint8_t pin) const = 0;
+    virtual void analogWrite(const uint8_t pin, const int val) const = 0;
     virtual void pinMode(const uint8_t pin, const PIN_MODE mode) const = 0;
 };
 

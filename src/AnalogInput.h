@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,30 +20,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
+#ifndef POTENTIOMETER_H
+#define POTENTIOMETER_H
 
-#include "AnalogInputPin.h"
-#include "AnalogLed.h"
-#include "AnalogOutputPin.h"
-#include "Button.h"
-#include "Callback.h"
 #include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
-#include "Pin.h"
-#include "AnalogInput.h"
-#include "Potentiometer.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
-#include "Utilities.h"
+#include "AnalogInputPin.h"
 #include "ValueMapper.h"
-#include "HwApiImpl.h"
 
-#endif //CPPCOMPONENTS_H
+/**
+ * Represents an analog input component with mapping support.
+ */
+class AnalogInput : public Component {
+public:
+    /**
+     * Constructor.
+     * 
+     * @param[in] config Pin configuration
+     * @param[in] hw_api Reference to Hardware API
+     * @param[in] mapper ValueMapper instance used for scaling readings
+     */
+    AnalogInput(InputPinConfig&& config,
+                  HwApi& hw_api, 
+                  const ValueMapper& mapper);
+
+    virtual ~AnalogInput() override = default;
+
+    /**
+     * Initializes the underlying pin hardware.
+     */
+    virtual void begin() override;
+
+    /**
+     * Refreshes the internal pin state.
+     */
+    virtual void loop() override;
+
+    /**
+     * Returns the raw analog value (typically 0-1023).
+     */
+    int getRawValue() const;
+
+    /**
+     * Returns the value scaled by the internal ValueMapper.
+     */
+    int getMappedValue() const;
+
+private:
+    AnalogInputPin pin;
+    ValueMapper mapper;
+};
+
+#endif // POTENTIOMETER_H

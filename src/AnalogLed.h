@@ -1,7 +1,6 @@
-
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,30 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+#ifndef ANALOGLED_H
+#define ANALOGLED_H
 
-#include "Arduino.h"
+#include "Component.h"
+#include "AnalogOutputPin.h"
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
-}
+/**
+ * Represents abstraction level for analog LED (PWM).
+ */
+class AnalogLed : public Component {
+public:
+    /**
+      * Constructor.
+      *
+      * @param[in] pin_number Pin number
+      * @param[in] hw_api Hardware API implementation reference
+      */
+    AnalogLed(const int pin_number, HwApi& hw_api);
+    virtual ~AnalogLed() override = default;
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
-}
+    void begin() override;
+    void loop() override;
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
-}
+    /**
+     * Turns LED on (maximum brightness).
+     */
+    void turnOn() const;
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
-}
+    /**
+     * Turns LED off.
+     */
+    void turnOff() const;
 
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
+    /**
+     * Sets LED brightness.
+     *
+     * @param[in] value the duty cycle: between 0 (always off) and 255 (always on).
+     */
+    void setBrightness(const int value) const;
 
-    ::pinMode(pin, static_cast<int>(mode));
-}
+private:
+    AnalogOutputPin pin;
+};
+
+#endif //ANALOGLED_H

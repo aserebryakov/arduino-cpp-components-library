@@ -1,7 +1,6 @@
-
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,30 +20,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+// This example demonstrates how to work with AnalogLed object.
+//
+// Hardware:
+// - Arduino
+// - LED
+//
+// Setup:
+// - LED is connected to D3 (PWM pin)
 
-#include "Arduino.h"
+#include <Arduino.h>
+#include <CppComponentsLibrary.h>
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
+// Instantiate a hardware api object.
+HwApiImpl hw_api{};
+
+constexpr int LED_PIN{3};
+
+AnalogLed led{
+  LED_PIN, // Set LED pin number
+  hw_api // provide the instance of HwApi to control pin
+  };
+
+void setup() {
+  Serial.begin(9600);
+  led.begin(); // Initialization (includes pin configuration)
 }
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
-}
+void loop() {
+  Serial.println("Increasing brightness");
+  for (int i = 0; i <= 255; i++) {
+    led.setBrightness(i);
+    delay(10);
+  }
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
-}
+  Serial.println("Decreasing brightness");
+  for (int i = 255; i >= 0; i--) {
+    led.setBrightness(i);
+    delay(10);
+  }
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
-}
+  Serial.println("Turn on");
+  led.turnOn();
+  delay(500);
 
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
-
-    ::pinMode(pin, static_cast<int>(mode));
+  Serial.println("Turn off");
+  led.turnOff();
+  delay(500);
 }

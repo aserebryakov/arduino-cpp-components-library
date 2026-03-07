@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,30 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
-#include "Arduino.h"
+#include "AnalogInputPin.h"
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
+using namespace ::testing;
+
+class AnalogInputPinTest : public Test {
+protected:
+    NiceMock<HwApiMock> hwApiMock{};
+};
+
+TEST_F(AnalogInputPinTest, Construction) {
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    EXPECT_EQ(pin.getValue(), 0);
 }
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
+TEST_F(AnalogInputPinTest, ReadTest) {
+    EXPECT_CALL(hwApiMock, analogRead(14)).Times(3)
+        .WillOnce(Return(100))
+        .WillOnce(Return(200))
+        .WillOnce(Return(300));
+
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    EXPECT_EQ(pin.read(), 100);
+    EXPECT_EQ(pin.getValue(), 100);
+
+    EXPECT_EQ(pin.read(), 200);
+    EXPECT_EQ(pin.getValue(), 200);
+
+    EXPECT_EQ(pin.read(), 300);
+    EXPECT_EQ(pin.getValue(), 300);
 }
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
-}
+TEST_F(AnalogInputPinTest, BeginAndLoop) {
+    EXPECT_CALL(hwApiMock, pinMode(14, HwApi::PIN_MODE::INPUT_MODE)).Times(1);
+    EXPECT_CALL(hwApiMock, analogRead(14)).Times(1).WillOnce(Return(512));
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
-}
+    AnalogInputPin pin{{14, false}, hwApiMock};
+    pin.begin();
+    pin.loop();
 
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
-
-    ::pinMode(pin, static_cast<int>(mode));
+    EXPECT_EQ(pin.getValue(), 512);
 }

@@ -1,7 +1,6 @@
-
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,30 +20,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+#ifndef ANALOGINPUTPIN_H
+#define ANALOGINPUTPIN_H
 
-#include "Arduino.h"
+#include "HwApi.h"
+#include "Pin.h"
+#include "InputPinConfig.h"
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
-}
+/**
+ * Represents abstraction level for analog pin.
+ */
+class AnalogInputPin : public Pin {
+public:
+    /**
+      * Constructor.
+      *
+      * @param[in] pin_config Pin configuration
+      * @param[in] hw_api Hardware API implementation reference
+      */
+    AnalogInputPin(InputPinConfig&& pin_config, HwApi& hw_api);
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
-}
+    virtual ~AnalogInputPin() override = default;
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
-}
+    /**
+     * Reads the value of the pin.
+     *
+     * @return pin value.
+     */
+    int read();
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
-}
+    /**
+     * Returns previously read pin value.
+     *
+     * @return pin value
+     */
+    int getValue() const;
 
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
+    void begin() override;
+    void loop() override;
 
-    ::pinMode(pin, static_cast<int>(mode));
-}
+private:
+    HwApi& hw_api;
+    InputPinConfig config;
+    int current_value{0};
+};
+
+#endif //ANALOGINPUTPIN_H

@@ -1,0 +1,8 @@
+#ifndef CPP_COMPONENTS_LIBRARY_POTENTIOMENTER_H
+#define CPP_COMPONENTS_LIBRARY_POTENTIOMENTER_H
+
+#include "AnalogInput.h"
+
+using Potentiometer = AnalogInput;
+
+#endif //CPP_COMPONENTS_LIBRARY_POTENTIOMENTER_H

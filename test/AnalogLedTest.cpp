@@ -1,4 +1,3 @@
-
 // MIT License
 //
 // Copyright (c) 2024 Alexander Serebryakov
@@ -21,30 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "HwApiImpl.h"
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include "HwApiMock.h"
 
-#include "Arduino.h"
+#include "AnalogLed.h"
 
-void HwApiImpl::digitalWrite(const uint8_t pin, const uint8_t val) const {
-    ::digitalWrite(pin, val);
+using namespace ::testing;
+
+class AnalogLedTest : public Test {
+protected:
+    NiceMock<HwApiMock> hw_api_mock{};
+};
+
+TEST_F(AnalogLedTest, Begin) {
+    EXPECT_CALL(hw_api_mock, pinMode(42, HwApi::PIN_MODE::OUTPUT_MODE)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.begin();
 }
 
-int HwApiImpl::digitalRead(const uint8_t pin) const {
-    return ::digitalRead(pin);
+TEST_F(AnalogLedTest, TurnOn) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 255)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.turnOn();
 }
 
-int HwApiImpl::analogRead(const uint8_t pin) const {
-    return ::analogRead(pin);
+TEST_F(AnalogLedTest, TurnOff) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 0)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.turnOff();
 }
 
-void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
-    ::analogWrite(pin, val);
-}
-
-void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
-
-    ::pinMode(pin, static_cast<int>(mode));
+TEST_F(AnalogLedTest, SetBrightness) {
+    EXPECT_CALL(hw_api_mock, analogWrite(42, 128)).Times(1);
+    AnalogLed led{42, hw_api_mock};
+    led.setBrightness(128);
 }

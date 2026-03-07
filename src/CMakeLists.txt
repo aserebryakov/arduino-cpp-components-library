@@ -13,17 +13,22 @@ add_library(utilities_library STATIC
         Scheduler.h
         Scheduler.cpp
         Utilities.h
+        ValueMapper.h
 )
 
 add_library(pins_library STATIC
         DigitalInputPin.h
         DigitalInputPin.cpp
+        AnalogInputPin.h
+        AnalogInputPin.cpp
         Pin.h
         Pin.cpp
         InputPinConfig.cpp
         InputPinConfig.h
         DigitalOutputPin.cpp
         DigitalOutputPin.h
+        AnalogOutputPin.cpp
+        AnalogOutputPin.h
 )
 
 target_link_libraries(
@@ -39,6 +44,11 @@ add_library(components_library STATIC
         Button.h
         DigitalLed.cpp
         DigitalLed.h
+        AnalogLed.cpp
+        AnalogLed.h
+        AnalogInput.h
+        AnalogInput.cpp
+        Potentiometer.h
 )
 
 target_link_libraries(

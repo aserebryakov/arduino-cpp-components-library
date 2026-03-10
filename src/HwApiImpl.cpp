@@ -42,9 +42,10 @@ void HwApiImpl::analogWrite(const uint8_t pin, const int val) const {
 }
 
 void HwApiImpl::pinMode(const uint8_t pin, const PIN_MODE mode) const {
-    static_assert(static_cast<int>(PIN_MODE::INPUT_MODE) == INPUT);
-    static_assert(static_cast<int>(PIN_MODE::OUTPUT_MODE) == OUTPUT);
-    static_assert(static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE) == INPUT_PULLUP);
+    constexpr int MODE_MAP[] = {INPUT, OUTPUT, INPUT_PULLUP};
+    static_assert(MODE_MAP[static_cast<int>(PIN_MODE::INPUT_MODE)] == INPUT);
+    static_assert(MODE_MAP[static_cast<int>(PIN_MODE::OUTPUT_MODE)] == OUTPUT);
+    static_assert(MODE_MAP[static_cast<int>(PIN_MODE::INPUT_PULLUP_MODE)] == INPUT_PULLUP);
 
-    ::pinMode(pin, static_cast<int>(mode));
+    ::pinMode(pin, MODE_MAP[static_cast<int>(mode)]);
 }

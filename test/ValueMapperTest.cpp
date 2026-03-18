@@ -23,6 +23,14 @@
 #include <gtest/gtest.h>
 #include "ValueMapper.h"
 
+TEST(ValueMapperTest, DefaultMapperTest) {
+    ValueMapper mapper{};
+
+    for (int i = 0; i < 1024; i++) {
+        ASSERT_EQ(mapper.map(i), i);
+    }
+}
+
 TEST(ValueMapperTest, LinearMapping) {
     ValueMapper mapper{0, 1023, 0, 255};
     

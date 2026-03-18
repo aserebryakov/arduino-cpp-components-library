@@ -40,6 +40,12 @@ public:
         : in_min{in_min}, in_max{in_max}, out_min{out_min}, out_max{out_max} {}
 
     /**
+     * Default constructor with 1 to 1 mapping in range 0-1023
+     */
+    ValueMapper()
+        : in_min{0}, in_max{1023}, out_min{0}, out_max{1023} {}
+
+    /**
      * Maps a value based on the pre-configured source and target ranges.
      * 
      * @param[in] value The value to be mapped (using long because int * int overflows)

@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2026 Alexander Serebryakov
+// Copyright (c) 2024 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,54 +20,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef POTENTIOMETER_H
-#define POTENTIOMETER_H
+#ifndef JOYSTICK_H
+#define JOYSTICK_H
+
+#include <utility>
 
 #include "Component.h"
-#include "AnalogInputPin.h"
+#include "AnalogInput.h"
+#include "Button.h"
+#include "Callback.h"
+#include "Utilities.h"
 #include "ValueMapper.h"
 
 /**
- * Represents an analog input component with mapping support.
+ * Implements joystick functionality.
  */
-class AnalogInput : public Component {
+class Joystick : public Component {
 public:
     /**
-     * Constructor.
-     * 
-     * @param[in] config Pin configuration
-     * @param[in] hw_api Reference to Hardware API
-     * @param[in] mapper ValueMapper instance used for scaling readings (default equal 0-1023)
+     * Constructur.
+     *
+     * @param x_input X input
+     * @param y_input Y input
+     * @param button Button
      */
-    AnalogInput(InputPinConfig&& config,
-                  HwApi& hw_api, 
-                  const ValueMapper& mapper = {});
+    Joystick(AnalogInput&& x_input,
+             AnalogInput&& y_input,
+             Button&& button);
 
-    virtual ~AnalogInput() override = default;
-
-    /**
-     * Initializes the underlying pin hardware.
-     */
-    virtual void begin() override;
+    virtual ~Joystick() override = default;
 
     /**
-     * Refreshes the internal pin state.
+     * Reads the raw analog values of the joystick.
      */
-    virtual void loop() override;
+    int getXRaw() const;
+    int getYRaw() const;
 
     /**
-     * Returns the raw analog value (typically 0-1023).
+     * Returns the mapped values of the joystick.
      */
-    int getRawValue() const;
+    int getX() const;
+    int getY() const;
 
-    /**
-     * Returns the value scaled by the internal ValueMapper.
-     */
-    int getMappedValue() const;
+    void begin() override;
+    void loop() override;
 
 private:
-    AnalogInputPin pin;
-    ValueMapper mapper;
+    AnalogInput x_input;
+    AnalogInput y_input;
+    Button button;
 };
 
-#endif // POTENTIOMETER_H
+#endif //JOYSTICK_H

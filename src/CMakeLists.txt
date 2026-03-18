@@ -49,6 +49,8 @@ add_library(components_library STATIC
         AnalogInput.h
         AnalogInput.cpp
         Potentiometer.h
+        Joystick.h
+        Joystick.cpp
 )
 
 target_link_libraries(

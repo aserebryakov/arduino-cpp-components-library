@@ -1,6 +1,6 @@
 // MIT License
 //
-// Copyright (c) 2024 Alexander Serebryakov
+// Copyright (c) 2026 Alexander Serebryakov
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CPPCOMPONENTS_H
-#define CPPCOMPONENTS_H
-
-#include "AnalogInputPin.h"
-#include "AnalogLed.h"
-#include "AnalogOutputPin.h"
-#include "Button.h"
-#include "Callback.h"
-#include "Component.h"
-#include "ComponentsComposition.h"
-#include "Device.h"
-#include "DigitalInputPin.h"
-#include "DigitalLed.h"
-#include "DigitalOutputPin.h"
-#include "HeapObject.h"
-#include "HwApi.h"
-#include "InputPinConfig.h"
 #include "Joystick.h"
-#include "Pin.h"
-#include "AnalogInput.h"
-#include "Potentiometer.h"
-#include "RotaryEncoder.h"
-#include "Scheduler.h"
 #include "Utilities.h"
-#include "ValueMapper.h"
-#include "HwApiImpl.h"
 
-#endif //CPPCOMPONENTS_H
+
+Joystick::Joystick(AnalogInput &&x_input, AnalogInput &&y_input, Button &&button)
+    : x_input(utilities::move(x_input)),
+      y_input(utilities::move(y_input)),
+      button(utilities::move(button)) {
+}
+
+int Joystick::getXRaw() const {
+    return x_input.getRawValue();
+}
+
+int Joystick::getYRaw() const {
+    return y_input.getRawValue();
+}
+
+int Joystick::getX() const {
+    return x_input.getMappedValue();
+}
+
+int Joystick::getY() const {
+    return y_input.getMappedValue();
+}
+
+void Joystick::begin() {
+    x_input.begin();
+    y_input.begin();
+    button.begin();
+}
+
+void Joystick::loop() {
+    x_input.loop();
+    y_input.loop();
+    button.loop();
+}

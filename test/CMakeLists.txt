@@ -17,6 +17,7 @@ add_executable(
         AnalogLedTest.cpp
         ValueMapperTest.cpp
         AnalogInputTest.cpp
+        JoystickTest.cpp
 )
 
 include(GoogleTest)
